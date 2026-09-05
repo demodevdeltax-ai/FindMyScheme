@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GrantGenius</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg0: #05070E;
+  --bg1: #0A0F1C;
+  --bg2: #111827;
+  --bg3: #192035;
+  --gold: #D4A017;
+  --gold-lt: #E8BE50;
+  --gold-dk: #A07A10;
+  --gold-faint: rgba(212,160,23,0.08);
+  --gold-dim: rgba(212,160,23,0.35);
+  --teal: #14D4A8;
+  --teal-faint: rgba(20,212,168,0.07);
+  --text0: #EDE9DF;
+  --text1: #9D98AE;
+  --text2: #4E4B62;
+  --border: rgba(212,160,23,0.14);
+  --border-s: rgba(237,233,223,0.06);
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior:smooth; font-size:16px; }
+
+body {
+  background: var(--bg0);
+  color: var(--text0);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+
+/* ─── CANVAS ─── */
+#bg-canvas {
+  position: fixed; inset: 0; z-index: 0;
+  pointer-events: none; opacity: 0.6;
+}
+
+/* ─── PROGRESS ─── */
+#progress {
+  position: fixed; top: 0; left: 0;
+  height: 2px; width: 0%;
+  background: linear-gradient(90deg, var(--gold), var(--teal));
+  z-index: 999;
+  transition: width 0.08s linear;
+  box-shadow: 0 0 10px var(--gold-dim);
+}
+
+/* ─── NAV ─── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 500;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 3rem;
+  background: rgba(5,7,14,0.75);
+  backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--border-s);
+  transition: padding 0.3s ease;
+}
+
+nav.scrolled { padding-top: 0.7rem; padding-bottom: 0.7rem; }
+
+.logo {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 1.5rem; font-weight: 800;
+  color: var(--gold); letter-spacing: -0.03em;
+}
+.logo span { color: var(--text0); }
+
+.nav-cta {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  background: var(--gold); color: var(--bg0);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem; font-weight: 600;
+  padding: 0.6rem 1.4rem;
+  border: none; cursor: pointer;
+  text-decoration: none; text-transform: uppercase;
+  letter-spacing: 0.06em;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+}
+.nav-cta:hover {
+  background: var(--gold-lt);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 30px var(--gold-dim);
+}
+
+/* ─── JOURNEY SIDEBAR ─── */
+#journey-nav {
+  position: fixed; left: 1.5rem; top: 50%;
+  transform: translateY(-50%);
+  z-index: 400;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 0;
+}
+
+.jdot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--text2);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  position: relative;
+}
+.jdot:hover, .jdot.active {
+  background: var(--gold);
+  box-shadow: 0 0 12px var(--gold);
+  transform: scale(1.4);
+}
+.jline {
+  width: 1px; height: 2rem;
+  background: linear-gradient(to bottom, var(--border-s), var(--border-s));
+}
+
+/* ─── SECTIONS ─── */
+section {
+  position: relative; z-index: 1;
+  min-height: 100vh;
+  display: flex; align-items: center;
+}
+
+.section-inner {
+  width: 100%; max-width: 1280px;
+  margin: 0 auto;
+  padding: 7rem 5rem 7rem 7rem;
+}
+
+.eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem; font-weight: 500;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.5rem;
+  display: flex; align-items: center; gap: 0.75rem;
+}
+.eyebrow::before {
+  content: '';
+  display: block; width: 2rem; height: 1px;
+  background: var(--gold);
+}
+
+/* ─── HERO ─── */
+#hero {
+  min-height: 100vh;
+  align-items: center;
+  overflow: hidden;
+}
+
+.hero-grid {
+  width: 100%; max-width: 1280px;
+  margin: 0 auto;
+  padding: 8rem 5rem 5rem 7rem;
+  display: grid;
+  grid-template-columns: 1fr 500px;
+  gap: 4rem;
+  align-items: center;
+}
+
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem; font-weight: 500;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 2rem;
+  display: flex; align-items: center; gap: 0.75rem;
+  opacity: 0; transform: translateY(16px);
+  animation: fadeUp 0.7s 0.3s forwards;
+}
+.hero-eyebrow::before {
+  content: ''; display: block;
+  width: 2rem; height: 1px; background: var(--gold);
+}
+
+.hero-h1 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(3rem, 5.5vw, 5.2rem);
+  font-weight: 800; line-height: 1.05;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+  margin-bottom: 1.75rem;
+  opacity: 0; transform: translateY(20px);
+  animation: fadeUp 0.8s 0.5s forwards;
+}
+.hero-h1 em {
+  font-style: italic; font-weight: 300;
+  color: var(--gold);
+}
+
+.hero-sub {
+  font-size: 1.05rem; font-weight: 300;
+  color: var(--text1); line-height: 1.7;
+  max-width: 52ch; margin-bottom: 2.5rem;
+  opacity: 0; transform: translateY(16px);
+  animation: fadeUp 0.7s 0.75s forwards;
+}
+
+.hero-actions {
+  display: flex; gap: 1rem; align-items: center;
+  flex-wrap: wrap; margin-bottom: 2rem;
+  opacity: 0; transform: translateY(16px);
+  animation: fadeUp 0.7s 0.95s forwards;
+}
+
+.btn-primary {
+  display: inline-flex; align-items: center;
+  background: var(--gold); color: var(--bg0);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem; font-weight: 600;
+  padding: 0.9rem 2rem;
+  border: none; cursor: pointer;
+  text-decoration: none; text-transform: uppercase;
+  letter-spacing: 0.06em;
+  transition: all 0.25s ease;
+  clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+  position: relative; overflow: hidden;
+}
+.btn-primary::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 60%);
+  opacity: 0; transition: opacity 0.25s;
+}
+.btn-primary:hover { background: var(--gold-lt); transform: translateY(-2px); box-shadow: 0 12px 40px var(--gold-dim); }
+.btn-primary:hover::after { opacity: 1; }
+
+.btn-ghost {
+  display: inline-flex; align-items: center;
+  background: transparent; color: var(--text1);
+  font-size: 0.85rem; font-weight: 400;
+  padding: 0.9rem 1.5rem;
+  border: 1px solid var(--border-s);
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+.btn-ghost:hover { color: var(--text0); border-color: var(--border); }
+
+.hero-meta {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem; color: var(--text2);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  opacity: 0; animation: fadeUp 0.7s 1.1s forwards;
+}
+
+/* ─── 3D CUBE ─── */
+.hero-3d-wrap {
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; animation: fadeUp 1s 0.6s forwards;
+}
+
+.cube-rings {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+}
+
+.ring {
+  position: absolute; border-radius: 50%;
+  border: 1px solid var(--border);
+  animation: ring-spin linear infinite;
+}
+.ring-1 { width: 380px; height: 380px; animation-duration: 20s; }
+.ring-2 { width: 460px; height: 460px; animation-duration: 30s; animation-direction: reverse; border-style: dashed; opacity: 0.5; }
+.ring-3 { width: 540px; height: 540px; animation-duration: 45s; opacity: 0.25; }
+
+@keyframes ring-spin {
+  from { transform: rotateZ(0) rotateX(70deg); }
+  to   { transform: rotateZ(360deg) rotateX(70deg); }
+}
+
+.cube-scene {
+  perspective: 900px;
+  width: 260px; height: 260px;
+  position: relative; z-index: 2;
+}
+
+.cube {
+  width: 260px; height: 260px;
+  position: relative;
+  transform-style: preserve-3d;
+  animation: cube-rotate 16s linear infinite;
+}
+
+@keyframes cube-rotate {
+  0%   { transform: rotateX(-18deg) rotateY(0deg); }
+  100% { transform: rotateX(-18deg) rotateY(360deg); }
+}
+
+.face {
+  position: absolute; width: 260px; height: 260px;
+  border: 1px solid var(--border);
+  background: rgba(10,15,28,0.9);
+  display: flex; align-items: center; justify-content: center;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.face.front  { transform: translateZ(130px); }
+.face.back   { transform: rotateY(180deg) translateZ(130px); }
+.face.right  { transform: rotateY(90deg) translateZ(130px); }
+.face.left   { transform: rotateY(-90deg) translateZ(130px); }
+.face.top    { transform: rotateX(90deg) translateZ(130px); background: rgba(212,160,23,0.05); }
+.face.bottom { transform: rotateX(-90deg) translateZ(130px); background: rgba(20,212,168,0.04); }
+
+.face-content {
+  text-align: center;
+  transform: scale(1);
+}
+.face-icon {
+  font-size: 2.5rem; margin-bottom: 0.75rem;
+  color: var(--gold); line-height: 1;
+  text-shadow: 0 0 20px var(--gold-dim);
+}
+.face-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem; font-weight: 500;
+  letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--text1);
+}
+
+.cube-glow {
+  position: absolute; bottom: -80px; left: 50%;
+  transform: translateX(-50%);
+  width: 200px; height: 30px;
+  background: radial-gradient(ellipse, var(--gold-dim) 0%, transparent 70%);
+  filter: blur(10px);
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.4; transform: translateX(-50%) scaleX(1); }
+  50% { opacity: 0.8; transform: translateX(-50%) scaleX(1.2); }
+}
+
+/* ─── SCROLL HINT ─── */
+.scroll-hint {
+  position: absolute; bottom: 2.5rem; left: 50%;
+  transform: translateX(-50%);
+  display: flex; flex-direction: column;
+  align-items: center; gap: 0.5rem;
+  opacity: 0; animation: fadeIn 1s 1.8s forwards;
+  cursor: pointer;
+}
+.scroll-hint span {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--text2);
+}
+.scroll-arrow {
+  width: 1px; height: 40px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  animation: scroll-drop 2s ease-in-out infinite;
+}
+
+@keyframes scroll-drop {
+  0% { transform: scaleY(0); transform-origin: top; opacity: 1; }
+  50% { transform: scaleY(1); transform-origin: top; opacity: 1; }
+  51% { transform: scaleY(1); transform-origin: bottom; opacity: 1; }
+  100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
+}
+
+/* ─── REVEAL SYSTEM ─── */
+.reveal { opacity: 0; transform: translateY(36px); transition: opacity 0.8s cubic-bezier(.25,.8,.25,1), transform 0.8s cubic-bezier(.25,.8,.25,1); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-r { opacity: 0; transform: translateX(40px); transition: opacity 0.8s cubic-bezier(.25,.8,.25,1), transform 0.8s cubic-bezier(.25,.8,.25,1); }
+.reveal-r.visible { opacity: 1; transform: translateX(0); }
+.reveal-l { opacity: 0; transform: translateX(-40px); transition: opacity 0.8s cubic-bezier(.25,.8,.25,1), transform 0.8s cubic-bezier(.25,.8,.25,1); }
+.reveal-l.visible { opacity: 1; transform: translateX(0); }
+
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
+.delay-5 { transition-delay: 0.5s; }
+.delay-6 { transition-delay: 0.6s; }
+.delay-7 { transition-delay: 0.7s; }
+
+/* ─── SECTION DIVIDER ─── */
+.s-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: 0 5rem;
+  position: relative; z-index: 1;
+}
+
+/* ─── PROBLEM SECTION ─── */
+#problem { background: linear-gradient(180deg, var(--bg0) 0%, var(--bg1) 100%); }
+
+.problem-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem; align-items: center;
+}
+
+.problem-stat {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(4rem, 8vw, 7rem);
+  font-weight: 900; line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+.problem-stat-label {
+  font-size: 0.8rem; color: var(--text2);
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.12em; text-transform: uppercase;
+}
+
+.problem-h2 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 700; line-height: 1.15;
+  letter-spacing: -0.025em;
+  margin-bottom: 1.25rem;
+  text-wrap: balance;
+}
+
+.problem-body {
+  font-size: 1rem; font-weight: 300;
+  color: var(--text1); line-height: 1.75;
+  max-width: 50ch; margin-bottom: 2.5rem;
+}
+
+.pain-cards {
+  display: flex; flex-direction: column; gap: 1rem;
+}
+
+.pain-card {
+  background: var(--bg2);
+  border: 1px solid var(--border-s);
+  padding: 1.5rem;
+  transition: all 0.35s cubic-bezier(.25,.8,.25,1);
+  transform-style: preserve-3d;
+  cursor: default;
+  position: relative; overflow: hidden;
+}
+.pain-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0;
+  width: 3px; height: 100%;
+  background: var(--gold);
+  transform: scaleY(0); transform-origin: bottom;
+  transition: transform 0.4s ease;
+}
+.pain-card:hover { border-color: var(--border); background: var(--bg3); transform: translateX(4px); }
+.pain-card:hover::before { transform: scaleY(1); }
+
+.pain-card-head {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 1.15rem; font-weight: 700;
+  margin-bottom: 0.5rem; color: var(--text0);
+}
+.pain-card-body { font-size: 0.9rem; color: var(--text1); font-weight: 300; }
+
+/* ─── CATEGORIES ─── */
+#categories {
+  background: var(--bg1);
+  flex-direction: column; justify-content: center;
+}
+
+.cat-header { margin-bottom: 3rem; }
+
+.cat-h2 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 700; line-height: 1.15;
+  letter-spacing: -0.025em; margin-bottom: 1rem;
+  text-wrap: balance;
+}
+.cat-sub { font-size: 0.95rem; color: var(--text1); font-weight: 300; max-width: 60ch; }
+
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem; margin-bottom: 2rem;
+}
+
+.cat-card {
+  background: var(--bg2);
+  border: 1px solid var(--border-s);
+  padding: 1.4rem 1.25rem;
+  cursor: default;
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  position: relative; overflow: hidden;
+  transform-style: preserve-3d;
+}
+.cat-card::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), var(--gold-faint), transparent 70%);
+  opacity: 0; transition: opacity 0.3s;
+}
+.cat-card:hover {
+  border-color: var(--border);
+  transform: translateY(-3px) scale(1.01);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+}
+.cat-card:hover::after { opacity: 1; }
+
+.cat-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+.cat-name {
+  font-size: 0.82rem; font-weight: 500;
+  color: var(--text0); line-height: 1.35;
+}
+
+.cat-footer {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem; color: var(--text2);
+  letter-spacing: 0.08em; text-align: center;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-s);
+}
+
+/* ─── REPORT ─── */
+#report {
+  background: linear-gradient(180deg, var(--bg1) 0%, var(--bg0) 100%);
+}
+
+.report-grid {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 5rem; align-items: start;
+}
+
+.report-h2 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 700; line-height: 1.15;
+  letter-spacing: -0.025em; margin-bottom: 0.5rem;
+}
+.report-price-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem; color: var(--teal);
+  letter-spacing: 0.15em; text-transform: uppercase;
+  margin-bottom: 2.5rem;
+}
+
+.report-items { display: flex; flex-direction: column; gap: 0; }
+
+.report-item {
+  display: flex; gap: 1.25rem;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--border-s);
+  align-items: flex-start;
+  transition: all 0.25s ease;
+}
+.report-item:last-child { border-bottom: none; }
+.report-item:hover .ri-check { background: var(--gold); color: var(--bg0); }
+
+.ri-check {
+  width: 24px; height: 24px; flex-shrink: 0;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; margin-top: 1px;
+  transition: all 0.25s ease;
+  font-family: 'DM Mono', monospace;
+}
+
+.ri-title {
+  font-size: 0.95rem; font-weight: 500;
+  margin-bottom: 0.25rem; color: var(--text0);
+}
+.ri-body { font-size: 0.84rem; color: var(--text1); font-weight: 300; }
+
+/* ─── REPORT MOCKUP ─── */
+.report-mockup {
+  position: sticky; top: 8rem;
+}
+
+.report-card-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(.25,.8,.25,1);
+  animation: float-card 6s ease-in-out infinite;
+}
+
+@keyframes float-card {
+  0%, 100% { transform: translateY(0) rotateX(4deg) rotateY(-8deg); }
+  50% { transform: translateY(-12px) rotateX(4deg) rotateY(-4deg); }
+}
+
+.report-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  padding: 2rem;
+  position: relative; overflow: hidden;
+}
+
+.rc-header {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin-bottom: 1.75rem; padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border-s);
+}
+.rc-logo-mark {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 1.1rem; font-weight: 800; color: var(--gold);
+}
+.rc-header-text { font-family: 'DM Mono', monospace; font-size: 0.62rem; color: var(--text2); letter-spacing: 0.1em; text-transform: uppercase; }
+
+.rc-biz-name {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 1.1rem; font-weight: 700; color: var(--text0);
+  margin-bottom: 0.25rem;
+}
+.rc-biz-meta {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem; color: var(--text2); letter-spacing: 0.08em;
+}
+.rc-biz { margin-bottom: 1.5rem; }
+
+.rc-schemes {
+  display: flex; flex-direction: column; gap: 0.75rem;
+}
+
+.rc-scheme {
+  background: var(--bg3);
+  padding: 0.85rem 1rem;
+  border-left: 2px solid var(--gold);
+  position: relative;
+}
+.rc-scheme-name { font-size: 0.8rem; font-weight: 500; margin-bottom: 0.2rem; }
+.rc-scheme-tag {
+  display: inline-flex;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem; letter-spacing: 0.1em;
+  color: var(--teal); text-transform: uppercase;
+}
+
+.rc-blur-row {
+  height: 8px; background: var(--bg3); margin-top: 0.75rem;
+  position: relative; overflow: hidden;
+  border-radius: 1px;
+}
+.rc-blur-row::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, var(--text2) 0%, var(--text2) 60%, transparent);
+  opacity: 0.3;
+}
+
+.rc-stamp {
+  position: absolute; bottom: 1.5rem; right: 1.5rem;
+  width: 60px; height: 60px;
+  border: 2px solid var(--border);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.45rem; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--text2);
+  text-align: center; line-height: 1.5;
+  opacity: 0.6;
+}
+
+/* ─── PROCESS ─── */
+#process { background: var(--bg0); }
+
+.process-h2 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 700; line-height: 1.15;
+  letter-spacing: -0.025em; margin-bottom: 0.75rem;
+  text-wrap: balance;
+}
+.process-sub { font-size: 0.95rem; color: var(--text1); max-width: 55ch; margin-bottom: 4rem; }
+
+.process-track {
+  position: relative;
+}
+
+.process-line {
+  position: absolute; top: 2rem; left: 2rem; right: 2rem;
+  height: 1px; background: var(--border-s);
+  z-index: 0;
+}
+.process-line-fill {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, var(--gold), var(--teal));
+  transition: width 1.5s cubic-bezier(.25,.8,.25,1);
+  box-shadow: 0 0 12px var(--gold-dim);
+}
+
+.process-steps {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 2rem; position: relative; z-index: 1;
+}
+
+.process-step { text-align: center; }
+
+.step-orb {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 1.5rem;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 1.3rem; font-weight: 700;
+  color: var(--gold);
+  position: relative;
+  transition: all 0.4s ease;
+}
+.step-orb::before {
+  content: '';
+  position: absolute; inset: -4px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  animation: orb-pulse 3s ease-in-out infinite;
+}
+.process-step:nth-child(2) .step-orb::before { animation-delay: 0.75s; }
+.process-step:nth-child(3) .step-orb::before { animation-delay: 1.5s; }
+.process-step:nth-child(4) .step-orb::before { animation-delay: 2.25s; }
+
+@keyframes orb-pulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.15); }
+}
+
+.step-orb:hover {
+  background: var(--gold-faint);
+  border-color: var(--gold);
+  box-shadow: 0 0 30px var(--gold-dim);
+}
+
+.step-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 1.05rem; font-weight: 700;
+  margin-bottom: 0.5rem; color: var(--text0);
+}
+.step-desc { font-size: 0.84rem; color: var(--text1); font-weight: 300; line-height: 1.6; }
+
+.step-connector {
+  position: absolute; top: 2rem;
+  width: calc(100% - 64px); left: calc(50% + 32px);
+  height: 1px;
+  display: none; /* handled by the track line */
+}
+
+/* ─── PRICING ─── */
+#pricing {
+  background: linear-gradient(135deg, var(--bg1) 0%, var(--bg0) 100%);
+  position: relative; overflow: hidden;
+}
+
+#pricing::before {
+  content: '';
+  position: absolute;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--gold-faint) 0%, transparent 70%);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.pricing-inner {
+  max-width: 780px; margin: 0 auto;
+  text-align: center; padding: 7rem 2rem;
+  position: relative; z-index: 1;
+}
+
+.pricing-overline {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--gold);
+  margin-bottom: 1.5rem;
+}
+
+.pricing-h2 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 800; line-height: 1.05;
+  letter-spacing: -0.03em; margin-bottom: 1.5rem;
+}
+
+.pricing-h2 em { font-style: italic; font-weight: 300; color: var(--gold); }
+
+.pricing-sub {
+  font-size: 1rem; color: var(--text1);
+  font-weight: 300; max-width: 50ch;
+  margin: 0 auto 3rem; line-height: 1.7;
+}
+
+.price-display {
+  display: flex; align-items: baseline;
+  justify-content: center; gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.price-currency { font-family: 'DM Sans', sans-serif; font-size: 2rem; font-weight: 300; color: var(--gold); }
+.price-amount {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 5.5rem; font-weight: 900;
+  line-height: 1; color: var(--gold);
+  letter-spacing: -0.04em;
+  text-shadow: 0 0 60px var(--gold-dim);
+}
+.price-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem; color: var(--text2);
+  letter-spacing: 0.12em; text-transform: uppercase;
+  margin-bottom: 2.5rem;
+}
+
+.pricing-includes {
+  display: flex; flex-wrap: wrap; gap: 0.5rem;
+  justify-content: center; margin-bottom: 2.5rem;
+}
+.pi-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--text1);
+  border: 1px solid var(--border-s);
+  padding: 0.4rem 0.75rem;
+}
+
+.btn-cta-big {
+  display: inline-flex; align-items: center; gap: 0.75rem;
+  background: var(--gold); color: var(--bg0);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem; font-weight: 700;
+  padding: 1.1rem 3rem;
+  border: none; cursor: pointer;
+  text-decoration: none; text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.3s ease;
+  clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+  animation: cta-pulse 3s ease-in-out infinite;
+  position: relative; overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+.btn-cta-big:hover {
+  background: var(--gold-lt);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 60px var(--gold-dim);
+  animation: none;
+}
+
+@keyframes cta-pulse {
+  0%, 100% { box-shadow: 0 0 20px var(--gold-dim); }
+  50% { box-shadow: 0 0 50px rgba(212,160,23,0.5); }
+}
+
+.pricing-disclaimer {
+  font-size: 0.75rem; color: var(--text2);
+  line-height: 1.6; max-width: 52ch; margin: 0 auto;
+}
+
+/* ─── FOOTER ─── */
+footer {
+  position: relative; z-index: 1;
+  padding: 2.5rem 5rem 2.5rem 7rem;
+  border-top: 1px solid var(--border-s);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 1rem;
+}
+
+.footer-logo {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 1rem; font-weight: 700;
+  color: var(--gold);
+}
+
+.footer-note {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem; color: var(--text2);
+  letter-spacing: 0.06em;
+}
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; } to { opacity: 1; }
+}
+
+/* ─── TILT WRAPPER ─── */
+.tilt-card { transform-style: preserve-3d; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 1024px) {
+  .hero-grid { grid-template-columns: 1fr; padding: 8rem 3rem 5rem 5rem; }
+  .hero-3d-wrap { display: none; }
+  .problem-grid { grid-template-columns: 1fr; }
+  .cat-grid { grid-template-columns: repeat(3, 1fr); }
+  .report-grid { grid-template-columns: 1fr; }
+  .report-mockup { position: static; }
+  .process-steps { grid-template-columns: repeat(2, 1fr); }
+  .process-line { display: none; }
+  section .section-inner { padding: 5rem 3rem 5rem 5rem; }
+}
+
+@media (max-width: 768px) {
+  nav { padding: 1rem 1.5rem; }
+  #journey-nav { display: none; }
+  .cat-grid { grid-template-columns: repeat(2, 1fr); }
+  .process-steps { grid-template-columns: 1fr; }
+  footer { padding: 2rem 1.5rem; flex-direction: column; }
+  .hero-grid, section .section-inner { padding: 6rem 1.5rem 4rem 1.5rem; }
+}
+</style>
+
+<!-- CANVAS BACKGROUND -->
+<canvas id="bg-canvas"></canvas>
+
+<!-- PROGRESS BAR -->
+<div id="progress"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="logo">Grant<span>Genius</span></div>
+  <a href="#pricing" class="nav-cta">Get My Report — ₹499</a>
+</nav>
+
+<!-- JOURNEY NAV -->
+<aside id="journey-nav" aria-hidden="true">
+  <div class="jdot active" data-sec="hero" title="Home"></div>
+  <div class="jline"></div>
+  <div class="jdot" data-sec="problem" title="The Challenge"></div>
+  <div class="jline"></div>
+  <div class="jdot" data-sec="categories" title="Opportunities"></div>
+  <div class="jline"></div>
+  <div class="jdot" data-sec="report" title="Your Report"></div>
+  <div class="jline"></div>
+  <div class="jdot" data-sec="process" title="How It Works"></div>
+  <div class="jline"></div>
+  <div class="jdot" data-sec="pricing" title="Get Started"></div>
+</aside>
+
+<main>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="hero-grid">
+    <!-- TEXT -->
+    <div class="hero-text">
+      <p class="hero-eyebrow">Government Benefits Research</p>
+      <h1 class="hero-h1">
+        Built Your<br>Business.<br>
+        <em>Find What's<br>Owed to You.</em>
+      </h1>
+      <p class="hero-sub">Somewhere across Central Government schemes, State Government incentives, subsidies, grants and beneficial policies — there may be meaningful support available specifically for your business. Most founders never claim it.</p>
+      <div class="hero-actions">
+        <a href="#pricing" class="btn-primary">Find My Benefits — ₹499</a>
+        <a href="#process" class="btn-ghost">See How It Works ↓</a>
+      </div>
+      <p class="hero-meta">₹499 · One Personalised Report · Multiple Opportunities</p>
+    </div>
+
+    <!-- 3D ELEMENT -->
+    <div class="hero-3d-wrap" aria-hidden="true">
+      <div class="cube-rings">
+        <div class="ring ring-1"></div>
+        <div class="ring ring-2"></div>
+        <div class="ring ring-3"></div>
+      </div>
+      <div class="cube-scene">
+        <div class="cube" id="hero-cube">
+          <div class="face front">
+            <div class="face-content">
+              <div class="face-icon">◈</div>
+              <div class="face-label">GRANTS</div>
+            </div>
+          </div>
+          <div class="face back">
+            <div class="face-content">
+              <div class="face-icon">◎</div>
+              <div class="face-label">SUBSIDIES</div>
+            </div>
+          </div>
+          <div class="face right">
+            <div class="face-content">
+              <div class="face-icon">◇</div>
+              <div class="face-label">INCENTIVES</div>
+            </div>
+          </div>
+          <div class="face left">
+            <div class="face-content">
+              <div class="face-icon">○</div>
+              <div class="face-label">SCHEMES</div>
+            </div>
+          </div>
+          <div class="face top">
+            <div class="face-content">
+              <div class="face-icon">◆</div>
+              <div class="face-label">POLICIES</div>
+            </div>
+          </div>
+          <div class="face bottom">
+            <div class="face-content">
+              <div class="face-icon">●</div>
+              <div class="face-label">BENEFITS</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="cube-glow"></div>
+    </div>
+  </div>
+
+  <!-- SCROLL HINT -->
+  <div class="scroll-hint" onclick="document.getElementById('problem').scrollIntoView({behavior:'smooth'})">
+    <span>Scroll</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ═══ PROBLEM ═══ -->
+<div class="s-divider"></div>
+<section id="problem">
+  <div class="section-inner">
+    <div class="problem-grid">
+      <div>
+        <p class="eyebrow reveal">The Challenge</p>
+        <h2 class="problem-h2 reveal delay-1">The Government Has Created the Support.<br>Most Businesses Don't Know It Exists.</h2>
+        <p class="problem-body reveal delay-2">There are hundreds of Central and State schemes designed specifically for businesses at every stage — capital investment, hiring, export, manufacturing, technology, women-led enterprises, MSMEs and more. The problem isn't eligibility. It's awareness.</p>
+        <div class="problem-stat reveal delay-3">
+          <div class="problem-stat-num" id="scheme-count" data-target="1000">0</div>
+          <div class="problem-stat-label">Schemes tracked across Central + State portals</div>
+        </div>
+      </div>
+      <div class="pain-cards">
+        <div class="pain-card tilt-card reveal delay-2">
+          <div class="pain-card-head">Scattered Across Portals</div>
+          <div class="pain-card-body">Central schemes live on one set of ministries. State incentives live on another. Sector-specific programs sit somewhere else entirely. No one has mapped it for your business.</div>
+        </div>
+        <div class="pain-card tilt-card reveal delay-3">
+          <div class="pain-card-head">Eligibility is Layered</div>
+          <div class="pain-card-body">Whether you qualify depends on your industry, location, business age, turnover, investment level, hiring plans, and what you intend to do next. Generic lists don't account for any of this.</div>
+        </div>
+        <div class="pain-card tilt-card reveal delay-4">
+          <div class="pain-card-head">Founders Don't Have Time</div>
+          <div class="pain-card-body">Running a business is already a full-time job. Researching government schemes requires hours of reading complex policy documents most founders simply cannot spare.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CATEGORIES ═══ -->
+<div class="s-divider"></div>
+<section id="categories">
+  <div class="section-inner">
+    <div class="cat-header">
+      <p class="eyebrow reveal">Opportunities</p>
+      <h2 class="cat-h2 reveal delay-1">Support Exists Across Every Stage<br>of the Business Journey.</h2>
+      <p class="cat-sub reveal delay-2">Eligibility depends on your business, industry, location, size, investment and plans. Tell us about your business — we do the filtering.</p>
+    </div>
+    <div class="cat-grid">
+      <div class="cat-card tilt-card reveal delay-1"><div class="cat-icon">🏗</div><div class="cat-name">Starting a Business</div></div>
+      <div class="cat-card tilt-card reveal delay-2"><div class="cat-icon">💰</div><div class="cat-name">Capital Investment</div></div>
+      <div class="cat-card tilt-card reveal delay-3"><div class="cat-icon">⚙️</div><div class="cat-name">Machinery & Equipment</div></div>
+      <div class="cat-card tilt-card reveal delay-4"><div class="cat-icon">📈</div><div class="cat-name">Business Expansion</div></div>
+      <div class="cat-card tilt-card reveal delay-2"><div class="cat-icon">👥</div><div class="cat-name">Employment & Hiring</div></div>
+      <div class="cat-card tilt-card reveal delay-3"><div class="cat-icon">💡</div><div class="cat-name">Technology & Innovation</div></div>
+      <div class="cat-card tilt-card reveal delay-4"><div class="cat-icon">🌐</div><div class="cat-name">Exports</div></div>
+      <div class="cat-card tilt-card reveal delay-5"><div class="cat-icon">🏭</div><div class="cat-name">Food Processing & Manufacturing</div></div>
+      <div class="cat-card tilt-card reveal delay-3"><div class="cat-icon">☀️</div><div class="cat-name">Renewable Energy</div></div>
+      <div class="cat-card tilt-card reveal delay-4"><div class="cat-icon">🔖</div><div class="cat-name">MSME Development</div></div>
+      <div class="cat-card tilt-card reveal delay-5"><div class="cat-icon">♀</div><div class="cat-name">Women & Entrepreneurship</div></div>
+      <div class="cat-card tilt-card reveal delay-6"><div class="cat-icon">📍</div><div class="cat-name">Industry & Location Incentives</div></div>
+    </div>
+    <p class="cat-footer reveal">Just tell us about your business · We identify what's relevant to you</p>
+  </div>
+</section>
+
+<!-- ═══ REPORT ═══ -->
+<div class="s-divider"></div>
+<section id="report">
+  <div class="section-inner">
+    <div class="report-grid">
+      <div>
+        <p class="eyebrow reveal">What You Get</p>
+        <h2 class="report-h2 reveal delay-1">One Report.<br>All Relevant Opportunities.</h2>
+        <p class="report-price-tag reveal delay-2">Personalised for your business · ₹499</p>
+        <div class="report-items">
+          <div class="report-item reveal delay-2">
+            <div class="ri-check">✓</div>
+            <div><div class="ri-title">Relevant Schemes</div><div class="ri-body">Government schemes, subsidies, grants, incentives and beneficial policies relevant to your business — not a generic list.</div></div>
+          </div>
+          <div class="report-item reveal delay-3">
+            <div class="ri-check">✓</div>
+            <div><div class="ri-title">Eligibility</div><div class="ri-body">Why your business may qualify and the key eligibility conditions you need to meet for each opportunity.</div></div>
+          </div>
+          <div class="report-item reveal delay-4">
+            <div class="ri-check">✓</div>
+            <div><div class="ri-title">Benefits</div><div class="ri-body">What each scheme offers — the nature of the subsidy, incentive, grant, reimbursement or other benefit.</div></div>
+          </div>
+          <div class="report-item reveal delay-4">
+            <div class="ri-check">✓</div>
+            <div><div class="ri-title">Application Process</div><div class="ri-body">Where and how to apply, with the process explained in simple, actionable steps.</div></div>
+          </div>
+          <div class="report-item reveal delay-5">
+            <div class="ri-check">✓</div>
+            <div><div class="ri-title">Documents Checklist</div><div class="ri-body">The registrations, documents and information generally required for each application.</div></div>
+          </div>
+          <div class="report-item reveal delay-5">
+            <div class="ri-check">✓</div>
+            <div><div class="ri-title">Important Conditions</div><div class="ri-body">Key restrictions, timelines, investment conditions and factors to know before applying.</div></div>
+          </div>
+          <div class="report-item reveal delay-6">
+            <div class="ri-check">✓</div>
+            <div><div class="ri-title">Official Sources</div><div class="ri-body">Relevant government departments, portals and application sources to help take the next step.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- REPORT MOCKUP -->
+      <div class="report-mockup reveal-r delay-2">
+        <div class="report-card-3d" id="report-card-3d">
+          <div class="report-card">
+            <div class="rc-header">
+              <div class="rc-logo-mark">GG</div>
+              <div class="rc-header-text">Government Benefits Report<br>Personalised Assessment</div>
+            </div>
+            <div class="rc-biz">
+              <div class="rc-biz-name">Meridian Food Products Pvt. Ltd.</div>
+              <div class="rc-biz-meta">FOOD PROCESSING · MAHARASHTRA · 3 YRS · MSME</div>
+            </div>
+            <div class="rc-schemes">
+              <div class="rc-scheme">
+                <div class="rc-scheme-name">PLI Scheme — Food Processing</div>
+                <div class="rc-scheme-tag">CENTRAL · CAPITAL SUBSIDY</div>
+              </div>
+              <div class="rc-scheme">
+                <div class="rc-scheme-name">Maharashtra Package Scheme of Incentives</div>
+                <div class="rc-scheme-tag">STATE · EMPLOYMENT + ELECTRICITY</div>
+              </div>
+              <div class="rc-scheme">
+                <div class="rc-scheme-name">CGTMSE — Collateral-Free Credit</div>
+                <div class="rc-scheme-tag">CENTRAL · MSME CREDIT</div>
+              </div>
+              <div class="rc-blur-row"></div>
+              <div class="rc-blur-row" style="width:70%"></div>
+            </div>
+            <div class="rc-stamp">Grant<br>Genius</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROCESS ═══ -->
+<div class="s-divider"></div>
+<section id="process">
+  <div class="section-inner">
+    <p class="eyebrow reveal">How It Works</p>
+    <h2 class="process-h2 reveal delay-1">Simple Information.<br>Personalised Research.</h2>
+    <p class="process-sub reveal delay-2">No scheme knowledge required. No government terminology. Just basic information about your business.</p>
+
+    <div class="process-track">
+      <div class="process-line"><div class="process-line-fill" id="proc-line"></div></div>
+      <div class="process-steps">
+        <div class="process-step reveal delay-1">
+          <div class="step-orb">1</div>
+          <div class="step-title">Tell Us About Your Business</div>
+          <div class="step-desc">Complete a simple assessment — who you are, what you do, where you operate, your business stage, and what you're planning.</div>
+        </div>
+        <div class="process-step reveal delay-2">
+          <div class="step-orb">2</div>
+          <div class="step-title">We Research Your Opportunities</div>
+          <div class="step-desc">We study your profile against Central and State schemes, subsidies, grants and policies to identify what's relevant to your business.</div>
+        </div>
+        <div class="process-step reveal delay-3">
+          <div class="step-orb">3</div>
+          <div class="step-title">We Prepare Your Report</div>
+          <div class="step-desc">A consolidated, personalised report of opportunities is prepared — covering eligibility, benefits, process and documents for each.</div>
+        </div>
+        <div class="process-step reveal delay-4">
+          <div class="step-orb">4</div>
+          <div class="step-title">Know Your Next Steps</div>
+          <div class="step-desc">Receive a clear picture of what's available, what applies, and exactly how to pursue the opportunities relevant to your business.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PRICING ═══ -->
+<div class="s-divider"></div>
+<section id="pricing">
+  <div class="pricing-inner">
+    <p class="pricing-overline reveal">Get Started</p>
+    <h2 class="pricing-h2 reveal delay-1">
+      Find Out What<br><em>Your Business</em><br>Can Get Back.
+    </h2>
+    <p class="pricing-sub reveal delay-2">Tell us about your business. We'll study your profile and send a personalised report of the schemes, subsidies, grants and beneficial policies that may apply to your company.</p>
+
+    <div class="reveal delay-3">
+      <div class="price-display">
+        <span class="price-currency">₹</span>
+        <span class="price-amount">499</span>
+      </div>
+      <div class="price-label">One report · Multiple opportunities</div>
+    </div>
+
+    <div class="pricing-includes reveal delay-4">
+      <span class="pi-tag">Relevant Schemes</span>
+      <span class="pi-tag">Eligibility</span>
+      <span class="pi-tag">Benefits</span>
+      <span class="pi-tag">Application Process</span>
+      <span class="pi-tag">Documents Checklist</span>
+      <span class="pi-tag">Important Conditions</span>
+      <span class="pi-tag">Official Sources</span>
+    </div>
+
+    <div class="reveal delay-5">
+      <a href="#" class="btn-cta-big">Find Benefits for My Business →</a>
+      <p class="pricing-disclaimer">₹499 is for the research and report. Eligibility does not guarantee approval or receipt of any government benefit. Final eligibility, sanction and benefit are determined by the respective government authority.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-logo">GrantGenius</div>
+  <div class="footer-note">Research &amp; Information · Not Legal or Financial Advice · Government Scheme Eligibility Determined by Respective Authorities</div>
+</footer>
+
+<script>
+// ─── CANVAS BACKGROUND ───
+(function() {
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [], mouse = {x:0, y:0};
+  const GOLD = 'rgba(212,160,23,';
+  const TEAL = 'rgba(20,212,168,';
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function Particle() {
+    this.reset();
+  }
+  Particle.prototype.reset = function() {
+    this.x = Math.random() * W;
+    this.y = Math.random() * H;
+    this.vx = (Math.random() - 0.5) * 0.3;
+    this.vy = (Math.random() - 0.5) * 0.3;
+    this.size = Math.random() * 2.5 + 0.5;
+    this.alpha = Math.random() * 0.12 + 0.03;
+    this.color = Math.random() > 0.7 ? TEAL : GOLD;
+    this.shape = Math.floor(Math.random() * 3); // 0=circle, 1=diamond, 2=triangle
+    this.rotation = Math.random() * Math.PI * 2;
+    this.rotSpeed = (Math.random() - 0.5) * 0.01;
+  };
+  Particle.prototype.update = function() {
+    this.x += this.vx;
+    this.y += this.vy;
+    this.rotation += this.rotSpeed;
+    if (this.x < -20 || this.x > W+20 || this.y < -20 || this.y > H+20) this.reset();
+  };
+  Particle.prototype.draw = function() {
+    ctx.save();
+    ctx.globalAlpha = this.alpha;
+    ctx.fillStyle = this.color + this.alpha + ')';
+    ctx.strokeStyle = this.color + (this.alpha * 1.5) + ')';
+    ctx.lineWidth = 0.5;
+    ctx.translate(this.x, this.y);
+    ctx.rotate(this.rotation);
+    const s = this.size * 4;
+    if (this.shape === 0) {
+      ctx.beginPath();
+      ctx.arc(0, 0, s/2, 0, Math.PI*2);
+      ctx.fill();
+    } else if (this.shape === 1) {
+      ctx.beginPath();
+      ctx.moveTo(0, -s/2);
+      ctx.lineTo(s/2, 0);
+      ctx.lineTo(0, s/2);
+      ctx.lineTo(-s/2, 0);
+      ctx.closePath();
+      ctx.stroke();
+    } else {
+      ctx.beginPath();
+      ctx.moveTo(0, -s/2);
+      ctx.lineTo(s/2, s/2);
+      ctx.lineTo(-s/2, s/2);
+      ctx.closePath();
+      ctx.stroke();
+    }
+    ctx.restore();
+  };
+
+  function init() {
+    resize();
+    particles = [];
+    for (let i = 0; i < 60; i++) particles.push(new Particle());
+  }
+
+  function loop() {
+    ctx.clearRect(0, 0, W, H);
+    // Draw subtle grid lines
+    ctx.strokeStyle = 'rgba(237,233,223,0.015)';
+    ctx.lineWidth = 1;
+    const gs = 100;
+    for (let x = 0; x < W; x += gs) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+    for (let y = 0; y < H; y += gs) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+
+    particles.forEach(p => { p.update(); p.draw(); });
+
+    // Mouse spotlight
+    const grad = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 200);
+    grad.addColorStop(0, 'rgba(212,160,23,0.04)');
+    grad.addColorStop(1, 'transparent');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, W, H);
+
+    requestAnimationFrame(loop);
+  }
+
+  window.addEventListener('resize', () => { resize(); });
+  window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+  init();
+  loop();
+})();
+
+// ─── SCROLL PROGRESS ───
+const progress = document.getElementById('progress');
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  const max = document.body.scrollHeight - window.innerHeight;
+  progress.style.width = (scrolled / max * 100) + '%';
+});
+
+// ─── NAV SHRINK ───
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 80);
+});
+
+// ─── JOURNEY DOTS ───
+const dots = document.querySelectorAll('.jdot');
+const sections = ['hero','problem','categories','report','process','pricing'];
+
+function updateDots() {
+  const scrollY = window.scrollY + window.innerHeight * 0.4;
+  sections.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const top = el.offsetTop, bot = top + el.offsetHeight;
+    dots[i].classList.toggle('active', scrollY >= top && scrollY < bot);
+  });
+}
+window.addEventListener('scroll', updateDots);
+dots.forEach((dot, i) => {
+  dot.addEventListener('click', () => {
+    document.getElementById(sections[i])?.scrollIntoView({behavior:'smooth'});
+  });
+});
+
+// ─── INTERSECTION OBSERVER FOR REVEALS ───
+const reveals = document.querySelectorAll('.reveal, .reveal-r, .reveal-l');
+const revObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      revObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+reveals.forEach(el => revObs.observe(el));
+
+// ─── PROCESS LINE FILL ───
+const procLine = document.getElementById('proc-line');
+const procSection = document.getElementById('process');
+const lineObs = new IntersectionObserver((entries) => {
+  if (entries[0].isIntersecting) {
+    procLine.style.width = '100%';
+    lineObs.unobserve(procSection);
+  }
+}, { threshold: 0.3 });
+lineObs.observe(procSection);
+
+// ─── NUMBER COUNTER ───
+function animateCounter(el, target) {
+  let start = 0, duration = 2000, startTime = null;
+  function step(timestamp) {
+    if (!startTime) startTime = timestamp;
+    const progress = Math.min((timestamp - startTime) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.round(eased * target).toLocaleString('en-IN') + '+';
+    if (progress < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+const statEl = document.getElementById('scheme-count');
+if (statEl) {
+  const statObs = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      animateCounter(statEl, parseInt(statEl.dataset.target));
+      statObs.unobserve(statEl);
+    }
+  }, { threshold: 0.5 });
+  statObs.observe(statEl);
+}
+
+// Style the stat number
+if (statEl) {
+  statEl.style.cssText = "font-family:'Fraunces',Georgia,serif;font-size:clamp(3.5rem,7vw,6rem);font-weight:900;line-height:1;letter-spacing:-0.03em;color:var(--gold);margin-bottom:0.25rem;";
+}
+
+// ─── 3D TILT ON CARDS ───
+document.querySelectorAll('.tilt-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const dx = (e.clientX - cx) / (rect.width / 2);
+    const dy = (e.clientY - cy) / (rect.height / 2);
+    const rotX = -dy * 6;
+    const rotY = dx * 6;
+    card.style.transform = `perspective(600px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(4px)`;
+
+    // Update radial gradient position for cat cards
+    if (card.classList.contains('cat-card')) {
+      const pctX = ((e.clientX - rect.left) / rect.width) * 100;
+      const pctY = ((e.clientY - rect.top) / rect.height) * 100;
+      card.style.setProperty('--mx', pctX + '%');
+      card.style.setProperty('--my', pctY + '%');
+    }
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+  });
+});
+
+// ─── FLOATING REPORT CARD MOUSE ───
+const reportCard = document.getElementById('report-card-3d');
+if (reportCard) {
+  document.addEventListener('mousemove', e => {
+    const rect = reportCard.getBoundingClientRect();
+    if (rect.width === 0) return;
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const dx = (e.clientX - cx) / window.innerWidth;
+    const dy = (e.clientY - cy) / window.innerHeight;
+    reportCard.style.animation = 'none';
+    reportCard.style.transform = `translateY(${-dy*8}px) rotateX(${4 + dy*6}deg) rotateY(${-8 + dx*12}deg)`;
+  });
+}
+
+// ─── CUBE MOUSE PARALLAX ───
+const heroCube = document.getElementById('hero-cube');
+if (heroCube) {
+  let targetRY = 0, currentRY = 0;
+  document.addEventListener('mousemove', e => {
+    targetRY = (e.clientX / window.innerWidth - 0.5) * 20;
+  });
+  function cubeFrame() {
+    currentRY += (targetRY - currentRY) * 0.05;
+    heroCube.style.animationPlayState = 'running';
+    requestAnimationFrame(cubeFrame);
+  }
+  cubeFrame();
+}
+
+// ─── SMOOTH SCROLL FOR ANCHORS ───
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) { e.preventDefault(); target.scrollIntoView({behavior:'smooth'}); }
+  });
+});
+</script>
+</html>
