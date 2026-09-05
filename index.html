@@ -3,1481 +3,1053 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GrantGenius</title>
+<title>FindMySchemes — Government Scheme Discovery for Businesses</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
-:root {
-  --bg0: #05070E;
-  --bg1: #0A0F1C;
-  --bg2: #111827;
-  --bg3: #192035;
-  --gold: #D4A017;
-  --gold-lt: #E8BE50;
-  --gold-dk: #A07A10;
-  --gold-faint: rgba(212,160,23,0.08);
-  --gold-dim: rgba(212,160,23,0.35);
-  --teal: #14D4A8;
-  --teal-faint: rgba(20,212,168,0.07);
-  --text0: #EDE9DF;
-  --text1: #9D98AE;
-  --text2: #4E4B62;
-  --border: rgba(212,160,23,0.14);
-  --border-s: rgba(237,233,223,0.06);
-}
-
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-
-html { scroll-behavior:smooth; font-size:16px; }
-
-body {
-  background: var(--bg0);
-  color: var(--text0);
-  font-family: 'DM Sans', system-ui, sans-serif;
-  line-height: 1.65;
-  overflow-x: hidden;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
-}
-
-/* ─── CANVAS ─── */
-#bg-canvas {
-  position: fixed; inset: 0; z-index: 0;
-  pointer-events: none; opacity: 0.6;
-}
-
-/* ─── PROGRESS ─── */
-#progress {
-  position: fixed; top: 0; left: 0;
-  height: 2px; width: 0%;
-  background: linear-gradient(90deg, var(--gold), var(--teal));
-  z-index: 999;
-  transition: width 0.08s linear;
-  box-shadow: 0 0 10px var(--gold-dim);
-}
-
-/* ─── NAV ─── */
-nav {
-  position: fixed; top: 0; left: 0; right: 0;
-  z-index: 500;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 1rem 3rem;
-  background: rgba(5,7,14,0.75);
-  backdrop-filter: blur(24px);
-  border-bottom: 1px solid var(--border-s);
-  transition: padding 0.3s ease;
-}
-
-nav.scrolled { padding-top: 0.7rem; padding-bottom: 0.7rem; }
-
-.logo {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 1.5rem; font-weight: 800;
-  color: var(--gold); letter-spacing: -0.03em;
-}
-.logo span { color: var(--text0); }
-
-.nav-cta {
-  display: inline-flex; align-items: center; gap: 0.4rem;
-  background: var(--gold); color: var(--bg0);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.78rem; font-weight: 600;
-  padding: 0.6rem 1.4rem;
-  border: none; cursor: pointer;
-  text-decoration: none; text-transform: uppercase;
-  letter-spacing: 0.06em;
-  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
-  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
-}
-.nav-cta:hover {
-  background: var(--gold-lt);
-  transform: translateY(-1px);
-  box-shadow: 0 8px 30px var(--gold-dim);
-}
-
-/* ─── JOURNEY SIDEBAR ─── */
-#journey-nav {
-  position: fixed; left: 1.5rem; top: 50%;
-  transform: translateY(-50%);
-  z-index: 400;
-  display: flex; flex-direction: column;
-  align-items: center; gap: 0;
-}
-
-.jdot {
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  background: var(--text2);
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-  position: relative;
-}
-.jdot:hover, .jdot.active {
-  background: var(--gold);
-  box-shadow: 0 0 12px var(--gold);
-  transform: scale(1.4);
-}
-.jline {
-  width: 1px; height: 2rem;
-  background: linear-gradient(to bottom, var(--border-s), var(--border-s));
-}
-
-/* ─── SECTIONS ─── */
-section {
-  position: relative; z-index: 1;
-  min-height: 100vh;
-  display: flex; align-items: center;
-}
-
-.section-inner {
-  width: 100%; max-width: 1280px;
-  margin: 0 auto;
-  padding: 7rem 5rem 7rem 7rem;
-}
-
-.eyebrow {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.7rem; font-weight: 500;
-  letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 1.5rem;
-  display: flex; align-items: center; gap: 0.75rem;
-}
-.eyebrow::before {
-  content: '';
-  display: block; width: 2rem; height: 1px;
-  background: var(--gold);
-}
-
-/* ─── HERO ─── */
-#hero {
-  min-height: 100vh;
-  align-items: center;
-  overflow: hidden;
-}
-
-.hero-grid {
-  width: 100%; max-width: 1280px;
-  margin: 0 auto;
-  padding: 8rem 5rem 5rem 7rem;
-  display: grid;
-  grid-template-columns: 1fr 500px;
-  gap: 4rem;
-  align-items: center;
-}
-
-.hero-eyebrow {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.68rem; font-weight: 500;
-  letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--gold); margin-bottom: 2rem;
-  display: flex; align-items: center; gap: 0.75rem;
-  opacity: 0; transform: translateY(16px);
-  animation: fadeUp 0.7s 0.3s forwards;
-}
-.hero-eyebrow::before {
-  content: ''; display: block;
-  width: 2rem; height: 1px; background: var(--gold);
-}
-
-.hero-h1 {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: clamp(3rem, 5.5vw, 5.2rem);
-  font-weight: 800; line-height: 1.05;
-  letter-spacing: -0.03em;
-  text-wrap: balance;
-  margin-bottom: 1.75rem;
-  opacity: 0; transform: translateY(20px);
-  animation: fadeUp 0.8s 0.5s forwards;
-}
-.hero-h1 em {
-  font-style: italic; font-weight: 300;
-  color: var(--gold);
-}
-
-.hero-sub {
-  font-size: 1.05rem; font-weight: 300;
-  color: var(--text1); line-height: 1.7;
-  max-width: 52ch; margin-bottom: 2.5rem;
-  opacity: 0; transform: translateY(16px);
-  animation: fadeUp 0.7s 0.75s forwards;
-}
-
-.hero-actions {
-  display: flex; gap: 1rem; align-items: center;
-  flex-wrap: wrap; margin-bottom: 2rem;
-  opacity: 0; transform: translateY(16px);
-  animation: fadeUp 0.7s 0.95s forwards;
-}
-
-.btn-primary {
-  display: inline-flex; align-items: center;
-  background: var(--gold); color: var(--bg0);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.85rem; font-weight: 600;
-  padding: 0.9rem 2rem;
-  border: none; cursor: pointer;
-  text-decoration: none; text-transform: uppercase;
-  letter-spacing: 0.06em;
-  transition: all 0.25s ease;
-  clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
-  position: relative; overflow: hidden;
-}
-.btn-primary::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 60%);
-  opacity: 0; transition: opacity 0.25s;
-}
-.btn-primary:hover { background: var(--gold-lt); transform: translateY(-2px); box-shadow: 0 12px 40px var(--gold-dim); }
-.btn-primary:hover::after { opacity: 1; }
-
-.btn-ghost {
-  display: inline-flex; align-items: center;
-  background: transparent; color: var(--text1);
-  font-size: 0.85rem; font-weight: 400;
-  padding: 0.9rem 1.5rem;
-  border: 1px solid var(--border-s);
-  text-decoration: none;
-  transition: all 0.25s ease;
-}
-.btn-ghost:hover { color: var(--text0); border-color: var(--border); }
-
-.hero-meta {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.68rem; color: var(--text2);
-  letter-spacing: 0.1em; text-transform: uppercase;
-  opacity: 0; animation: fadeUp 0.7s 1.1s forwards;
-}
-
-/* ─── 3D CUBE ─── */
-.hero-3d-wrap {
-  position: relative;
-  display: flex; align-items: center; justify-content: center;
-  opacity: 0; animation: fadeUp 1s 0.6s forwards;
-}
-
-.cube-rings {
-  position: absolute; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  pointer-events: none;
-}
-
-.ring {
-  position: absolute; border-radius: 50%;
-  border: 1px solid var(--border);
-  animation: ring-spin linear infinite;
-}
-.ring-1 { width: 380px; height: 380px; animation-duration: 20s; }
-.ring-2 { width: 460px; height: 460px; animation-duration: 30s; animation-direction: reverse; border-style: dashed; opacity: 0.5; }
-.ring-3 { width: 540px; height: 540px; animation-duration: 45s; opacity: 0.25; }
-
-@keyframes ring-spin {
-  from { transform: rotateZ(0) rotateX(70deg); }
-  to   { transform: rotateZ(360deg) rotateX(70deg); }
-}
-
-.cube-scene {
-  perspective: 900px;
-  width: 260px; height: 260px;
-  position: relative; z-index: 2;
-}
-
-.cube {
-  width: 260px; height: 260px;
-  position: relative;
-  transform-style: preserve-3d;
-  animation: cube-rotate 16s linear infinite;
-}
-
-@keyframes cube-rotate {
-  0%   { transform: rotateX(-18deg) rotateY(0deg); }
-  100% { transform: rotateX(-18deg) rotateY(360deg); }
-}
-
-.face {
-  position: absolute; width: 260px; height: 260px;
-  border: 1px solid var(--border);
-  background: rgba(10,15,28,0.9);
-  display: flex; align-items: center; justify-content: center;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-}
-
-.face.front  { transform: translateZ(130px); }
-.face.back   { transform: rotateY(180deg) translateZ(130px); }
-.face.right  { transform: rotateY(90deg) translateZ(130px); }
-.face.left   { transform: rotateY(-90deg) translateZ(130px); }
-.face.top    { transform: rotateX(90deg) translateZ(130px); background: rgba(212,160,23,0.05); }
-.face.bottom { transform: rotateX(-90deg) translateZ(130px); background: rgba(20,212,168,0.04); }
-
-.face-content {
-  text-align: center;
-  transform: scale(1);
-}
-.face-icon {
-  font-size: 2.5rem; margin-bottom: 0.75rem;
-  color: var(--gold); line-height: 1;
-  text-shadow: 0 0 20px var(--gold-dim);
-}
-.face-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.65rem; font-weight: 500;
-  letter-spacing: 0.25em; text-transform: uppercase;
-  color: var(--text1);
-}
-
-.cube-glow {
-  position: absolute; bottom: -80px; left: 50%;
-  transform: translateX(-50%);
-  width: 200px; height: 30px;
-  background: radial-gradient(ellipse, var(--gold-dim) 0%, transparent 70%);
-  filter: blur(10px);
-  animation: glow-pulse 3s ease-in-out infinite;
-}
-
-@keyframes glow-pulse {
-  0%, 100% { opacity: 0.4; transform: translateX(-50%) scaleX(1); }
-  50% { opacity: 0.8; transform: translateX(-50%) scaleX(1.2); }
-}
-
-/* ─── SCROLL HINT ─── */
-.scroll-hint {
-  position: absolute; bottom: 2.5rem; left: 50%;
-  transform: translateX(-50%);
-  display: flex; flex-direction: column;
-  align-items: center; gap: 0.5rem;
-  opacity: 0; animation: fadeIn 1s 1.8s forwards;
-  cursor: pointer;
-}
-.scroll-hint span {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.6rem; letter-spacing: 0.2em;
-  text-transform: uppercase; color: var(--text2);
-}
-.scroll-arrow {
-  width: 1px; height: 40px;
-  background: linear-gradient(to bottom, var(--gold), transparent);
-  animation: scroll-drop 2s ease-in-out infinite;
-}
-
-@keyframes scroll-drop {
-  0% { transform: scaleY(0); transform-origin: top; opacity: 1; }
-  50% { transform: scaleY(1); transform-origin: top; opacity: 1; }
-  51% { transform: scaleY(1); transform-origin: bottom; opacity: 1; }
-  100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
-}
-
-/* ─── REVEAL SYSTEM ─── */
-.reveal { opacity: 0; transform: translateY(36px); transition: opacity 0.8s cubic-bezier(.25,.8,.25,1), transform 0.8s cubic-bezier(.25,.8,.25,1); }
-.reveal.visible { opacity: 1; transform: translateY(0); }
-.reveal-r { opacity: 0; transform: translateX(40px); transition: opacity 0.8s cubic-bezier(.25,.8,.25,1), transform 0.8s cubic-bezier(.25,.8,.25,1); }
-.reveal-r.visible { opacity: 1; transform: translateX(0); }
-.reveal-l { opacity: 0; transform: translateX(-40px); transition: opacity 0.8s cubic-bezier(.25,.8,.25,1), transform 0.8s cubic-bezier(.25,.8,.25,1); }
-.reveal-l.visible { opacity: 1; transform: translateX(0); }
-
-.delay-1 { transition-delay: 0.1s; }
-.delay-2 { transition-delay: 0.2s; }
-.delay-3 { transition-delay: 0.3s; }
-.delay-4 { transition-delay: 0.4s; }
-.delay-5 { transition-delay: 0.5s; }
-.delay-6 { transition-delay: 0.6s; }
-.delay-7 { transition-delay: 0.7s; }
-
-/* ─── SECTION DIVIDER ─── */
-.s-divider {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--border), transparent);
-  margin: 0 5rem;
-  position: relative; z-index: 1;
-}
-
-/* ─── PROBLEM SECTION ─── */
-#problem { background: linear-gradient(180deg, var(--bg0) 0%, var(--bg1) 100%); }
-
-.problem-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 5rem; align-items: center;
-}
-
-.problem-stat {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: clamp(4rem, 8vw, 7rem);
-  font-weight: 900; line-height: 1;
-  letter-spacing: -0.04em;
-  color: var(--gold);
-  margin-bottom: 0.5rem;
-}
-.problem-stat-label {
-  font-size: 0.8rem; color: var(--text2);
-  font-family: 'DM Mono', monospace;
-  letter-spacing: 0.12em; text-transform: uppercase;
-}
-
-.problem-h2 {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: clamp(2rem, 3.5vw, 3rem);
-  font-weight: 700; line-height: 1.15;
-  letter-spacing: -0.025em;
-  margin-bottom: 1.25rem;
-  text-wrap: balance;
-}
-
-.problem-body {
-  font-size: 1rem; font-weight: 300;
-  color: var(--text1); line-height: 1.75;
-  max-width: 50ch; margin-bottom: 2.5rem;
-}
-
-.pain-cards {
-  display: flex; flex-direction: column; gap: 1rem;
-}
-
-.pain-card {
-  background: var(--bg2);
-  border: 1px solid var(--border-s);
-  padding: 1.5rem;
-  transition: all 0.35s cubic-bezier(.25,.8,.25,1);
-  transform-style: preserve-3d;
-  cursor: default;
-  position: relative; overflow: hidden;
-}
-.pain-card::before {
-  content: '';
-  position: absolute; top: 0; left: 0;
-  width: 3px; height: 100%;
-  background: var(--gold);
-  transform: scaleY(0); transform-origin: bottom;
-  transition: transform 0.4s ease;
-}
-.pain-card:hover { border-color: var(--border); background: var(--bg3); transform: translateX(4px); }
-.pain-card:hover::before { transform: scaleY(1); }
-
-.pain-card-head {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 1.15rem; font-weight: 700;
-  margin-bottom: 0.5rem; color: var(--text0);
-}
-.pain-card-body { font-size: 0.9rem; color: var(--text1); font-weight: 300; }
-
-/* ─── CATEGORIES ─── */
-#categories {
-  background: var(--bg1);
-  flex-direction: column; justify-content: center;
-}
-
-.cat-header { margin-bottom: 3rem; }
-
-.cat-h2 {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: clamp(2rem, 3.5vw, 3rem);
-  font-weight: 700; line-height: 1.15;
-  letter-spacing: -0.025em; margin-bottom: 1rem;
-  text-wrap: balance;
-}
-.cat-sub { font-size: 0.95rem; color: var(--text1); font-weight: 300; max-width: 60ch; }
-
-.cat-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem; margin-bottom: 2rem;
-}
-
-.cat-card {
-  background: var(--bg2);
-  border: 1px solid var(--border-s);
-  padding: 1.4rem 1.25rem;
-  cursor: default;
-  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-  position: relative; overflow: hidden;
-  transform-style: preserve-3d;
-}
-.cat-card::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), var(--gold-faint), transparent 70%);
-  opacity: 0; transition: opacity 0.3s;
-}
-.cat-card:hover {
-  border-color: var(--border);
-  transform: translateY(-3px) scale(1.01);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
-}
-.cat-card:hover::after { opacity: 1; }
-
-.cat-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
-.cat-name {
-  font-size: 0.82rem; font-weight: 500;
-  color: var(--text0); line-height: 1.35;
-}
-
-.cat-footer {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.68rem; color: var(--text2);
-  letter-spacing: 0.08em; text-align: center;
-  padding-top: 1rem;
-  border-top: 1px solid var(--border-s);
-}
-
-/* ─── REPORT ─── */
-#report {
-  background: linear-gradient(180deg, var(--bg1) 0%, var(--bg0) 100%);
-}
-
-.report-grid {
-  display: grid;
-  grid-template-columns: 1fr 420px;
-  gap: 5rem; align-items: start;
-}
-
-.report-h2 {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: clamp(2rem, 3.5vw, 3rem);
-  font-weight: 700; line-height: 1.15;
-  letter-spacing: -0.025em; margin-bottom: 0.5rem;
-}
-.report-price-tag {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.72rem; color: var(--teal);
-  letter-spacing: 0.15em; text-transform: uppercase;
-  margin-bottom: 2.5rem;
-}
-
-.report-items { display: flex; flex-direction: column; gap: 0; }
-
-.report-item {
-  display: flex; gap: 1.25rem;
-  padding: 1.25rem 0;
-  border-bottom: 1px solid var(--border-s);
-  align-items: flex-start;
-  transition: all 0.25s ease;
-}
-.report-item:last-child { border-bottom: none; }
-.report-item:hover .ri-check { background: var(--gold); color: var(--bg0); }
-
-.ri-check {
-  width: 24px; height: 24px; flex-shrink: 0;
-  border: 1px solid var(--gold);
-  color: var(--gold);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.7rem; margin-top: 1px;
-  transition: all 0.25s ease;
-  font-family: 'DM Mono', monospace;
-}
-
-.ri-title {
-  font-size: 0.95rem; font-weight: 500;
-  margin-bottom: 0.25rem; color: var(--text0);
-}
-.ri-body { font-size: 0.84rem; color: var(--text1); font-weight: 300; }
-
-/* ─── REPORT MOCKUP ─── */
-.report-mockup {
-  position: sticky; top: 8rem;
-}
-
-.report-card-3d {
-  transform-style: preserve-3d;
-  transition: transform 0.6s cubic-bezier(.25,.8,.25,1);
-  animation: float-card 6s ease-in-out infinite;
-}
-
-@keyframes float-card {
-  0%, 100% { transform: translateY(0) rotateX(4deg) rotateY(-8deg); }
-  50% { transform: translateY(-12px) rotateX(4deg) rotateY(-4deg); }
-}
-
-.report-card {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  padding: 2rem;
-  position: relative; overflow: hidden;
-}
-
-.rc-header {
-  display: flex; align-items: center; gap: 0.75rem;
-  margin-bottom: 1.75rem; padding-bottom: 1.25rem;
-  border-bottom: 1px solid var(--border-s);
-}
-.rc-logo-mark {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 1.1rem; font-weight: 800; color: var(--gold);
-}
-.rc-header-text { font-family: 'DM Mono', monospace; font-size: 0.62rem; color: var(--text2); letter-spacing: 0.1em; text-transform: uppercase; }
-
-.rc-biz-name {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 1.1rem; font-weight: 700; color: var(--text0);
-  margin-bottom: 0.25rem;
-}
-.rc-biz-meta {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.62rem; color: var(--text2); letter-spacing: 0.08em;
-}
-.rc-biz { margin-bottom: 1.5rem; }
-
-.rc-schemes {
-  display: flex; flex-direction: column; gap: 0.75rem;
-}
-
-.rc-scheme {
-  background: var(--bg3);
-  padding: 0.85rem 1rem;
-  border-left: 2px solid var(--gold);
-  position: relative;
-}
-.rc-scheme-name { font-size: 0.8rem; font-weight: 500; margin-bottom: 0.2rem; }
-.rc-scheme-tag {
-  display: inline-flex;
-  font-family: 'DM Mono', monospace;
-  font-size: 0.58rem; letter-spacing: 0.1em;
-  color: var(--teal); text-transform: uppercase;
-}
-
-.rc-blur-row {
-  height: 8px; background: var(--bg3); margin-top: 0.75rem;
-  position: relative; overflow: hidden;
-  border-radius: 1px;
-}
-.rc-blur-row::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(90deg, var(--text2) 0%, var(--text2) 60%, transparent);
-  opacity: 0.3;
-}
-
-.rc-stamp {
-  position: absolute; bottom: 1.5rem; right: 1.5rem;
-  width: 60px; height: 60px;
-  border: 2px solid var(--border);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'DM Mono', monospace;
-  font-size: 0.45rem; letter-spacing: 0.1em;
-  text-transform: uppercase; color: var(--text2);
-  text-align: center; line-height: 1.5;
-  opacity: 0.6;
-}
-
-/* ─── PROCESS ─── */
-#process { background: var(--bg0); }
-
-.process-h2 {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: clamp(2rem, 3.5vw, 3rem);
-  font-weight: 700; line-height: 1.15;
-  letter-spacing: -0.025em; margin-bottom: 0.75rem;
-  text-wrap: balance;
-}
-.process-sub { font-size: 0.95rem; color: var(--text1); max-width: 55ch; margin-bottom: 4rem; }
-
-.process-track {
-  position: relative;
-}
-
-.process-line {
-  position: absolute; top: 2rem; left: 2rem; right: 2rem;
-  height: 1px; background: var(--border-s);
-  z-index: 0;
-}
-.process-line-fill {
-  height: 100%; width: 0%;
-  background: linear-gradient(90deg, var(--gold), var(--teal));
-  transition: width 1.5s cubic-bezier(.25,.8,.25,1);
-  box-shadow: 0 0 12px var(--gold-dim);
-}
-
-.process-steps {
-  display: grid; grid-template-columns: repeat(4, 1fr);
-  gap: 2rem; position: relative; z-index: 1;
-}
-
-.process-step { text-align: center; }
-
-.step-orb {
-  width: 64px; height: 64px;
-  border-radius: 50%;
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 1.5rem;
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 1.3rem; font-weight: 700;
-  color: var(--gold);
-  position: relative;
-  transition: all 0.4s ease;
-}
-.step-orb::before {
-  content: '';
-  position: absolute; inset: -4px;
-  border-radius: 50%;
-  border: 1px solid var(--border);
-  animation: orb-pulse 3s ease-in-out infinite;
-}
-.process-step:nth-child(2) .step-orb::before { animation-delay: 0.75s; }
-.process-step:nth-child(3) .step-orb::before { animation-delay: 1.5s; }
-.process-step:nth-child(4) .step-orb::before { animation-delay: 2.25s; }
-
-@keyframes orb-pulse {
-  0%, 100% { opacity: 0.3; transform: scale(1); }
-  50% { opacity: 0.8; transform: scale(1.15); }
-}
-
-.step-orb:hover {
-  background: var(--gold-faint);
-  border-color: var(--gold);
-  box-shadow: 0 0 30px var(--gold-dim);
-}
-
-.step-title {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 1.05rem; font-weight: 700;
-  margin-bottom: 0.5rem; color: var(--text0);
-}
-.step-desc { font-size: 0.84rem; color: var(--text1); font-weight: 300; line-height: 1.6; }
-
-.step-connector {
-  position: absolute; top: 2rem;
-  width: calc(100% - 64px); left: calc(50% + 32px);
-  height: 1px;
-  display: none; /* handled by the track line */
-}
-
-/* ─── PRICING ─── */
-#pricing {
-  background: linear-gradient(135deg, var(--bg1) 0%, var(--bg0) 100%);
-  position: relative; overflow: hidden;
-}
-
-#pricing::before {
-  content: '';
-  position: absolute;
-  width: 600px; height: 600px;
-  border-radius: 50%;
-  background: radial-gradient(circle, var(--gold-faint) 0%, transparent 70%);
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-}
-
-.pricing-inner {
-  max-width: 780px; margin: 0 auto;
-  text-align: center; padding: 7rem 2rem;
-  position: relative; z-index: 1;
-}
-
-.pricing-overline {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.68rem; letter-spacing: 0.2em;
-  text-transform: uppercase; color: var(--gold);
-  margin-bottom: 1.5rem;
-}
-
-.pricing-h2 {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: clamp(2.5rem, 5vw, 4.5rem);
-  font-weight: 800; line-height: 1.05;
-  letter-spacing: -0.03em; margin-bottom: 1.5rem;
-}
-
-.pricing-h2 em { font-style: italic; font-weight: 300; color: var(--gold); }
-
-.pricing-sub {
-  font-size: 1rem; color: var(--text1);
-  font-weight: 300; max-width: 50ch;
-  margin: 0 auto 3rem; line-height: 1.7;
-}
-
-.price-display {
-  display: flex; align-items: baseline;
-  justify-content: center; gap: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-.price-currency { font-family: 'DM Sans', sans-serif; font-size: 2rem; font-weight: 300; color: var(--gold); }
-.price-amount {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 5.5rem; font-weight: 900;
-  line-height: 1; color: var(--gold);
-  letter-spacing: -0.04em;
-  text-shadow: 0 0 60px var(--gold-dim);
-}
-.price-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.7rem; color: var(--text2);
-  letter-spacing: 0.12em; text-transform: uppercase;
-  margin-bottom: 2.5rem;
-}
-
-.pricing-includes {
-  display: flex; flex-wrap: wrap; gap: 0.5rem;
-  justify-content: center; margin-bottom: 2.5rem;
-}
-.pi-tag {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.62rem; letter-spacing: 0.1em;
-  text-transform: uppercase; color: var(--text1);
-  border: 1px solid var(--border-s);
-  padding: 0.4rem 0.75rem;
-}
-
-.btn-cta-big {
-  display: inline-flex; align-items: center; gap: 0.75rem;
-  background: var(--gold); color: var(--bg0);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.9rem; font-weight: 700;
-  padding: 1.1rem 3rem;
-  border: none; cursor: pointer;
-  text-decoration: none; text-transform: uppercase;
-  letter-spacing: 0.1em;
-  transition: all 0.3s ease;
-  clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
-  animation: cta-pulse 3s ease-in-out infinite;
-  position: relative; overflow: hidden;
-  margin-bottom: 1.5rem;
-}
-.btn-cta-big:hover {
-  background: var(--gold-lt);
-  transform: translateY(-2px);
-  box-shadow: 0 16px 60px var(--gold-dim);
-  animation: none;
-}
-
-@keyframes cta-pulse {
-  0%, 100% { box-shadow: 0 0 20px var(--gold-dim); }
-  50% { box-shadow: 0 0 50px rgba(212,160,23,0.5); }
-}
-
-.pricing-disclaimer {
-  font-size: 0.75rem; color: var(--text2);
-  line-height: 1.6; max-width: 52ch; margin: 0 auto;
-}
-
-/* ─── FOOTER ─── */
-footer {
-  position: relative; z-index: 1;
-  padding: 2.5rem 5rem 2.5rem 7rem;
-  border-top: 1px solid var(--border-s);
-  display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: 1rem;
-}
-
-.footer-logo {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 1rem; font-weight: 700;
-  color: var(--gold);
-}
-
-.footer-note {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.62rem; color: var(--text2);
-  letter-spacing: 0.06em;
-}
-
-/* ─── ANIMATIONS ─── */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeIn {
-  from { opacity: 0; } to { opacity: 1; }
-}
-
-/* ─── TILT WRAPPER ─── */
-.tilt-card { transform-style: preserve-3d; }
-
-/* ─── RESPONSIVE ─── */
-@media (max-width: 1024px) {
-  .hero-grid { grid-template-columns: 1fr; padding: 8rem 3rem 5rem 5rem; }
-  .hero-3d-wrap { display: none; }
-  .problem-grid { grid-template-columns: 1fr; }
-  .cat-grid { grid-template-columns: repeat(3, 1fr); }
-  .report-grid { grid-template-columns: 1fr; }
-  .report-mockup { position: static; }
-  .process-steps { grid-template-columns: repeat(2, 1fr); }
-  .process-line { display: none; }
-  section .section-inner { padding: 5rem 3rem 5rem 5rem; }
-}
-
-@media (max-width: 768px) {
-  nav { padding: 1rem 1.5rem; }
-  #journey-nav { display: none; }
-  .cat-grid { grid-template-columns: repeat(2, 1fr); }
-  .process-steps { grid-template-columns: 1fr; }
-  footer { padding: 2rem 1.5rem; flex-direction: column; }
-  .hero-grid, section .section-inner { padding: 6rem 1.5rem 4rem 1.5rem; }
+/* ── RESET ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+
+/* ── TOKENS ── */
+:root{
+  --bg0:#05070E;--bg1:#0A0F1C;--bg2:#111827;--bg3:#192035;
+  --gold:#D4A017;--gold-lt:#E8BE50;--gold-dk:#A07A10;
+  --gold-faint:rgba(212,160,23,0.08);--gold-dim:rgba(212,160,23,0.35);
+  --teal:#14D4A8;--teal-faint:rgba(20,212,168,0.07);--teal-dim:rgba(20,212,168,0.3);
+  --text0:#EDE9DF;--text1:#9D98AE;--text2:#4E4B62;
+  --border:rgba(212,160,23,0.14);--border-s:rgba(237,233,223,0.06);
+  --r:16px;--r-sm:8px;
+  --ff-display:'Fraunces',serif;
+  --ff-body:'DM Sans',sans-serif;
+  --ff-mono:'DM Mono',monospace;
+}
+
+body{
+  background:var(--bg0);color:var(--text0);
+  font-family:var(--ff-body);font-size:16px;line-height:1.6;
+  overflow-x:hidden;
+}
+
+/* ── PROGRESS BAR ── */
+#prog{
+  position:fixed;top:0;left:0;height:3px;width:0%;z-index:1000;
+  background:linear-gradient(90deg,var(--gold),var(--teal));
+  transition:width .1s linear;
+}
+
+/* ── CANVAS ── */
+#bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.45}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 48px;
+  background:rgba(5,7,14,0.75);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border-s);
+}
+.logo{font-family:var(--ff-display);font-size:22px;font-weight:700;letter-spacing:-.5px;text-decoration:none}
+.logo-find{color:var(--text0)}
+.logo-my{color:var(--gold)}
+.logo-schemes{color:var(--text0)}
+.logo-dot{color:var(--teal);font-size:16px;vertical-align:middle}
+.nav-cta{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 22px;
+  font-family:var(--ff-body);font-size:14px;font-weight:600;color:var(--bg0);
+  background:linear-gradient(135deg,var(--gold-lt),var(--gold));
+  border:none;cursor:pointer;text-decoration:none;
+  clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
+  transition:opacity .2s;
+}
+.nav-cta:hover{opacity:.85}
+
+/* ── JOURNEY DOTS ── */
+#journey{display:none}
+
+/* ── SECTIONS WRAPPER ── */
+section{position:relative;z-index:10}
+
+/* ── HERO ── */
+#hero{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  padding:120px 48px 80px;text-align:center;
+}
+.hero-inner{max-width:900px;margin:0 auto}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--ff-mono);font-size:12px;color:var(--teal);letter-spacing:.12em;text-transform:uppercase;
+  border:1px solid var(--teal-dim);padding:6px 16px;border-radius:100px;margin-bottom:32px;
+}
+.hero-eyebrow-dot{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:glow-pulse 2s ease-in-out infinite}
+.hero-h1{
+  font-family:var(--ff-display);font-size:clamp(44px,8vw,88px);font-weight:800;
+  line-height:1.0;letter-spacing:-.03em;margin-bottom:28px;text-wrap:balance;
+}
+.hero-h1 em{font-style:italic;color:var(--gold)}
+.hero-sub{
+  font-size:clamp(17px,2.2vw,21px);color:var(--text1);max-width:620px;
+  margin:0 auto 48px;line-height:1.65;text-wrap:balance;
+}
+.hero-price-tag{
+  display:inline-flex;align-items:center;gap:12px;
+  background:var(--gold-faint);border:1px solid var(--border);
+  padding:14px 28px;border-radius:100px;margin-bottom:40px;
+}
+.hero-price-tag .price{font-family:var(--ff-display);font-size:32px;font-weight:800;color:var(--gold)}
+.hero-price-tag .price-label{font-size:14px;color:var(--text1);text-align:left;line-height:1.3}
+.hero-price-tag .price-label strong{display:block;color:var(--text0)}
+.hero-cta-row{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:16px 36px;
+  font-family:var(--ff-body);font-size:16px;font-weight:700;color:var(--bg0);
+  background:linear-gradient(135deg,var(--gold-lt),var(--gold));
+  border:none;cursor:pointer;text-decoration:none;
+  clip-path:polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%);
+  animation:cta-pulse 3s ease-in-out infinite;transition:opacity .2s;
+}
+.btn-primary:hover{opacity:.88}
+.btn-secondary{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:15px 32px;
+  font-family:var(--ff-body);font-size:15px;font-weight:500;color:var(--text0);
+  background:transparent;border:1px solid var(--border);
+  clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);
+  text-decoration:none;cursor:pointer;transition:border-color .2s,color .2s;
+}
+.btn-secondary:hover{border-color:var(--gold);color:var(--gold)}
+.hero-trust{margin-top:40px;font-family:var(--ff-mono);font-size:12px;color:var(--text2);letter-spacing:.08em}
+.hero-trust span{color:var(--text1)}
+
+/* ── CUBE scene (decorative) ── */
+.hero-visual{
+  margin:60px auto 0;position:relative;display:flex;
+  align-items:center;justify-content:center;
+}
+.cube-scene{perspective:900px;width:180px;height:180px;position:relative;z-index:2}
+.cube{width:180px;height:180px;transform-style:preserve-3d;animation:cube-rotate 18s linear infinite;position:relative}
+.face{
+  position:absolute;width:180px;height:180px;
+  border:1px solid var(--border);background:rgba(10,15,28,0.9);
+  backface-visibility:hidden;display:flex;align-items:center;justify-content:center;
+  font-family:var(--ff-mono);font-size:11px;color:var(--text2);
+}
+.face-label{text-align:center;line-height:1.6}
+.face.front{transform:translateZ(90px)}
+.face.back{transform:rotateY(180deg) translateZ(90px)}
+.face.right{transform:rotateY(90deg) translateZ(90px)}
+.face.left{transform:rotateY(-90deg) translateZ(90px)}
+.face.top{transform:rotateX(90deg) translateZ(90px)}
+.face.bottom{transform:rotateX(-90deg) translateZ(90px)}
+.cube-ring{
+  position:absolute;width:260px;height:260px;border-radius:50%;
+  border:1px solid var(--gold-dim);animation:ring-spin 20s linear infinite;
+}
+.cube-ring2{
+  position:absolute;width:320px;height:320px;border-radius:50%;
+  border:1px dashed rgba(20,212,168,.15);animation:ring-spin 30s linear infinite reverse;
+}
+
+/* ── PROBLEM ── */
+#problem{padding:120px 48px}
+.section-inner{max-width:1080px;margin:0 auto}
+.section-eyebrow{
+  font-family:var(--ff-mono);font-size:11px;color:var(--teal);letter-spacing:.14em;
+  text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:8px;
+}
+.section-eyebrow::before{content:'';display:block;width:32px;height:1px;background:var(--teal)}
+.section-h2{
+  font-family:var(--ff-display);font-size:clamp(34px,5vw,58px);font-weight:700;
+  line-height:1.1;letter-spacing:-.02em;margin-bottom:20px;text-wrap:balance;
+}
+.section-h2 em{font-style:italic;color:var(--gold)}
+.section-lead{font-size:18px;color:var(--text1);max-width:640px;line-height:1.7;margin-bottom:64px}
+
+/* scatter list */
+.scatter-list{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;
+  margin-bottom:64px;
+}
+.scatter-item{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:16px 20px;background:var(--bg1);border:1px solid var(--border-s);
+  border-radius:var(--r-sm);font-size:15px;color:var(--text1);
+  transition:border-color .2s,color .2s;
+}
+.scatter-item:hover{border-color:var(--border);color:var(--text0)}
+.scatter-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+
+/* search-loop */
+.search-loop-wrap{
+  background:var(--bg1);border:1px solid var(--border);border-radius:var(--r);
+  padding:40px;margin-bottom:64px;
+}
+.search-loop-title{
+  font-family:var(--ff-mono);font-size:12px;color:var(--text2);letter-spacing:.1em;text-transform:uppercase;
+  margin-bottom:24px;
+}
+.search-steps{display:flex;flex-direction:column;gap:0}
+.search-step{
+  display:flex;align-items:flex-start;gap:20px;padding:20px 0;
+  border-bottom:1px solid var(--border-s);
+}
+.search-step:last-child{border-bottom:none}
+.ss-num{
+  font-family:var(--ff-mono);font-size:13px;color:var(--text2);
+  min-width:28px;margin-top:2px;
+}
+.ss-content{flex:1}
+.ss-title{font-size:15px;font-weight:600;color:var(--text0);margin-bottom:4px}
+.ss-desc{font-size:14px;color:var(--text1);line-height:1.6}
+.ss-outcome{
+  font-family:var(--ff-mono);font-size:12px;color:var(--gold);
+  margin-top:8px;padding:4px 10px;background:var(--gold-faint);
+  border:1px solid var(--border);display:inline-block;border-radius:4px;
+}
+
+/* solution cards */
+.sol-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:700px){.sol-grid{grid-template-columns:1fr}}
+.sol-card{
+  padding:36px;background:var(--bg1);border:1px solid var(--border-s);
+  border-radius:var(--r);position:relative;overflow:hidden;
+  transition:border-color .3s,transform .3s;
+}
+.sol-card:hover{border-color:var(--border);transform:translateY(-4px)}
+.sol-card::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at top left,var(--gold-faint) 0%,transparent 70%);
+}
+.sol-card-icon{font-size:28px;margin-bottom:20px}
+.sol-card-h{font-family:var(--ff-display);font-size:24px;font-weight:700;margin-bottom:12px}
+.sol-card-p{font-size:15px;color:var(--text1);line-height:1.7}
+
+/* ── REPORT ── */
+#report{padding:120px 48px;background:linear-gradient(180deg,transparent,var(--bg1) 30%,var(--bg1) 70%,transparent)}
+.report-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:48px}
+@media(max-width:700px){.report-grid{grid-template-columns:1fr}}
+.report-block{
+  padding:32px;background:var(--bg2);border:1px solid var(--border-s);
+  border-radius:var(--r);position:relative;overflow:hidden;
+  transition:border-color .3s,transform .3s;
+}
+.report-block:hover{border-color:var(--border);transform:translateY(-3px)}
+.report-block-header{display:flex;align-items:flex-start;gap:16px;margin-bottom:20px}
+.report-block-letter{
+  font-family:var(--ff-display);font-size:44px;font-weight:900;
+  line-height:1;color:var(--gold-dk);opacity:.4;
+}
+.report-block-meta{flex:1}
+.report-block-tag{
+  font-family:var(--ff-mono);font-size:11px;color:var(--teal);letter-spacing:.1em;
+  text-transform:uppercase;margin-bottom:4px;
+}
+.report-block-title{font-size:18px;font-weight:700;color:var(--text0)}
+.report-question{font-size:15px;color:var(--gold-lt);font-style:italic;margin-bottom:16px;line-height:1.5}
+.report-answers{display:flex;flex-direction:column;gap:8px}
+.report-answer{
+  display:flex;align-items:flex-start;gap:10px;
+  font-size:14px;color:var(--text1);line-height:1.5;
+}
+.report-answer::before{content:'→';color:var(--teal);flex-shrink:0;font-family:var(--ff-mono)}
+.priority-rows{display:flex;flex-direction:column;gap:6px;margin-top:12px}
+.priority-row{
+  display:flex;align-items:center;gap:10px;
+  font-size:13px;color:var(--text1);
+}
+.p-badge{
+  font-family:var(--ff-mono);font-size:10px;font-weight:600;letter-spacing:.08em;
+  padding:2px 8px;border-radius:4px;flex-shrink:0;
+}
+.p-badge.p1{background:rgba(212,160,23,.2);color:var(--gold-lt);border:1px solid var(--border)}
+.p-badge.p2{background:rgba(20,212,168,.15);color:var(--teal);border:1px solid var(--teal-dim)}
+.p-badge.p3{background:rgba(78,75,98,.2);color:var(--text1);border:1px solid var(--border-s)}
+
+/* report intro note */
+.report-intro-note{
+  max-width:680px;font-size:16px;color:var(--text1);line-height:1.8;
+  margin-bottom:8px;
+}
+.report-sample-note{
+  font-family:var(--ff-mono);font-size:12px;color:var(--teal);margin-bottom:0;
+  padding:10px 16px;background:var(--teal-faint);border-left:2px solid var(--teal);
+  display:inline-block;border-radius:0 4px 4px 0;
+}
+
+/* ── BEYOND ── */
+#beyond{padding:120px 48px}
+.beyond-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:48px}
+@media(max-width:700px){.beyond-grid{grid-template-columns:1fr}}
+.beyond-card{
+  padding:44px;background:var(--bg1);
+  border:1px solid var(--border);border-radius:var(--r);
+  position:relative;overflow:hidden;
+  transition:transform .3s,border-color .3s;
+}
+.beyond-card:hover{transform:translateY(-5px);border-color:var(--gold-dim)}
+.beyond-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--gold),var(--teal));
+}
+.beyond-icon{font-size:36px;margin-bottom:24px}
+.beyond-title{font-family:var(--ff-display);font-size:28px;font-weight:700;margin-bottom:8px}
+.beyond-price{font-family:var(--ff-mono);font-size:14px;color:var(--gold);margin-bottom:20px}
+.beyond-desc{font-size:15px;color:var(--text1);line-height:1.75;margin-bottom:24px}
+.beyond-list{display:flex;flex-direction:column;gap:8px}
+.beyond-item{
+  display:flex;align-items:flex-start;gap:10px;
+  font-size:14px;color:var(--text1);
+}
+.beyond-item::before{content:'✓';color:var(--teal);font-weight:700;flex-shrink:0}
+
+/* ── PROCESS ── */
+#process{padding:120px 48px;background:linear-gradient(180deg,transparent,var(--bg1) 30%,var(--bg1) 70%,transparent)}
+.process-track{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+  position:relative;margin-top:64px;
+}
+@media(max-width:768px){
+  .process-track{grid-template-columns:1fr 1fr;gap:24px}
+  .process-connector{display:none}
+}
+.process-step{
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  position:relative;padding:0 16px;
+}
+.process-node{
+  width:64px;height:64px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--ff-display);font-size:22px;font-weight:900;
+  background:var(--bg2);border:2px solid var(--border);
+  color:var(--gold);margin-bottom:24px;position:relative;z-index:2;
+  transition:border-color .3s,box-shadow .3s;
+}
+.process-step:hover .process-node{
+  border-color:var(--gold);box-shadow:0 0 24px var(--gold-dim);
+}
+.process-connector{
+  position:absolute;top:32px;left:50%;right:-50%;height:2px;
+  background:linear-gradient(90deg,var(--gold),var(--teal));z-index:1;
+  transform-origin:left;transform:scaleX(0);transition:transform .8s ease;
+}
+.process-connector.visible{transform:scaleX(1)}
+.process-step-title{font-size:16px;font-weight:700;color:var(--text0);margin-bottom:8px}
+.process-step-desc{font-size:14px;color:var(--text1);line-height:1.6}
+.process-step-time{
+  font-family:var(--ff-mono);font-size:11px;color:var(--teal);
+  margin-top:12px;padding:3px 10px;border:1px solid var(--teal-dim);
+  border-radius:100px;
+}
+
+/* ── WHY ── */
+#why{padding:120px 48px}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px;margin-bottom:48px}
+@media(max-width:768px){.why-grid{grid-template-columns:1fr}}
+.why-pillar{
+  padding:28px;background:var(--bg1);border:1px solid var(--border-s);
+  border-radius:var(--r);transition:border-color .3s,transform .3s;
+}
+.why-pillar:hover{border-color:var(--border);transform:translateY(-3px)}
+.why-pillar-icon{font-size:24px;margin-bottom:16px}
+.why-pillar-h{font-size:16px;font-weight:700;margin-bottom:8px}
+.why-pillar-p{font-size:14px;color:var(--text1);line-height:1.6}
+.why-formula{
+  padding:40px;background:var(--bg1);border:1px solid var(--border);
+  border-radius:var(--r);display:flex;align-items:center;justify-content:center;
+  gap:16px;flex-wrap:wrap;position:relative;overflow:hidden;
+}
+.why-formula::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at center,var(--gold-faint) 0%,transparent 70%);
+}
+.formula-item{
+  text-align:center;position:relative;z-index:1;
+}
+.formula-item-label{
+  font-family:var(--ff-mono);font-size:11px;color:var(--text2);letter-spacing:.08em;
+  text-transform:uppercase;margin-bottom:8px;
+}
+.formula-item-value{
+  font-family:var(--ff-display);font-size:20px;font-weight:700;color:var(--text0);
+  padding:12px 20px;background:var(--bg2);border:1px solid var(--border-s);
+  border-radius:var(--r-sm);white-space:nowrap;
+}
+.formula-op{
+  font-family:var(--ff-display);font-size:32px;font-weight:700;color:var(--gold-dk);
+  position:relative;z-index:1;
+}
+.formula-result{
+  text-align:center;position:relative;z-index:1;
+}
+.formula-result-label{
+  font-family:var(--ff-mono);font-size:11px;color:var(--teal);letter-spacing:.08em;
+  text-transform:uppercase;margin-bottom:8px;
+}
+.formula-result-value{
+  font-family:var(--ff-display);font-size:22px;font-weight:800;color:var(--gold);
+  padding:14px 24px;background:var(--gold-faint);border:1px solid var(--border);
+  border-radius:var(--r-sm);
+}
+
+/* ── CTA ── */
+#cta{
+  padding:140px 48px;text-align:center;
+  background:linear-gradient(180deg,transparent,var(--bg1) 50%);
+}
+.cta-inner{max-width:720px;margin:0 auto}
+.cta-tag{
+  display:inline-block;font-family:var(--ff-mono);font-size:11px;color:var(--gold);
+  letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--border);
+  padding:6px 16px;border-radius:4px;margin-bottom:28px;
+}
+.cta-h2{
+  font-family:var(--ff-display);font-size:clamp(36px,6vw,68px);font-weight:800;
+  line-height:1.05;letter-spacing:-.03em;margin-bottom:24px;text-wrap:balance;
+}
+.cta-h2 em{font-style:italic;color:var(--gold)}
+.cta-sub{font-size:18px;color:var(--text1);line-height:1.7;margin-bottom:48px;max-width:560px;margin-left:auto;margin-right:auto}
+.cta-price-box{
+  display:inline-flex;align-items:center;gap:20px;
+  background:var(--gold-faint);border:1px solid var(--border);
+  padding:20px 40px;border-radius:var(--r);margin-bottom:40px;
+}
+.cta-price-big{font-family:var(--ff-display);font-size:52px;font-weight:900;color:var(--gold);line-height:1}
+.cta-price-detail{text-align:left}
+.cta-price-label{font-size:14px;color:var(--text1)}
+.cta-price-note{font-family:var(--ff-mono);font-size:11px;color:var(--teal);margin-top:4px}
+.cta-btn-row{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap}
+.cta-trust{
+  margin-top:32px;font-family:var(--ff-mono);font-size:12px;color:var(--text2);
+  letter-spacing:.06em;
+}
+.cta-trust a{color:var(--text1);text-decoration:none}
+
+/* ── FOOTER ── */
+footer{
+  border-top:1px solid var(--border-s);padding:48px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;
+  position:relative;z-index:10;
+}
+.footer-brand{font-family:var(--ff-display);font-size:18px;font-weight:700}
+.footer-links{display:flex;gap:24px;flex-wrap:wrap}
+.footer-links a{font-size:13px;color:var(--text2);text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:var(--text1)}
+.footer-copy{font-size:13px;color:var(--text2)}
+
+/* ── ANIMATIONS ── */
+@keyframes cube-rotate{0%{transform:rotateX(-18deg) rotateY(0deg)}100%{transform:rotateX(-18deg) rotateY(360deg)}}
+@keyframes ring-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes glow-pulse{0%,100%{opacity:.6}50%{opacity:1}}
+@keyframes cta-pulse{0%,100%{box-shadow:0 0 0 0 var(--gold-dim)}50%{box-shadow:0 0 32px 8px var(--gold-dim)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}
+@keyframes orb-pulse{0%,100%{transform:scale(1);opacity:.3}50%{transform:scale(1.15);opacity:.5}}
+
+/* ── REVEAL ── */
+.reveal,.reveal-r,.reveal-l{opacity:0;transition:opacity .7s,transform .7s}
+.reveal{transform:translateY(28px)}
+.reveal-r{transform:translateX(40px)}
+.reveal-l{transform:translateX(-40px)}
+.reveal.visible,.reveal-r.visible,.reveal-l.visible{opacity:1;transform:none}
+
+/* ── DECORATIVE ORB ── */
+.orb{
+  position:absolute;border-radius:50%;pointer-events:none;filter:blur(80px);z-index:0;
+}
+.orb-g{width:500px;height:500px;background:radial-gradient(circle,rgba(212,160,23,.12),transparent 70%);animation:orb-pulse 6s ease-in-out infinite}
+.orb-t{width:400px;height:400px;background:radial-gradient(circle,rgba(20,212,168,.08),transparent 70%);animation:orb-pulse 8s ease-in-out infinite reverse}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  nav{padding:16px 24px}
+  #hero,#problem,#report,#beyond,#process,#why,#cta,footer{padding-left:24px;padding-right:24px}
+  .sol-grid,.report-grid,.beyond-grid{grid-template-columns:1fr}
+  .why-grid{grid-template-columns:1fr 1fr}
+  .why-formula{flex-direction:column;align-items:flex-start}
+  .formula-op{transform:rotate(90deg)}
+  #journey{display:none}
+}
+@media(max-width:540px){
+  .why-grid{grid-template-columns:1fr}
+  nav .nav-cta{display:none}
 }
 </style>
 
-<!-- CANVAS BACKGROUND -->
+<!-- PROGRESS BAR -->
+<div id="prog"></div>
+
+<!-- CANVAS -->
 <canvas id="bg-canvas"></canvas>
 
-<!-- PROGRESS BAR -->
-<div id="progress"></div>
+<!-- JOURNEY DOTS -->
+<nav id="journey" aria-label="Section navigation"></nav>
 
 <!-- NAV -->
-<nav id="nav">
-  <div class="logo">Grant<span>Genius</span></div>
-  <a href="#pricing" class="nav-cta">Get My Report — ₹499</a>
+<nav aria-label="Main navigation">
+  <a href="#hero" class="logo">
+    <span class="logo-find">Find</span><span class="logo-my">My</span><span class="logo-schemes">Schemes</span><span class="logo-dot">.info</span>
+  </a>
+  <a href="https://forms.cloud.microsoft/r/TGxwnHcj0G" target="_blank" rel="noopener" class="nav-cta">Get the Report — ₹499 →</a>
 </nav>
 
-<!-- JOURNEY NAV -->
-<aside id="journey-nav" aria-hidden="true">
-  <div class="jdot active" data-sec="hero" title="Home"></div>
-  <div class="jline"></div>
-  <div class="jdot" data-sec="problem" title="The Challenge"></div>
-  <div class="jline"></div>
-  <div class="jdot" data-sec="categories" title="Opportunities"></div>
-  <div class="jline"></div>
-  <div class="jdot" data-sec="report" title="Your Report"></div>
-  <div class="jline"></div>
-  <div class="jdot" data-sec="process" title="How It Works"></div>
-  <div class="jline"></div>
-  <div class="jdot" data-sec="pricing" title="Get Started"></div>
-</aside>
-
-<main>
-
-<!-- ═══ HERO ═══ -->
+<!-- ═══════════ HERO ═══════════ -->
 <section id="hero">
-  <div class="hero-grid">
-    <!-- TEXT -->
-    <div class="hero-text">
-      <p class="hero-eyebrow">Government Benefits Research</p>
-      <h1 class="hero-h1">
-        Built Your<br>Business.<br>
-        <em>Find What's<br>Owed to You.</em>
-      </h1>
-      <p class="hero-sub">Somewhere across Central Government schemes, State Government incentives, subsidies, grants and beneficial policies — there may be meaningful support available specifically for your business. Most founders never claim it.</p>
-      <div class="hero-actions">
-        <a href="#pricing" class="btn-primary">Find My Benefits — ₹499</a>
-        <a href="#process" class="btn-ghost">See How It Works ↓</a>
-      </div>
-      <p class="hero-meta">₹499 · One Personalised Report · Multiple Opportunities</p>
+  <div class="orb orb-g" style="top:-100px;left:50%;transform:translateX(-50%)"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">
+      <span class="hero-eyebrow-dot"></span>
+      Government Scheme Discovery for Businesses
     </div>
-
-    <!-- 3D ELEMENT -->
-    <div class="hero-3d-wrap" aria-hidden="true">
-      <div class="cube-rings">
-        <div class="ring ring-1"></div>
-        <div class="ring ring-2"></div>
-        <div class="ring ring-3"></div>
+    <h1 class="hero-h1">Tell us what<br>you're planning.<br><em>We find what's available.</em></h1>
+    <p class="hero-sub">
+      A ₹499 research report — delivered in 72 hours — that maps every government scheme, subsidy, and incentive that applies to your specific business plan.
+    </p>
+    <div class="hero-price-tag">
+      <span class="price">₹499</span>
+      <div class="price-label">
+        <strong>Flat fee. No upsells.</strong>
+        Delivered in 72 hours
       </div>
+    </div>
+    <div class="hero-cta-row">
+      <a href="https://forms.cloud.microsoft/r/TGxwnHcj0G" target="_blank" rel="noopener" class="btn-primary">Order Your Report →</a>
+      <a href="#report" class="btn-secondary">See What's Inside</a>
+    </div>
+    <p class="hero-trust">Trusted by founders, operators, and MSMEs across India — <span>₹499, flat fee</span></p>
+
+    <div class="hero-visual">
+      <div class="cube-ring2"></div>
+      <div class="cube-ring"></div>
       <div class="cube-scene">
-        <div class="cube" id="hero-cube">
-          <div class="face front">
-            <div class="face-content">
-              <div class="face-icon">◈</div>
-              <div class="face-label">GRANTS</div>
-            </div>
-          </div>
-          <div class="face back">
-            <div class="face-content">
-              <div class="face-icon">◎</div>
-              <div class="face-label">SUBSIDIES</div>
-            </div>
-          </div>
-          <div class="face right">
-            <div class="face-content">
-              <div class="face-icon">◇</div>
-              <div class="face-label">INCENTIVES</div>
-            </div>
-          </div>
-          <div class="face left">
-            <div class="face-content">
-              <div class="face-icon">○</div>
-              <div class="face-label">SCHEMES</div>
-            </div>
-          </div>
-          <div class="face top">
-            <div class="face-content">
-              <div class="face-icon">◆</div>
-              <div class="face-label">POLICIES</div>
-            </div>
-          </div>
-          <div class="face bottom">
-            <div class="face-content">
-              <div class="face-icon">●</div>
-              <div class="face-label">BENEFITS</div>
-            </div>
-          </div>
+        <div class="cube">
+          <div class="face front"><div class="face-label">Central<br>Schemes</div></div>
+          <div class="face back"><div class="face-label">State<br>Subsidies</div></div>
+          <div class="face right"><div class="face-label">MSME<br>Grants</div></div>
+          <div class="face left"><div class="face-label">Sector<br>Funds</div></div>
+          <div class="face top"><div class="face-label">Tax<br>Benefits</div></div>
+          <div class="face bottom"><div class="face-label">PLI<br>Schemes</div></div>
         </div>
       </div>
-      <div class="cube-glow"></div>
     </div>
-  </div>
-
-  <!-- SCROLL HINT -->
-  <div class="scroll-hint" onclick="document.getElementById('problem').scrollIntoView({behavior:'smooth'})">
-    <span>Scroll</span>
-    <div class="scroll-arrow"></div>
   </div>
 </section>
 
-<!-- ═══ PROBLEM ═══ -->
-<div class="s-divider"></div>
+<!-- ═══════════ PROBLEM ═══════════ -->
 <section id="problem">
   <div class="section-inner">
-    <div class="problem-grid">
-      <div>
-        <p class="eyebrow reveal">The Challenge</p>
-        <h2 class="problem-h2 reveal delay-1">The Government Has Created the Support.<br>Most Businesses Don't Know It Exists.</h2>
-        <p class="problem-body reveal delay-2">There are hundreds of Central and State schemes designed specifically for businesses at every stage — capital investment, hiring, export, manufacturing, technology, women-led enterprises, MSMEs and more. The problem isn't eligibility. It's awareness.</p>
-        <div class="problem-stat reveal delay-3">
-          <div class="problem-stat-num" id="scheme-count" data-target="1000">0</div>
-          <div class="problem-stat-label">Schemes tracked across Central + State portals</div>
+    <p class="section-eyebrow">The Problem</p>
+    <h2 class="section-h2">The information is out there.<br><em>Finding it is the problem.</em></h2>
+    <p class="section-lead">India has thousands of active government schemes. Founders don't know most of them exist. The ones who claim to know are often guessing.</p>
+
+    <div class="scatter-list reveal">
+      <div class="scatter-item"><span class="scatter-icon">📄</span>Schemes buried in ministry PDFs no one reads</div>
+      <div class="scatter-item"><span class="scatter-icon">🗺️</span>State-level benefits that few mention</div>
+      <div class="scatter-item"><span class="scatter-icon">📋</span>Sector-specific funds invisible to generalist advisors</div>
+      <div class="scatter-item"><span class="scatter-icon">⏰</span>Deadlines that pass before anyone hears about them</div>
+      <div class="scatter-item"><span class="scatter-icon">🔄</span>Schemes that changed eligibility — the old version gets shared</div>
+      <div class="scatter-item"><span class="scatter-icon">🏢</span>Consultants who charge ₹50,000+ just to identify options</div>
+    </div>
+
+    <div class="search-loop-wrap reveal">
+      <p class="search-loop-title">// What usually happens</p>
+      <div class="search-steps">
+        <div class="search-step">
+          <span class="ss-num">01</span>
+          <div class="ss-content">
+            <div class="ss-title">Start with a generic Google search</div>
+            <div class="ss-desc">"Government schemes for food business India" — gets a list of 15 schemes, 4 of which were discontinued in 2021.</div>
+            <span class="ss-outcome">→ Unreliable results</span>
+          </div>
+        </div>
+        <div class="search-step">
+          <span class="ss-num">02</span>
+          <div class="ss-content">
+            <div class="ss-title">Ask a CA or consultant</div>
+            <div class="ss-desc">They know tax. They may know a couple of MSME schemes. Sector-specific, state-specific, or novel schemes? Usually not their focus.</div>
+            <span class="ss-outcome">→ Partial picture at best</span>
+          </div>
+        </div>
+        <div class="search-step">
+          <span class="ss-num">03</span>
+          <div class="ss-content">
+            <div class="ss-title">Browse individual ministry portals</div>
+            <div class="ss-desc">40+ portals. Each with its own search logic. No aggregated view. Eligibility criteria scattered across 12-page PDFs.</div>
+            <span class="ss-outcome">→ Hours lost, still incomplete</span>
+          </div>
+        </div>
+        <div class="search-step">
+          <span class="ss-num">04</span>
+          <div class="ss-content">
+            <div class="ss-title">Give up or proceed without the full picture</div>
+            <div class="ss-desc">Most founders move forward without knowing what they were eligible for. Some learn later. Most never do.</div>
+            <span class="ss-outcome">→ Opportunity missed</span>
+          </div>
         </div>
       </div>
-      <div class="pain-cards">
-        <div class="pain-card tilt-card reveal delay-2">
-          <div class="pain-card-head">Scattered Across Portals</div>
-          <div class="pain-card-body">Central schemes live on one set of ministries. State incentives live on another. Sector-specific programs sit somewhere else entirely. No one has mapped it for your business.</div>
-        </div>
-        <div class="pain-card tilt-card reveal delay-3">
-          <div class="pain-card-head">Eligibility is Layered</div>
-          <div class="pain-card-body">Whether you qualify depends on your industry, location, business age, turnover, investment level, hiring plans, and what you intend to do next. Generic lists don't account for any of this.</div>
-        </div>
-        <div class="pain-card tilt-card reveal delay-4">
-          <div class="pain-card-head">Founders Don't Have Time</div>
-          <div class="pain-card-body">Running a business is already a full-time job. Researching government schemes requires hours of reading complex policy documents most founders simply cannot spare.</div>
-        </div>
+    </div>
+
+    <div class="sol-grid">
+      <div class="sol-card reveal-l">
+        <div class="sol-card-icon">🎯</div>
+        <h3 class="sol-card-h">What FindMySchemes does</h3>
+        <p class="sol-card-p">Tell us what you're building — sector, location, business stage, investment size, category. A dedicated research team maps every applicable scheme across central government, state government, sector-specific bodies, and financial institutions — and delivers a structured report within 72 hours.</p>
+      </div>
+      <div class="sol-card reveal-r">
+        <div class="sol-card-icon">📊</div>
+        <h3 class="sol-card-h">What the report looks like</h3>
+        <p class="sol-card-p">Not a general list. A specific, prioritised map of schemes that match your actual situation — with eligibility, benefit type, estimated value, how to apply, and what to prepare. Organised by priority so it's immediately actionable.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══ CATEGORIES ═══ -->
-<div class="s-divider"></div>
-<section id="categories">
-  <div class="section-inner">
-    <div class="cat-header">
-      <p class="eyebrow reveal">Opportunities</p>
-      <h2 class="cat-h2 reveal delay-1">Support Exists Across Every Stage<br>of the Business Journey.</h2>
-      <p class="cat-sub reveal delay-2">Eligibility depends on your business, industry, location, size, investment and plans. Tell us about your business — we do the filtering.</p>
-    </div>
-    <div class="cat-grid">
-      <div class="cat-card tilt-card reveal delay-1"><div class="cat-icon">🏗</div><div class="cat-name">Starting a Business</div></div>
-      <div class="cat-card tilt-card reveal delay-2"><div class="cat-icon">💰</div><div class="cat-name">Capital Investment</div></div>
-      <div class="cat-card tilt-card reveal delay-3"><div class="cat-icon">⚙️</div><div class="cat-name">Machinery & Equipment</div></div>
-      <div class="cat-card tilt-card reveal delay-4"><div class="cat-icon">📈</div><div class="cat-name">Business Expansion</div></div>
-      <div class="cat-card tilt-card reveal delay-2"><div class="cat-icon">👥</div><div class="cat-name">Employment & Hiring</div></div>
-      <div class="cat-card tilt-card reveal delay-3"><div class="cat-icon">💡</div><div class="cat-name">Technology & Innovation</div></div>
-      <div class="cat-card tilt-card reveal delay-4"><div class="cat-icon">🌐</div><div class="cat-name">Exports</div></div>
-      <div class="cat-card tilt-card reveal delay-5"><div class="cat-icon">🏭</div><div class="cat-name">Food Processing & Manufacturing</div></div>
-      <div class="cat-card tilt-card reveal delay-3"><div class="cat-icon">☀️</div><div class="cat-name">Renewable Energy</div></div>
-      <div class="cat-card tilt-card reveal delay-4"><div class="cat-icon">🔖</div><div class="cat-name">MSME Development</div></div>
-      <div class="cat-card tilt-card reveal delay-5"><div class="cat-icon">♀</div><div class="cat-name">Women & Entrepreneurship</div></div>
-      <div class="cat-card tilt-card reveal delay-6"><div class="cat-icon">📍</div><div class="cat-name">Industry & Location Incentives</div></div>
-    </div>
-    <p class="cat-footer reveal">Just tell us about your business · We identify what's relevant to you</p>
-  </div>
-</section>
-
-<!-- ═══ REPORT ═══ -->
-<div class="s-divider"></div>
+<!-- ═══════════ REPORT ═══════════ -->
 <section id="report">
   <div class="section-inner">
+    <div class="orb orb-t" style="top:-80px;right:-100px"></div>
+    <p class="section-eyebrow">What's Inside</p>
+    <h2 class="section-h2">Six sections.<br><em>One complete picture.</em></h2>
+    <p class="report-intro-note">Every FindMySchemes report covers six structured sections — built around your specific business plan, not a generic template.</p>
+    <p class="report-sample-note reveal">// Sample structure — actual report is tailored to your submitted details</p>
+
     <div class="report-grid">
-      <div>
-        <p class="eyebrow reveal">What You Get</p>
-        <h2 class="report-h2 reveal delay-1">One Report.<br>All Relevant Opportunities.</h2>
-        <p class="report-price-tag reveal delay-2">Personalised for your business · ₹499</p>
-        <div class="report-items">
-          <div class="report-item reveal delay-2">
-            <div class="ri-check">✓</div>
-            <div><div class="ri-title">Relevant Schemes</div><div class="ri-body">Government schemes, subsidies, grants, incentives and beneficial policies relevant to your business — not a generic list.</div></div>
+
+      <!-- A -->
+      <div class="report-block reveal">
+        <div class="report-block-header">
+          <div class="report-block-letter">A</div>
+          <div class="report-block-meta">
+            <div class="report-block-tag">Section A</div>
+            <div class="report-block-title">Business Snapshot & Eligibility Profile</div>
           </div>
-          <div class="report-item reveal delay-3">
-            <div class="ri-check">✓</div>
-            <div><div class="ri-title">Eligibility</div><div class="ri-body">Why your business may qualify and the key eligibility conditions you need to meet for each opportunity.</div></div>
-          </div>
-          <div class="report-item reveal delay-4">
-            <div class="ri-check">✓</div>
-            <div><div class="ri-title">Benefits</div><div class="ri-body">What each scheme offers — the nature of the subsidy, incentive, grant, reimbursement or other benefit.</div></div>
-          </div>
-          <div class="report-item reveal delay-4">
-            <div class="ri-check">✓</div>
-            <div><div class="ri-title">Application Process</div><div class="ri-body">Where and how to apply, with the process explained in simple, actionable steps.</div></div>
-          </div>
-          <div class="report-item reveal delay-5">
-            <div class="ri-check">✓</div>
-            <div><div class="ri-title">Documents Checklist</div><div class="ri-body">The registrations, documents and information generally required for each application.</div></div>
-          </div>
-          <div class="report-item reveal delay-5">
-            <div class="ri-check">✓</div>
-            <div><div class="ri-title">Important Conditions</div><div class="ri-body">Key restrictions, timelines, investment conditions and factors to know before applying.</div></div>
-          </div>
-          <div class="report-item reveal delay-6">
-            <div class="ri-check">✓</div>
-            <div><div class="ri-title">Official Sources</div><div class="ri-body">Relevant government departments, portals and application sources to help take the next step.</div></div>
-          </div>
+        </div>
+        <p class="report-question">"Based on what you've told us — here's what your business looks like through a scheme-eligibility lens."</p>
+        <div class="report-answers">
+          <div class="report-answer">How government bodies would classify your business</div>
+          <div class="report-answer">Eligibility-relevant attributes (location, category, scale, sector)</div>
+          <div class="report-answer">Which portals and ministries are most relevant to your plan</div>
         </div>
       </div>
 
-      <!-- REPORT MOCKUP -->
-      <div class="report-mockup reveal-r delay-2">
-        <div class="report-card-3d" id="report-card-3d">
-          <div class="report-card">
-            <div class="rc-header">
-              <div class="rc-logo-mark">GG</div>
-              <div class="rc-header-text">Government Benefits Report<br>Personalised Assessment</div>
-            </div>
-            <div class="rc-biz">
-              <div class="rc-biz-name">Meridian Food Products Pvt. Ltd.</div>
-              <div class="rc-biz-meta">FOOD PROCESSING · MAHARASHTRA · 3 YRS · MSME</div>
-            </div>
-            <div class="rc-schemes">
-              <div class="rc-scheme">
-                <div class="rc-scheme-name">PLI Scheme — Food Processing</div>
-                <div class="rc-scheme-tag">CENTRAL · CAPITAL SUBSIDY</div>
-              </div>
-              <div class="rc-scheme">
-                <div class="rc-scheme-name">Maharashtra Package Scheme of Incentives</div>
-                <div class="rc-scheme-tag">STATE · EMPLOYMENT + ELECTRICITY</div>
-              </div>
-              <div class="rc-scheme">
-                <div class="rc-scheme-name">CGTMSE — Collateral-Free Credit</div>
-                <div class="rc-scheme-tag">CENTRAL · MSME CREDIT</div>
-              </div>
-              <div class="rc-blur-row"></div>
-              <div class="rc-blur-row" style="width:70%"></div>
-            </div>
-            <div class="rc-stamp">Grant<br>Genius</div>
+      <!-- B -->
+      <div class="report-block reveal">
+        <div class="report-block-header">
+          <div class="report-block-letter">B</div>
+          <div class="report-block-meta">
+            <div class="report-block-tag">Section B</div>
+            <div class="report-block-title">Priority Scheme Matches</div>
           </div>
+        </div>
+        <p class="report-question">"These are the schemes most likely to benefit you — ranked by potential value and application feasibility."</p>
+        <div class="priority-rows">
+          <div class="priority-row"><span class="p-badge p1">Priority 1</span> High-value, high-eligibility matches — apply first</div>
+          <div class="priority-row"><span class="p-badge p2">Priority 2</span> Meaningful benefit, worth reviewing and preparing</div>
+          <div class="priority-row"><span class="p-badge p3">Priority 3</span> Conditional or lower-probability — flagged for awareness</div>
+        </div>
+      </div>
+
+      <!-- C -->
+      <div class="report-block reveal">
+        <div class="report-block-header">
+          <div class="report-block-letter">C</div>
+          <div class="report-block-meta">
+            <div class="report-block-tag">Section C</div>
+            <div class="report-block-title">Per-Scheme Detail</div>
+          </div>
+        </div>
+        <p class="report-question">"For each matched scheme — everything needed to assess it and decide whether to apply."</p>
+        <div class="report-answers">
+          <div class="report-answer">Scheme name, administering body, and official source</div>
+          <div class="report-answer">Benefit type (grant, subsidy, loan, tax relief, certification)</div>
+          <div class="report-answer">Estimated benefit value or range</div>
+          <div class="report-answer">Eligibility criteria — what qualifies and what doesn't</div>
+          <div class="report-answer">Application window and deadline (if applicable)</div>
+          <div class="report-answer">Documents typically required</div>
+          <div class="report-answer">Estimated timeline from application to benefit</div>
+        </div>
+      </div>
+
+      <!-- D -->
+      <div class="report-block reveal">
+        <div class="report-block-header">
+          <div class="report-block-letter">D</div>
+          <div class="report-block-meta">
+            <div class="report-block-tag">Section D</div>
+            <div class="report-block-title">Preparation Checklist</div>
+          </div>
+        </div>
+        <p class="report-question">"What to get ready before applying — organised by scheme so nothing is missed."</p>
+        <div class="report-answers">
+          <div class="report-answer">Registration requirements (Udyam, FSSAI, GeM, sector-specific)</div>
+          <div class="report-answer">Documentation gaps to address before applications open</div>
+          <div class="report-answer">Structural or business-setup steps that affect eligibility</div>
+          <div class="report-answer">Quick wins — actions that unlock multiple schemes at once</div>
+        </div>
+      </div>
+
+      <!-- E -->
+      <div class="report-block reveal">
+        <div class="report-block-header">
+          <div class="report-block-letter">E</div>
+          <div class="report-block-meta">
+            <div class="report-block-tag">Section E</div>
+            <div class="report-block-title">State & Local Schemes</div>
+          </div>
+        </div>
+        <p class="report-question">"Central schemes get the attention. State schemes often deliver more — and have less competition."</p>
+        <div class="report-answers">
+          <div class="report-answer">State industrial policy incentives relevant to your sector</div>
+          <div class="report-answer">District-level or SIDCO/SIDC schemes (where applicable)</div>
+          <div class="report-answer">Land, power, and infrastructure subsidies from state bodies</div>
+          <div class="report-answer">State-specific schemes that overlap or stack with central schemes</div>
+        </div>
+      </div>
+
+      <!-- F -->
+      <div class="report-block reveal">
+        <div class="report-block-header">
+          <div class="report-block-letter">F</div>
+          <div class="report-block-meta">
+            <div class="report-block-tag">Section F</div>
+            <div class="report-block-title">Application Sequence & Next Steps</div>
+          </div>
+        </div>
+        <p class="report-question">"What to do, in what order, and what to watch for — so the report becomes a working action plan."</p>
+        <div class="report-answers">
+          <div class="report-answer">Suggested sequence — which schemes to pursue first and why</div>
+          <div class="report-answer">Dependency flags — where one approval unlocks another</div>
+          <div class="report-answer">Timing considerations — schemes with near deadlines or windows</div>
+          <div class="report-answer">Notes on schemes where professional support is worth considering</div>
+        </div>
+      </div>
+
+    </div><!-- /report-grid -->
+  </div>
+</section>
+
+<!-- ═══════════ BEYOND ═══════════ -->
+<section id="beyond">
+  <div class="section-inner">
+    <p class="section-eyebrow">Beyond the Report</p>
+    <h2 class="section-h2">Need help applying?<br><em>There's support for that too.</em></h2>
+    <p class="section-lead">The report tells you what to pursue. If needed, the team can help with what comes next — available as separate, paid services.</p>
+
+    <div class="beyond-grid">
+      <div class="beyond-card reveal-l">
+        <div class="beyond-icon">🧭</div>
+        <h3 class="beyond-title">Scheme Navigation Call</h3>
+        <p class="beyond-price">₹999 · 45-minute video call</p>
+        <p class="beyond-desc">A focused session with a scheme research specialist to walk through the report — prioritise the right schemes, clarify eligibility questions, and build a clear next-steps plan.</p>
+        <div class="beyond-list">
+          <div class="beyond-item">Walk through every Priority 1 and Priority 2 scheme in the report</div>
+          <div class="beyond-item">Answer eligibility questions specific to the business situation</div>
+          <div class="beyond-item">Identify which schemes to pursue first and in what sequence</div>
+          <div class="beyond-item">Flag documentation gaps before applications are submitted</div>
+          <div class="beyond-item">Recording provided after the call</div>
+        </div>
+      </div>
+      <div class="beyond-card reveal-r">
+        <div class="beyond-icon">📝</div>
+        <h3 class="beyond-title">Application Support Package</h3>
+        <p class="beyond-price">Custom pricing · Per scheme</p>
+        <p class="beyond-desc">End-to-end support for submitting applications to specific schemes — from document preparation to portal submission. Pricing varies by scheme complexity and is quoted after the report is delivered.</p>
+        <div class="beyond-list">
+          <div class="beyond-item">Document checklist and gap analysis for the chosen scheme</div>
+          <div class="beyond-item">Drafting of required applications, forms, and project reports</div>
+          <div class="beyond-item">Portal registration and submission support</div>
+          <div class="beyond-item">Follow-up tracking until the application is acknowledged</div>
+          <div class="beyond-item">Available for both central and state-level schemes</div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══ PROCESS ═══ -->
-<div class="s-divider"></div>
+<!-- ═══════════ PROCESS ═══════════ -->
 <section id="process">
   <div class="section-inner">
-    <p class="eyebrow reveal">How It Works</p>
-    <h2 class="process-h2 reveal delay-1">Simple Information.<br>Personalised Research.</h2>
-    <p class="process-sub reveal delay-2">No scheme knowledge required. No government terminology. Just basic information about your business.</p>
+    <p class="section-eyebrow">How It Works</p>
+    <h2 class="section-h2">Four steps.<br><em>72 hours to clarity.</em></h2>
 
     <div class="process-track">
-      <div class="process-line"><div class="process-line-fill" id="proc-line"></div></div>
-      <div class="process-steps">
-        <div class="process-step reveal delay-1">
-          <div class="step-orb">1</div>
-          <div class="step-title">Tell Us About Your Business</div>
-          <div class="step-desc">Complete a simple assessment — who you are, what you do, where you operate, your business stage, and what you're planning.</div>
-        </div>
-        <div class="process-step reveal delay-2">
-          <div class="step-orb">2</div>
-          <div class="step-title">We Research Your Opportunities</div>
-          <div class="step-desc">We study your profile against Central and State schemes, subsidies, grants and policies to identify what's relevant to your business.</div>
-        </div>
-        <div class="process-step reveal delay-3">
-          <div class="step-orb">3</div>
-          <div class="step-title">We Prepare Your Report</div>
-          <div class="step-desc">A consolidated, personalised report of opportunities is prepared — covering eligibility, benefits, process and documents for each.</div>
-        </div>
-        <div class="process-step reveal delay-4">
-          <div class="step-orb">4</div>
-          <div class="step-title">Know Your Next Steps</div>
-          <div class="step-desc">Receive a clear picture of what's available, what applies, and exactly how to pursue the opportunities relevant to your business.</div>
-        </div>
+
+      <div class="process-step reveal">
+        <div class="process-node">1</div>
+        <div class="process-connector"></div>
+        <h3 class="process-step-title">Submit Details</h3>
+        <p class="process-step-desc">Fill out the business brief — sector, state, stage, planned investment, category, and anything else relevant.</p>
+        <span class="process-step-time">~10 minutes</span>
+      </div>
+
+      <div class="process-step reveal">
+        <div class="process-node">2</div>
+        <div class="process-connector"></div>
+        <h3 class="process-step-title">Pay ₹499</h3>
+        <p class="process-step-desc">A one-time flat fee. No subscriptions, no hidden charges, no commission on schemes applied for later.</p>
+        <span class="process-step-time">Instant confirmation</span>
+      </div>
+
+      <div class="process-step reveal">
+        <div class="process-node">3</div>
+        <div class="process-connector"></div>
+        <h3 class="process-step-title">Research & Mapping</h3>
+        <p class="process-step-desc">The team maps the business against active central, state, and sector schemes — checking eligibility, benefit value, and application feasibility.</p>
+        <span class="process-step-time">Within 72 hours</span>
+      </div>
+
+      <div class="process-step reveal">
+        <div class="process-node">4</div>
+        <h3 class="process-step-title">Report Delivered</h3>
+        <p class="process-step-desc">A structured PDF report with six sections — delivered by email, ready to act on immediately.</p>
+        <span class="process-step-time">PDF via email</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ WHY ═══════════ -->
+<section id="why">
+  <div class="section-inner">
+    <p class="section-eyebrow">Why FindMySchemes</p>
+    <h2 class="section-h2">Not a consultant.<br><em>Not a portal. Something different.</em></h2>
+    <p class="section-lead">FindMySchemes is a specialised scheme discovery and application-support platform. The research is done by a team that works on this full-time — not a generalist who handles it alongside other work.</p>
+
+    <div class="why-grid">
+      <div class="why-pillar reveal">
+        <div class="why-pillar-icon">🎯</div>
+        <h3 class="why-pillar-h">Specific to the business</h3>
+        <p class="why-pillar-p">The report maps schemes against actual submitted details — sector, location, stage, investment size. Not a generic list of popular schemes.</p>
+      </div>
+      <div class="why-pillar reveal">
+        <div class="why-pillar-icon">✅</div>
+        <h3 class="why-pillar-h">Current and verified</h3>
+        <p class="why-pillar-p">Schemes are checked for active status, current eligibility criteria, and open application windows at the time of the report — not sourced from outdated lists.</p>
+      </div>
+      <div class="why-pillar reveal">
+        <div class="why-pillar-icon">📋</div>
+        <h3 class="why-pillar-h">Actionable from day one</h3>
+        <p class="why-pillar-p">Section F provides a clear application sequence — not just information, but a working plan for what to do next, in what order, and what to watch for.</p>
+      </div>
+      <div class="why-pillar reveal">
+        <div class="why-pillar-icon">💰</div>
+        <h3 class="why-pillar-h">Flat fee — no surprises</h3>
+        <p class="why-pillar-p">₹499 for the full research report. No commission, no referral fees, no upsell hidden in the process. Additional services are separate and clearly priced.</p>
+      </div>
+      <div class="why-pillar reveal">
+        <div class="why-pillar-icon">🗺️</div>
+        <h3 class="why-pillar-h">Central + State coverage</h3>
+        <p class="why-pillar-p">Most advisors know the headline central schemes. State-level schemes — which often have more value and less competition — are a core part of every report.</p>
+      </div>
+      <div class="why-pillar reveal">
+        <div class="why-pillar-icon">⚡</div>
+        <h3 class="why-pillar-h">72-hour delivery</h3>
+        <p class="why-pillar-p">The research is done by a dedicated team working on this full-time. Most reports are delivered within 72 hours of payment confirmation.</p>
+      </div>
+    </div>
+
+    <div class="why-formula reveal">
+      <div class="formula-item">
+        <div class="formula-item-label">Business Details</div>
+        <div class="formula-item-value">Submitted Brief</div>
+      </div>
+      <div class="formula-op">+</div>
+      <div class="formula-item">
+        <div class="formula-item-label">Expert Research</div>
+        <div class="formula-item-value">72-Hour Deep Dive</div>
+      </div>
+      <div class="formula-op">+</div>
+      <div class="formula-item">
+        <div class="formula-item-label">Structured Output</div>
+        <div class="formula-item-value">6-Section Report</div>
+      </div>
+      <div class="formula-op">=</div>
+      <div class="formula-result">
+        <div class="formula-result-label">Complete Clarity</div>
+        <div class="formula-result-value">Every scheme mapped. Prioritised. Ready to act.</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══ PRICING ═══ -->
-<div class="s-divider"></div>
-<section id="pricing">
-  <div class="pricing-inner">
-    <p class="pricing-overline reveal">Get Started</p>
-    <h2 class="pricing-h2 reveal delay-1">
-      Find Out What<br><em>Your Business</em><br>Can Get Back.
-    </h2>
-    <p class="pricing-sub reveal delay-2">Tell us about your business. We'll study your profile and send a personalised report of the schemes, subsidies, grants and beneficial policies that may apply to your company.</p>
-
-    <div class="reveal delay-3">
-      <div class="price-display">
-        <span class="price-currency">₹</span>
-        <span class="price-amount">499</span>
+<!-- ═══════════ CTA ═══════════ -->
+<section id="cta">
+  <div class="orb orb-g" style="bottom:-100px;left:50%;transform:translateX(-50%)"></div>
+  <div class="cta-inner">
+    <span class="cta-tag">₹499 · 72-Hour Delivery · No Subscriptions</span>
+    <h2 class="cta-h2">Stop guessing what<br>the government offers.<br><em>Find out.</em></h2>
+    <p class="cta-sub">A dedicated research team maps every applicable central, state, and sector scheme against the submitted business plan — and delivers a structured, prioritised report in 72 hours.</p>
+    <div class="cta-price-box">
+      <div class="cta-price-big">₹499</div>
+      <div class="cta-price-detail">
+        <div class="cta-price-label">One-time flat fee<br>Full 6-section research report</div>
+        <div class="cta-price-note">Delivered in 72 hours · PDF via email</div>
       </div>
-      <div class="price-label">One report · Multiple opportunities</div>
     </div>
-
-    <div class="pricing-includes reveal delay-4">
-      <span class="pi-tag">Relevant Schemes</span>
-      <span class="pi-tag">Eligibility</span>
-      <span class="pi-tag">Benefits</span>
-      <span class="pi-tag">Application Process</span>
-      <span class="pi-tag">Documents Checklist</span>
-      <span class="pi-tag">Important Conditions</span>
-      <span class="pi-tag">Official Sources</span>
+    <div class="cta-btn-row">
+      <a href="https://forms.cloud.microsoft/r/TGxwnHcj0G" target="_blank" rel="noopener" class="btn-primary">Order the Report — ₹499 →</a>
+      <a href="#report" class="btn-secondary">See What's Inside</a>
     </div>
-
-    <div class="reveal delay-5">
-      <a href="#" class="btn-cta-big">Find Benefits for My Business →</a>
-      <p class="pricing-disclaimer">₹499 is for the research and report. Eligibility does not guarantee approval or receipt of any government benefit. Final eligibility, sanction and benefit are determined by the respective government authority.</p>
-    </div>
+    <p class="cta-trust">Questions? Write to <a href="mailto:hello@findmyschemes.info">hello@findmyschemes.info</a></p>
   </div>
 </section>
 
-</main>
-
+<!-- FOOTER -->
 <footer>
-  <div class="footer-logo">GrantGenius</div>
-  <div class="footer-note">Research &amp; Information · Not Legal or Financial Advice · Government Scheme Eligibility Determined by Respective Authorities</div>
+  <div class="footer-brand">
+    <span style="color:var(--text0)">Find</span><span style="color:var(--gold)">My</span><span style="color:var(--text0)">Schemes</span><span style="color:var(--teal);font-size:14px">.info</span>
+  </div>
+  <div class="footer-links">
+    <a href="#problem">How It Works</a>
+    <a href="#report">The Report</a>
+    <a href="#beyond">Services</a>
+    <a href="mailto:hello@findmyschemes.info">Contact</a>
+  </div>
+  <p class="footer-copy">© 2024 FindMySchemes. All rights reserved.</p>
 </footer>
 
 <script>
-// ─── CANVAS BACKGROUND ───
-(function() {
-  const canvas = document.getElementById('bg-canvas');
-  const ctx = canvas.getContext('2d');
-  let W, H, particles = [], mouse = {x:0, y:0};
-  const GOLD = 'rgba(212,160,23,';
-  const TEAL = 'rgba(20,212,168,';
+// ── PROGRESS BAR ──
+const prog = document.getElementById('prog');
+window.addEventListener('scroll', () => {
+  const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  prog.style.width = Math.min(pct, 100) + '%';
+}, { passive: true });
+
+// ── CANVAS PARTICLES ──
+(function () {
+  const cv = document.getElementById('bg-canvas');
+  const cx = cv.getContext('2d');
+  let W, H, particles = [];
+  const GOLD = 'rgba(212,160,23,', TEAL = 'rgba(20,212,168,';
+  const SHAPES = ['circle', 'diamond', 'triangle'];
 
   function resize() {
-    W = canvas.width = window.innerWidth;
-    H = canvas.height = window.innerHeight;
+    W = cv.width = window.innerWidth;
+    H = cv.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function mkPart() {
+    const col = Math.random() > .5 ? GOLD : TEAL;
+    return {
+      x: Math.random() * W, y: Math.random() * H,
+      r: 2 + Math.random() * 4,
+      vx: (Math.random() - .5) * .3,
+      vy: (Math.random() - .5) * .3,
+      a: .15 + Math.random() * .35,
+      shape: SHAPES[Math.floor(Math.random() * 3)],
+      col
+    };
   }
 
-  function Particle() {
-    this.reset();
-  }
-  Particle.prototype.reset = function() {
-    this.x = Math.random() * W;
-    this.y = Math.random() * H;
-    this.vx = (Math.random() - 0.5) * 0.3;
-    this.vy = (Math.random() - 0.5) * 0.3;
-    this.size = Math.random() * 2.5 + 0.5;
-    this.alpha = Math.random() * 0.12 + 0.03;
-    this.color = Math.random() > 0.7 ? TEAL : GOLD;
-    this.shape = Math.floor(Math.random() * 3); // 0=circle, 1=diamond, 2=triangle
-    this.rotation = Math.random() * Math.PI * 2;
-    this.rotSpeed = (Math.random() - 0.5) * 0.01;
-  };
-  Particle.prototype.update = function() {
-    this.x += this.vx;
-    this.y += this.vy;
-    this.rotation += this.rotSpeed;
-    if (this.x < -20 || this.x > W+20 || this.y < -20 || this.y > H+20) this.reset();
-  };
-  Particle.prototype.draw = function() {
-    ctx.save();
-    ctx.globalAlpha = this.alpha;
-    ctx.fillStyle = this.color + this.alpha + ')';
-    ctx.strokeStyle = this.color + (this.alpha * 1.5) + ')';
-    ctx.lineWidth = 0.5;
-    ctx.translate(this.x, this.y);
-    ctx.rotate(this.rotation);
-    const s = this.size * 4;
-    if (this.shape === 0) {
-      ctx.beginPath();
-      ctx.arc(0, 0, s/2, 0, Math.PI*2);
-      ctx.fill();
-    } else if (this.shape === 1) {
-      ctx.beginPath();
-      ctx.moveTo(0, -s/2);
-      ctx.lineTo(s/2, 0);
-      ctx.lineTo(0, s/2);
-      ctx.lineTo(-s/2, 0);
-      ctx.closePath();
-      ctx.stroke();
+  for (let i = 0; i < 60; i++) particles.push(mkPart());
+
+  function drawShape(p) {
+    cx.beginPath();
+    const col = p.col + p.a + ')';
+    cx.fillStyle = col;
+    if (p.shape === 'circle') {
+      cx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    } else if (p.shape === 'diamond') {
+      cx.moveTo(p.x, p.y - p.r * 1.5);
+      cx.lineTo(p.x + p.r, p.y);
+      cx.lineTo(p.x, p.y + p.r * 1.5);
+      cx.lineTo(p.x - p.r, p.y);
     } else {
-      ctx.beginPath();
-      ctx.moveTo(0, -s/2);
-      ctx.lineTo(s/2, s/2);
-      ctx.lineTo(-s/2, s/2);
-      ctx.closePath();
-      ctx.stroke();
+      cx.moveTo(p.x, p.y - p.r * 1.5);
+      cx.lineTo(p.x + p.r * 1.3, p.y + p.r);
+      cx.lineTo(p.x - p.r * 1.3, p.y + p.r);
     }
-    ctx.restore();
-  };
-
-  function init() {
-    resize();
-    particles = [];
-    for (let i = 0; i < 60; i++) particles.push(new Particle());
+    cx.closePath();
+    cx.fill();
   }
 
-  function loop() {
-    ctx.clearRect(0, 0, W, H);
-    // Draw subtle grid lines
-    ctx.strokeStyle = 'rgba(237,233,223,0.015)';
-    ctx.lineWidth = 1;
-    const gs = 100;
-    for (let x = 0; x < W; x += gs) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
-    for (let y = 0; y < H; y += gs) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
-
-    particles.forEach(p => { p.update(); p.draw(); });
-
-    // Mouse spotlight
-    const grad = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 200);
-    grad.addColorStop(0, 'rgba(212,160,23,0.04)');
-    grad.addColorStop(1, 'transparent');
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, W, H);
-
-    requestAnimationFrame(loop);
+  function tick() {
+    cx.clearRect(0, 0, W, H);
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < -10) p.x = W + 10;
+      if (p.x > W + 10) p.x = -10;
+      if (p.y < -10) p.y = H + 10;
+      if (p.y > H + 10) p.y = -10;
+      drawShape(p);
+    });
+    requestAnimationFrame(tick);
   }
-
-  window.addEventListener('resize', () => { resize(); });
-  window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
-  init();
-  loop();
+  tick();
 })();
 
-// ─── SCROLL PROGRESS ───
-const progress = document.getElementById('progress');
-window.addEventListener('scroll', () => {
-  const scrolled = window.scrollY;
-  const max = document.body.scrollHeight - window.innerHeight;
-  progress.style.width = (scrolled / max * 100) + '%';
-});
+// ── JOURNEY DOTS ──
+const SECTIONS = ['hero', 'problem', 'report', 'beyond', 'process', 'why', 'cta'];
+const LABELS = ['Intro', 'Problem', 'Report', 'Beyond', 'Process', 'Why', 'Order'];
+const jnav = document.getElementById('journey');
 
-// ─── NAV SHRINK ───
-const nav = document.getElementById('nav');
-window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 80);
+SECTIONS.forEach((id, i) => {
+  if (i > 0) {
+    const line = document.createElement('div');
+    line.className = 'jline';
+    jnav.appendChild(line);
+  }
+  const dot = document.createElement('div');
+  dot.className = 'jdot';
+  dot.dataset.section = id;
+  dot.setAttribute('aria-label', LABELS[i]);
+  dot.innerHTML = `<span class="jdot-tip">${LABELS[i]}</span>`;
+  dot.addEventListener('click', () => document.getElementById(id).scrollIntoView({ behavior: 'smooth' }));
+  jnav.appendChild(dot);
 });
-
-// ─── JOURNEY DOTS ───
-const dots = document.querySelectorAll('.jdot');
-const sections = ['hero','problem','categories','report','process','pricing'];
 
 function updateDots() {
-  const scrollY = window.scrollY + window.innerHeight * 0.4;
-  sections.forEach((id, i) => {
+  const mid = window.innerHeight / 2;
+  SECTIONS.forEach(id => {
     const el = document.getElementById(id);
     if (!el) return;
-    const top = el.offsetTop, bot = top + el.offsetHeight;
-    dots[i].classList.toggle('active', scrollY >= top && scrollY < bot);
+    const r = el.getBoundingClientRect();
+    const dot = jnav.querySelector(`[data-section="${id}"]`);
+    if (r.top <= mid && r.bottom >= mid) {
+      dot && dot.classList.add('active');
+    } else {
+      dot && dot.classList.remove('active');
+    }
   });
 }
-window.addEventListener('scroll', updateDots);
-dots.forEach((dot, i) => {
-  dot.addEventListener('click', () => {
-    document.getElementById(sections[i])?.scrollIntoView({behavior:'smooth'});
-  });
-});
+window.addEventListener('scroll', updateDots, { passive: true });
+updateDots();
 
-// ─── INTERSECTION OBSERVER FOR REVEALS ───
-const reveals = document.querySelectorAll('.reveal, .reveal-r, .reveal-l');
-const revObs = new IntersectionObserver((entries) => {
+// ── REVEAL ON SCROLL ──
+const revealEls = document.querySelectorAll('.reveal,.reveal-r,.reveal-l');
+const ro = new IntersectionObserver((entries) => {
   entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add('visible');
-      revObs.unobserve(e.target);
-    }
+    if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); }
   });
-}, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
-reveals.forEach(el => revObs.observe(el));
+}, { threshold: 0.12 });
+revealEls.forEach(el => ro.observe(el));
 
-// ─── PROCESS LINE FILL ───
-const procLine = document.getElementById('proc-line');
-const procSection = document.getElementById('process');
-const lineObs = new IntersectionObserver((entries) => {
-  if (entries[0].isIntersecting) {
-    procLine.style.width = '100%';
-    lineObs.unobserve(procSection);
-  }
-}, { threshold: 0.3 });
-lineObs.observe(procSection);
+// ── PROCESS CONNECTORS ──
+const connectors = document.querySelectorAll('.process-connector');
+const co = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.5 });
+connectors.forEach(c => co.observe(c));
 
-// ─── NUMBER COUNTER ───
-function animateCounter(el, target) {
-  let start = 0, duration = 2000, startTime = null;
-  function step(timestamp) {
-    if (!startTime) startTime = timestamp;
-    const progress = Math.min((timestamp - startTime) / duration, 1);
-    const eased = 1 - Math.pow(1 - progress, 3);
-    el.textContent = Math.round(eased * target).toLocaleString('en-IN') + '+';
-    if (progress < 1) requestAnimationFrame(step);
-  }
-  requestAnimationFrame(step);
-}
-
-const statEl = document.getElementById('scheme-count');
-if (statEl) {
-  const statObs = new IntersectionObserver((entries) => {
-    if (entries[0].isIntersecting) {
-      animateCounter(statEl, parseInt(statEl.dataset.target));
-      statObs.unobserve(statEl);
-    }
-  }, { threshold: 0.5 });
-  statObs.observe(statEl);
-}
-
-// Style the stat number
-if (statEl) {
-  statEl.style.cssText = "font-family:'Fraunces',Georgia,serif;font-size:clamp(3.5rem,7vw,6rem);font-weight:900;line-height:1;letter-spacing:-0.03em;color:var(--gold);margin-bottom:0.25rem;";
-}
-
-// ─── 3D TILT ON CARDS ───
-document.querySelectorAll('.tilt-card').forEach(card => {
+// ── 3D CARD TILT ──
+document.querySelectorAll('.sol-card,.report-block,.beyond-card,.why-pillar').forEach(card => {
   card.addEventListener('mousemove', e => {
-    const rect = card.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-    const dx = (e.clientX - cx) / (rect.width / 2);
-    const dy = (e.clientY - cy) / (rect.height / 2);
-    const rotX = -dy * 6;
-    const rotY = dx * 6;
-    card.style.transform = `perspective(600px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(4px)`;
-
-    // Update radial gradient position for cat cards
-    if (card.classList.contains('cat-card')) {
-      const pctX = ((e.clientX - rect.left) / rect.width) * 100;
-      const pctY = ((e.clientY - rect.top) / rect.height) * 100;
-      card.style.setProperty('--mx', pctX + '%');
-      card.style.setProperty('--my', pctY + '%');
-    }
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - .5;
+    const y = (e.clientY - r.top) / r.height - .5;
+    card.style.transform = `perspective(700px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg) translateY(-4px)`;
   });
   card.addEventListener('mouseleave', () => {
     card.style.transform = '';
-  });
-});
-
-// ─── FLOATING REPORT CARD MOUSE ───
-const reportCard = document.getElementById('report-card-3d');
-if (reportCard) {
-  document.addEventListener('mousemove', e => {
-    const rect = reportCard.getBoundingClientRect();
-    if (rect.width === 0) return;
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-    const dx = (e.clientX - cx) / window.innerWidth;
-    const dy = (e.clientY - cy) / window.innerHeight;
-    reportCard.style.animation = 'none';
-    reportCard.style.transform = `translateY(${-dy*8}px) rotateX(${4 + dy*6}deg) rotateY(${-8 + dx*12}deg)`;
-  });
-}
-
-// ─── CUBE MOUSE PARALLAX ───
-const heroCube = document.getElementById('hero-cube');
-if (heroCube) {
-  let targetRY = 0, currentRY = 0;
-  document.addEventListener('mousemove', e => {
-    targetRY = (e.clientX / window.innerWidth - 0.5) * 20;
-  });
-  function cubeFrame() {
-    currentRY += (targetRY - currentRY) * 0.05;
-    heroCube.style.animationPlayState = 'running';
-    requestAnimationFrame(cubeFrame);
-  }
-  cubeFrame();
-}
-
-// ─── SMOOTH SCROLL FOR ANCHORS ───
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    const target = document.querySelector(a.getAttribute('href'));
-    if (target) { e.preventDefault(); target.scrollIntoView({behavior:'smooth'}); }
   });
 });
 </script>
