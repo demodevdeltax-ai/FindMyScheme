@@ -92,7 +92,7 @@ section{position:relative;z-index:10}
 }
 .hero-h1 em{font-style:italic;color:var(--gold)}
 .hero-sub{
-  font-size:clamp(17px,2.2vw,21px);color:var(--text1);max-width:620px;
+  font-size:clamp(17px,2.2vw,21px);color:var(--text1);max-width:640px;
   margin:0 auto 48px;line-height:1.65;text-wrap:balance;
 }
 .hero-price-tag{
@@ -428,6 +428,10 @@ section{position:relative;z-index:10}
   letter-spacing:.06em;
 }
 .cta-trust a{color:var(--text1);text-decoration:none}
+.cta-disclaimer{
+  max-width:620px;margin:28px auto 0;font-size:12px;color:var(--text2);
+  line-height:1.7;
+}
 
 /* ── FOOTER ── */
 footer{
@@ -493,7 +497,7 @@ footer{
   <a href="#hero" class="logo">
     <span class="logo-find">Find</span><span class="logo-my">My</span><span class="logo-schemes">Schemes</span><span class="logo-dot">.info</span>
   </a>
-  <a href="https://forms.cloud.microsoft/r/TGxwnHcj0G" target="_blank" rel="noopener" class="nav-cta">Get the Report — ₹499 →</a>
+  <a href="https://forms.cloud.microsoft/r/TGxwnHcj0G" target="_blank" rel="noopener" class="nav-cta">Find My Schemes — ₹499 →</a>
 </nav>
 
 <!-- ═══════════ HERO ═══════════ -->
@@ -504,22 +508,22 @@ footer{
       <span class="hero-eyebrow-dot"></span>
       Government Scheme Discovery for Businesses
     </div>
-    <h1 class="hero-h1">Tell us what<br>you're planning.<br><em>We find what's available.</em></h1>
+    <h1 class="hero-h1">You tell us what<br>you're planning.<br><em>We find what's available.</em></h1>
     <p class="hero-sub">
-      A ₹499 research report — delivered in 72 hours — that maps every government scheme, subsidy, and incentive that applies to your specific business plan.
+      Tell us about your business and what you want to achieve. Our specialised research process identifies the government schemes, subsidies, and incentives that apply to your specific plan — mapped into a detailed report, delivered within 24 hours.
     </p>
     <div class="hero-price-tag">
       <span class="price">₹499</span>
       <div class="price-label">
         <strong>Flat fee. No upsells.</strong>
-        Delivered in 72 hours
+        Delivered within 24 hours
       </div>
     </div>
     <div class="hero-cta-row">
-      <a href="https://forms.cloud.microsoft/r/TGxwnHcj0G" target="_blank" rel="noopener" class="btn-primary">Order Your Report →</a>
+      <a href="https://forms.cloud.microsoft/r/TGxwnHcj0G" target="_blank" rel="noopener" class="btn-primary">Find My Schemes →</a>
       <a href="#report" class="btn-secondary">See What's Inside</a>
     </div>
-    <p class="hero-trust">Trusted by founders, operators, and MSMEs across India — <span>₹499, flat fee</span></p>
+    <p class="hero-trust">Simple inputs from you. <span>Extensive scheme research by us.</span></p>
 
     <div class="hero-visual">
       <div class="cube-ring2"></div>
@@ -542,16 +546,16 @@ footer{
 <section id="problem">
   <div class="section-inner">
     <p class="section-eyebrow">The Problem</p>
-    <h2 class="section-h2">The information is out there.<br><em>Finding it is the problem.</em></h2>
-    <p class="section-lead">India has thousands of active government schemes. Founders don't know most of them exist. The ones who claim to know are often guessing.</p>
+    <h2 class="section-h2">You shouldn't need to become a<br><em>scheme expert</em> to find support.</h2>
+    <p class="section-lead">Schemes exist across Central and State Governments. But the information is scattered — and piecing it together rarely gives a clear answer to the one question that matters: "Does this actually apply to my business?"</p>
 
     <div class="scatter-list reveal">
-      <div class="scatter-item"><span class="scatter-icon">📄</span>Schemes buried in ministry PDFs no one reads</div>
-      <div class="scatter-item"><span class="scatter-icon">🗺️</span>State-level benefits that few mention</div>
+      <div class="scatter-item"><span class="scatter-icon">📄</span>Schemes buried in ministry and department PDFs</div>
+      <div class="scatter-item"><span class="scatter-icon">🗺️</span>State-level benefits that rarely get mentioned</div>
       <div class="scatter-item"><span class="scatter-icon">📋</span>Sector-specific funds invisible to generalist advisors</div>
-      <div class="scatter-item"><span class="scatter-icon">⏰</span>Deadlines that pass before anyone hears about them</div>
-      <div class="scatter-item"><span class="scatter-icon">🔄</span>Schemes that changed eligibility — the old version gets shared</div>
-      <div class="scatter-item"><span class="scatter-icon">🏢</span>Consultants who charge ₹50,000+ just to identify options</div>
+      <div class="scatter-item"><span class="scatter-icon">⏰</span>Deadlines that pass before anyone hears of them</div>
+      <div class="scatter-item"><span class="scatter-icon">🔄</span>Eligibility criteria that change — old versions keep circulating</div>
+      <div class="scatter-item"><span class="scatter-icon">🌐</span>Dozens of portals, each with its own search logic</div>
     </div>
 
     <div class="search-loop-wrap reveal">
@@ -560,32 +564,32 @@ footer{
         <div class="search-step">
           <span class="ss-num">01</span>
           <div class="ss-content">
-            <div class="ss-title">Start with a generic Google search</div>
-            <div class="ss-desc">"Government schemes for food business India" — gets a list of 15 schemes, 4 of which were discontinued in 2021.</div>
+            <div class="ss-title">Start with a generic search</div>
+            <div class="ss-desc">"Government schemes for my business in India" — a list of results, some of which were discontinued years ago.</div>
             <span class="ss-outcome">→ Unreliable results</span>
           </div>
         </div>
         <div class="search-step">
           <span class="ss-num">02</span>
           <div class="ss-content">
-            <div class="ss-title">Ask a CA or consultant</div>
-            <div class="ss-desc">They know tax. They may know a couple of MSME schemes. Sector-specific, state-specific, or novel schemes? Usually not their focus.</div>
+            <div class="ss-title">Ask a CA, consultant, or AI</div>
+            <div class="ss-desc">They may know tax and a couple of MSME schemes. Sector-specific and state-specific opportunities usually aren't their focus.</div>
             <span class="ss-outcome">→ Partial picture at best</span>
           </div>
         </div>
         <div class="search-step">
           <span class="ss-num">03</span>
           <div class="ss-content">
-            <div class="ss-title">Browse individual ministry portals</div>
-            <div class="ss-desc">40+ portals. Each with its own search logic. No aggregated view. Eligibility criteria scattered across 12-page PDFs.</div>
+            <div class="ss-title">Browse the portals yourself</div>
+            <div class="ss-desc">Portals across ministries and departments — each with its own logic, with eligibility buried inside long policy documents.</div>
             <span class="ss-outcome">→ Hours lost, still incomplete</span>
           </div>
         </div>
         <div class="search-step">
           <span class="ss-num">04</span>
           <div class="ss-content">
-            <div class="ss-title">Give up or proceed without the full picture</div>
-            <div class="ss-desc">Most founders move forward without knowing what they were eligible for. Some learn later. Most never do.</div>
+            <div class="ss-title">End up with information, not an answer</div>
+            <div class="ss-desc">A pile of documents but no clarity on what actually applies — so most people move forward without the full picture.</div>
             <span class="ss-outcome">→ Opportunity missed</span>
           </div>
         </div>
@@ -596,12 +600,12 @@ footer{
       <div class="sol-card reveal-l">
         <div class="sol-card-icon">🎯</div>
         <h3 class="sol-card-h">What FindMySchemes does</h3>
-        <p class="sol-card-p">Tell us what you're building — sector, location, business stage, investment size, category. A dedicated research team maps every applicable scheme across central government, state government, sector-specific bodies, and financial institutions — and delivers a structured report within 72 hours.</p>
+        <p class="sol-card-p">Just tell us about your business and your requirement. We bring together the relevant information and present it specifically around your business profile — no need to know scheme names, where to search, or government terminology.</p>
       </div>
       <div class="sol-card reveal-r">
         <div class="sol-card-icon">📊</div>
-        <h3 class="sol-card-h">What the report looks like</h3>
-        <p class="sol-card-p">Not a general list. A specific, prioritised map of schemes that match your actual situation — with eligibility, benefit type, estimated value, how to apply, and what to prepare. Organised by priority so it's immediately actionable.</p>
+        <h3 class="sol-card-h">Not just a list — how it applies to you</h3>
+        <p class="sol-card-p">A generic directory tells you a scheme exists. We go further: whether it's relevant, why you may be eligible, what benefit you could receive, what conditions apply, where to apply, what documents you need, and what to do next. From information to action.</p>
       </div>
     </div>
   </div>
@@ -612,8 +616,8 @@ footer{
   <div class="section-inner">
     <div class="orb orb-t" style="top:-80px;right:-100px"></div>
     <p class="section-eyebrow">What's Inside</p>
-    <h2 class="section-h2">Six sections.<br><em>One complete picture.</em></h2>
-    <p class="report-intro-note">Every FindMySchemes report covers six structured sections — built around your specific business plan, not a generic template.</p>
+    <h2 class="section-h2">One report.<br><em>Your benefits, mapped.</em></h2>
+    <p class="report-intro-note">Within 24 hours, receive a consolidated report built around the information you provide — six structured sections, tailored to your specific business plan.</p>
     <p class="report-sample-note reveal">// Sample structure — actual report is tailored to your submitted details</p>
 
     <div class="report-grid">
@@ -624,14 +628,15 @@ footer{
           <div class="report-block-letter">A</div>
           <div class="report-block-meta">
             <div class="report-block-tag">Section A</div>
-            <div class="report-block-title">Business Snapshot & Eligibility Profile</div>
+            <div class="report-block-title">Your Project at a Glance</div>
           </div>
         </div>
-        <p class="report-question">"Based on what you've told us — here's what your business looks like through a scheme-eligibility lens."</p>
+        <p class="report-question">"A clear snapshot of your business and project — everything important, in one place."</p>
         <div class="report-answers">
-          <div class="report-answer">How government bodies would classify your business</div>
-          <div class="report-answer">Eligibility-relevant attributes (location, category, scale, sector)</div>
-          <div class="report-answer">Which portals and ministries are most relevant to your plan</div>
+          <div class="report-answer">Business profile, industry, and sector</div>
+          <div class="report-answer">Location and project type</div>
+          <div class="report-answer">Proposed investment and existing operations</div>
+          <div class="report-answer">Expansion or growth plans, and other relevant parameters</div>
         </div>
       </div>
 
@@ -641,14 +646,15 @@ footer{
           <div class="report-block-letter">B</div>
           <div class="report-block-meta">
             <div class="report-block-tag">Section B</div>
-            <div class="report-block-title">Priority Scheme Matches</div>
+            <div class="report-block-title">Applicable Schemes, Grants &amp; Benefits</div>
           </div>
         </div>
-        <p class="report-question">"These are the schemes most likely to benefit you — ranked by potential value and application feasibility."</p>
-        <div class="priority-rows">
-          <div class="priority-row"><span class="p-badge p1">Priority 1</span> High-value, high-eligibility matches — apply first</div>
-          <div class="priority-row"><span class="p-badge p2">Priority 2</span> Meaningful benefit, worth reviewing and preparing</div>
-          <div class="priority-row"><span class="p-badge p3">Priority 3</span> Conditional or lower-probability — flagged for awareness</div>
+        <p class="report-question">"The relevant opportunities across applicable government programs — with Central and State clearly distinguished."</p>
+        <div class="report-answers">
+          <div class="report-answer">Subsidies, grants, and incentives</div>
+          <div class="report-answer">Reimbursements and concessions</div>
+          <div class="report-answer">Interest and financial support</div>
+          <div class="report-answer">Policy-linked benefits — Central and State opportunities marked separately</div>
         </div>
       </div>
 
@@ -658,18 +664,16 @@ footer{
           <div class="report-block-letter">C</div>
           <div class="report-block-meta">
             <div class="report-block-tag">Section C</div>
-            <div class="report-block-title">Per-Scheme Detail</div>
+            <div class="report-block-title">Detailed Eligibility &amp; Applicability</div>
           </div>
         </div>
-        <p class="report-question">"For each matched scheme — everything needed to assess it and decide whether to apply."</p>
+        <p class="report-question">"For every identified opportunity — whether it applies to you, and what it takes to qualify."</p>
         <div class="report-answers">
-          <div class="report-answer">Scheme name, administering body, and official source</div>
-          <div class="report-answer">Benefit type (grant, subsidy, loan, tax relief, certification)</div>
-          <div class="report-answer">Estimated benefit value or range</div>
-          <div class="report-answer">Eligibility criteria — what qualifies and what doesn't</div>
-          <div class="report-answer">Application window and deadline (if applicable)</div>
-          <div class="report-answer">Documents typically required</div>
-          <div class="report-answer">Estimated timeline from application to benefit</div>
+          <div class="report-answer">Eligibility criteria, and why it may apply to your business</div>
+          <div class="report-answer">Conditions you need to satisfy</div>
+          <div class="report-answer">Investment, turnover, or employment requirements</div>
+          <div class="report-answer">Location or industry requirements</div>
+          <div class="report-answer">Key exclusions or limitations</div>
         </div>
       </div>
 
@@ -679,15 +683,16 @@ footer{
           <div class="report-block-letter">D</div>
           <div class="report-block-meta">
             <div class="report-block-tag">Section D</div>
-            <div class="report-block-title">Preparation Checklist</div>
+            <div class="report-block-title">Application Process &amp; Documents</div>
           </div>
         </div>
-        <p class="report-question">"What to get ready before applying — organised by scheme so nothing is missed."</p>
+        <p class="report-question">"Exactly what comes next — where and how to apply, and what to prepare."</p>
         <div class="report-answers">
-          <div class="report-answer">Registration requirements (Udyam, FSSAI, GeM, sector-specific)</div>
-          <div class="report-answer">Documentation gaps to address before applications open</div>
-          <div class="report-answer">Structural or business-setup steps that affect eligibility</div>
-          <div class="report-answer">Quick wins — actions that unlock multiple schemes at once</div>
+          <div class="report-answer">Where to apply and how to apply</div>
+          <div class="report-answer">Documents and registrations required</div>
+          <div class="report-answer">Important timelines and application windows</div>
+          <div class="report-answer">Relevant department or authority</div>
+          <div class="report-answer">Official application source</div>
         </div>
       </div>
 
@@ -697,15 +702,15 @@ footer{
           <div class="report-block-letter">E</div>
           <div class="report-block-meta">
             <div class="report-block-tag">Section E</div>
-            <div class="report-block-title">State & Local Schemes</div>
+            <div class="report-block-title">Benefit &amp; Opportunity Summary</div>
           </div>
         </div>
-        <p class="report-question">"Central schemes get the attention. State schemes often deliver more — and have less competition."</p>
+        <p class="report-question">"What each opportunity is worth — so you can prioritise what to pursue first."</p>
         <div class="report-answers">
-          <div class="report-answer">State industrial policy incentives relevant to your sector</div>
-          <div class="report-answer">District-level or SIDCO/SIDC schemes (where applicable)</div>
-          <div class="report-answer">Land, power, and infrastructure subsidies from state bodies</div>
-          <div class="report-answer">State-specific schemes that overlap or stack with central schemes</div>
+          <div class="report-answer">Nature of benefit and incentive structure</div>
+          <div class="report-answer">Applicable investment or activity</div>
+          <div class="report-answer">Maximum limits or thresholds</div>
+          <div class="report-answer">Key financial conditions</div>
         </div>
       </div>
 
@@ -715,15 +720,14 @@ footer{
           <div class="report-block-letter">F</div>
           <div class="report-block-meta">
             <div class="report-block-tag">Section F</div>
-            <div class="report-block-title">Application Sequence & Next Steps</div>
+            <div class="report-block-title">Action Plan — What To Do Next</div>
           </div>
         </div>
-        <p class="report-question">"What to do, in what order, and what to watch for — so the report becomes a working action plan."</p>
-        <div class="report-answers">
-          <div class="report-answer">Suggested sequence — which schemes to pursue first and why</div>
-          <div class="report-answer">Dependency flags — where one approval unlocks another</div>
-          <div class="report-answer">Timing considerations — schemes with near deadlines or windows</div>
-          <div class="report-answer">Notes on schemes where professional support is worth considering</div>
+        <p class="report-question">"Not just what exists, but what to do next — a simple, priority-based view."</p>
+        <div class="priority-rows">
+          <div class="priority-row"><span class="p-badge p1">Priority 1</span> Opportunities to explore immediately</div>
+          <div class="priority-row"><span class="p-badge p2">Priority 2</span> Opportunities needing additional eligibility or documentation</div>
+          <div class="priority-row"><span class="p-badge p3">Priority 3</span> Opportunities relevant to future plans</div>
         </div>
       </div>
 
@@ -735,34 +739,33 @@ footer{
 <section id="beyond">
   <div class="section-inner">
     <p class="section-eyebrow">Beyond the Report</p>
-    <h2 class="section-h2">Need help applying?<br><em>There's support for that too.</em></h2>
-    <p class="section-lead">The report tells you what to pursue. If needed, the team can help with what comes next — available as separate, paid services.</p>
+    <h2 class="section-h2">Finding the scheme is<br><em>only step one.</em></h2>
+    <p class="section-lead">Knowing a scheme exists is useful. Getting through the application is what matters. When you're ready, FindMySchemes can take you beyond the report — as separate, optional services.</p>
 
     <div class="beyond-grid">
       <div class="beyond-card reveal-l">
         <div class="beyond-icon">🧭</div>
-        <h3 class="beyond-title">Scheme Navigation Call</h3>
-        <p class="beyond-price">₹999 · 45-minute video call</p>
-        <p class="beyond-desc">A focused session with a scheme research specialist to walk through the report — prioritise the right schemes, clarify eligibility questions, and build a clear next-steps plan.</p>
+        <h3 class="beyond-title">Book a Professional Consultation</h3>
+        <p class="beyond-price">Optional · Session with a specialist from our network</p>
+        <p class="beyond-desc">If you need help understanding the opportunities identified in your report, book a session with a professional from our network to talk through what matters most and build a clear next-steps plan.</p>
         <div class="beyond-list">
-          <div class="beyond-item">Walk through every Priority 1 and Priority 2 scheme in the report</div>
-          <div class="beyond-item">Answer eligibility questions specific to the business situation</div>
-          <div class="beyond-item">Identify which schemes to pursue first and in what sequence</div>
-          <div class="beyond-item">Flag documentation gaps before applications are submitted</div>
-          <div class="beyond-item">Recording provided after the call</div>
+          <div class="beyond-item">Eligibility and scheme selection</div>
+          <div class="beyond-item">Documentation and application strategy</div>
+          <div class="beyond-item">Which opportunities to pursue first, and in what order</div>
+          <div class="beyond-item">Clear next steps for your Priority 1 and Priority 2 opportunities</div>
         </div>
       </div>
       <div class="beyond-card reveal-r">
         <div class="beyond-icon">📝</div>
-        <h3 class="beyond-title">Application Support Package</h3>
-        <p class="beyond-price">Custom pricing · Per scheme</p>
-        <p class="beyond-desc">End-to-end support for submitting applications to specific schemes — from document preparation to portal submission. Pricing varies by scheme complexity and is quoted after the report is delivered.</p>
+        <h3 class="beyond-title">Help With Applying</h3>
+        <p class="beyond-price">Optional · For selected schemes</p>
+        <p class="beyond-desc">For selected schemes, FindMySchemes can assist with the application journey — because finding a scheme is only half the job. The real value is knowing what to do with it.</p>
         <div class="beyond-list">
-          <div class="beyond-item">Document checklist and gap analysis for the chosen scheme</div>
-          <div class="beyond-item">Drafting of required applications, forms, and project reports</div>
-          <div class="beyond-item">Portal registration and submission support</div>
-          <div class="beyond-item">Follow-up tracking until the application is acknowledged</div>
-          <div class="beyond-item">Available for both central and state-level schemes</div>
+          <div class="beyond-item">Document preparation guidance</div>
+          <div class="beyond-item">Application assistance and clarification on requirements</div>
+          <div class="beyond-item">Portal and submission guidance</div>
+          <div class="beyond-item">Process coordination and follow-up support</div>
+          <div class="beyond-item">Available for both Central and State schemes</div>
         </div>
       </div>
     </div>
@@ -773,39 +776,39 @@ footer{
 <section id="process">
   <div class="section-inner">
     <p class="section-eyebrow">How It Works</p>
-    <h2 class="section-h2">Four steps.<br><em>72 hours to clarity.</em></h2>
+    <h2 class="section-h2">Four steps.<br><em>24 hours to clarity.</em></h2>
 
     <div class="process-track">
 
       <div class="process-step reveal">
         <div class="process-node">1</div>
         <div class="process-connector"></div>
-        <h3 class="process-step-title">Submit Details</h3>
-        <p class="process-step-desc">Fill out the business brief — sector, state, stage, planned investment, category, and anything else relevant.</p>
+        <h3 class="process-step-title">Tell Us About Your Business</h3>
+        <p class="process-step-desc">Share the basics — sector, location, stage, planned investment, and what you're trying to achieve. No need to know the scheme or do your own research.</p>
         <span class="process-step-time">~10 minutes</span>
       </div>
 
       <div class="process-step reveal">
         <div class="process-node">2</div>
         <div class="process-connector"></div>
-        <h3 class="process-step-title">Pay ₹499</h3>
-        <p class="process-step-desc">A one-time flat fee. No subscriptions, no hidden charges, no commission on schemes applied for later.</p>
-        <span class="process-step-time">Instant confirmation</span>
+        <h3 class="process-step-title">We Map the Opportunities</h3>
+        <p class="process-step-desc">A specialised process combines scheme databases, government sources, research tools, and domain expertise to identify what's relevant to your business.</p>
+        <span class="process-step-time">Specialised research</span>
       </div>
 
       <div class="process-step reveal">
         <div class="process-node">3</div>
         <div class="process-connector"></div>
-        <h3 class="process-step-title">Research & Mapping</h3>
-        <p class="process-step-desc">The team maps the business against active central, state, and sector schemes — checking eligibility, benefit value, and application feasibility.</p>
-        <span class="process-step-time">Within 72 hours</span>
+        <h3 class="process-step-title">Get Your Report in 24 Hours</h3>
+        <p class="process-step-desc">Receive a personalised report: Schemes → Eligibility → Benefits → Process → Documents → Next Steps.</p>
+        <span class="process-step-time">Within 24 hours</span>
       </div>
 
       <div class="process-step reveal">
         <div class="process-node">4</div>
-        <h3 class="process-step-title">Report Delivered</h3>
-        <p class="process-step-desc">A structured PDF report with six sections — delivered by email, ready to act on immediately.</p>
-        <span class="process-step-time">PDF via email</span>
+        <h3 class="process-step-title">Take Action</h3>
+        <p class="process-step-desc">Use the report independently, or get professional help understanding and applying for the identified opportunities.</p>
+        <span class="process-step-time">Independent or supported</span>
       </div>
 
     </div>
@@ -816,51 +819,51 @@ footer{
 <section id="why">
   <div class="section-inner">
     <p class="section-eyebrow">Why FindMySchemes</p>
-    <h2 class="section-h2">Not a consultant.<br><em>Not a portal. Something different.</em></h2>
-    <p class="section-lead">FindMySchemes is a specialised scheme discovery and application-support platform. The research is done by a team that works on this full-time — not a generalist who handles it alongside other work.</p>
+    <h2 class="section-h2">We're not here to give you<br><em>another Google search.</em></h2>
+    <p class="section-lead">Government support is difficult to discover, understand, and act upon. Our role is to simplify that journey — combining structured research, government and policy information, technology, and domain expertise into a report relevant to your requirements, rather than a generic collection of schemes.</p>
 
     <div class="why-grid">
       <div class="why-pillar reveal">
         <div class="why-pillar-icon">🎯</div>
-        <h3 class="why-pillar-h">Specific to the business</h3>
-        <p class="why-pillar-p">The report maps schemes against actual submitted details — sector, location, stage, investment size. Not a generic list of popular schemes.</p>
-      </div>
-      <div class="why-pillar reveal">
-        <div class="why-pillar-icon">✅</div>
-        <h3 class="why-pillar-h">Current and verified</h3>
-        <p class="why-pillar-p">Schemes are checked for active status, current eligibility criteria, and open application windows at the time of the report — not sourced from outdated lists.</p>
-      </div>
-      <div class="why-pillar reveal">
-        <div class="why-pillar-icon">📋</div>
-        <h3 class="why-pillar-h">Actionable from day one</h3>
-        <p class="why-pillar-p">Section F provides a clear application sequence — not just information, but a working plan for what to do next, in what order, and what to watch for.</p>
-      </div>
-      <div class="why-pillar reveal">
-        <div class="why-pillar-icon">💰</div>
-        <h3 class="why-pillar-h">Flat fee — no surprises</h3>
-        <p class="why-pillar-p">₹499 for the full research report. No commission, no referral fees, no upsell hidden in the process. Additional services are separate and clearly priced.</p>
+        <h3 class="why-pillar-h">Specific to your business</h3>
+        <p class="why-pillar-p">Schemes mapped against your actual details — sector, location, stage, investment size — not a generic list of popular schemes.</p>
       </div>
       <div class="why-pillar reveal">
         <div class="why-pillar-icon">🗺️</div>
         <h3 class="why-pillar-h">Central + State coverage</h3>
-        <p class="why-pillar-p">Most advisors know the headline central schemes. State-level schemes — which often have more value and less competition — are a core part of every report.</p>
+        <p class="why-pillar-p">Central schemes get the attention. State-level schemes often deliver more, with less competition — and are a core part of every report.</p>
+      </div>
+      <div class="why-pillar reveal">
+        <div class="why-pillar-icon">📋</div>
+        <h3 class="why-pillar-h">From information to action</h3>
+        <p class="why-pillar-p">Every report ends with a clear, priority-based action plan: what to do next, in what order, and what to prepare.</p>
+      </div>
+      <div class="why-pillar reveal">
+        <div class="why-pillar-icon">🔍</div>
+        <h3 class="why-pillar-h">Structured research, not guesswork</h3>
+        <p class="why-pillar-p">Scheme databases, government sources, research tools, and domain expertise — combined into business-specific eligibility mapping.</p>
+      </div>
+      <div class="why-pillar reveal">
+        <div class="why-pillar-icon">✅</div>
+        <h3 class="why-pillar-h">Relevant and current</h3>
+        <p class="why-pillar-p">Opportunities checked against active status and current eligibility at the time of the report — not sourced from outdated lists.</p>
       </div>
       <div class="why-pillar reveal">
         <div class="why-pillar-icon">⚡</div>
-        <h3 class="why-pillar-h">72-hour delivery</h3>
-        <p class="why-pillar-p">The research is done by a dedicated team working on this full-time. Most reports are delivered within 72 hours of payment confirmation.</p>
+        <h3 class="why-pillar-h">Delivered within 24 hours</h3>
+        <p class="why-pillar-p">Simple inputs from you. Extensive research by us. Most reports are delivered within 24 hours of submission.</p>
       </div>
     </div>
 
     <div class="why-formula reveal">
       <div class="formula-item">
-        <div class="formula-item-label">Business Details</div>
+        <div class="formula-item-label">Your Inputs</div>
         <div class="formula-item-value">Submitted Brief</div>
       </div>
       <div class="formula-op">+</div>
       <div class="formula-item">
-        <div class="formula-item-label">Expert Research</div>
-        <div class="formula-item-value">72-Hour Deep Dive</div>
+        <div class="formula-item-label">Our Research</div>
+        <div class="formula-item-value">24-Hour Deep Dive</div>
       </div>
       <div class="formula-op">+</div>
       <div class="formula-item">
@@ -880,21 +883,22 @@ footer{
 <section id="cta">
   <div class="orb orb-g" style="bottom:-100px;left:50%;transform:translateX(-50%)"></div>
   <div class="cta-inner">
-    <span class="cta-tag">₹499 · 72-Hour Delivery · No Subscriptions</span>
-    <h2 class="cta-h2">Stop guessing what<br>the government offers.<br><em>Find out.</em></h2>
-    <p class="cta-sub">A dedicated research team maps every applicable central, state, and sector scheme against the submitted business plan — and delivers a structured, prioritised report in 72 hours.</p>
+    <span class="cta-tag">₹499 · 24-Hour Delivery · No Subscriptions</span>
+    <h2 class="cta-h2">There may already be support<br>for <em>what you're planning.</em></h2>
+    <p class="cta-sub">Whether you're starting, investing, expanding, manufacturing, hiring, exporting, or modernising — find out what government support may be available. Don't wait until you hear about a scheme after the opportunity has passed.</p>
     <div class="cta-price-box">
       <div class="cta-price-big">₹499</div>
       <div class="cta-price-detail">
         <div class="cta-price-label">One-time flat fee<br>Full 6-section research report</div>
-        <div class="cta-price-note">Delivered in 72 hours · PDF via email</div>
+        <div class="cta-price-note">Delivered within 24 hours · PDF via email</div>
       </div>
     </div>
     <div class="cta-btn-row">
-      <a href="https://forms.cloud.microsoft/r/TGxwnHcj0G" target="_blank" rel="noopener" class="btn-primary">Order the Report — ₹499 →</a>
+      <a href="https://forms.cloud.microsoft/r/TGxwnHcj0G" target="_blank" rel="noopener" class="btn-primary">Find My Schemes →</a>
       <a href="#report" class="btn-secondary">See What's Inside</a>
     </div>
     <p class="cta-trust">Questions? Write to <a href="mailto:hello@findmyschemes.info">hello@findmyschemes.info</a></p>
+    <p class="cta-disclaimer">FindMySchemes is a specialised government-scheme discovery and application-support platform. We research and map relevant government opportunities based on your business profile. Final eligibility, sanction, and benefit remain subject to the respective government authority and applicable guidelines.</p>
   </div>
 </section>
 
@@ -909,7 +913,7 @@ footer{
     <a href="#beyond">Services</a>
     <a href="mailto:hello@findmyschemes.info">Contact</a>
   </div>
-  <p class="footer-copy">© 2024 FindMySchemes. All rights reserved.</p>
+  <p class="footer-copy">© 2026 FindMySchemes. All rights reserved.</p>
 </footer>
 
 <script>
