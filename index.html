@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Find My Schemes - Get Your Eligibility Report</title>
-    
+    <link rel="icon" type="image/png" href="assets/Logo_icon.png">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,400&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -35,49 +39,68 @@
     </script>
     <style>
         /* Smooth scrolling for anchor links */
-        html { 
-            scroll-behavior: smooth; 
-            font-size: 85%; /* Reduce all font sizes by 15% on mobile */
+        html {
+            scroll-behavior: smooth;
+            font-size: 85%;
+            /* Reduce all font sizes by 15% on mobile */
         }
+
         @media (min-width: 640px) {
-            html { font-size: 100%; } /* Reset to normal on tablet and up */
+            html {
+                font-size: 100%;
+            }
+
+            /* Reset to normal on tablet and up */
         }
+
         /* Prevent horizontal scroll on mobile */
-        body { overflow-x: hidden; }
+        body {
+            overflow-x: hidden;
+        }
     </style>
 </head>
+
 <body class="font-sans bg-beige text-gray-800 antialiased">
 
     <!-- 1. Header Section -->
     <header class="bg-darkGreen text-white sticky top-0 z-50 shadow-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-center md:justify-between items-center relative">
             <!-- Logo -->
             <div class="flex items-center gap-2 cursor-pointer">
-                <img src="assets/Logo.png" alt="Find My Schemes Logo" class="h-10 sm:h-12 w-auto">
+                <img src="assets/Logo.png" alt="Find My Schemes Logo" class="h-14 sm:h-16 w-auto">
             </div>
-            
+
             <!-- Desktop Navigation & CTA -->
             <div class="hidden md:flex items-center gap-6">
                 <div class="relative group">
-                    <a href="#services" class="text-sm font-medium hover:text-gray-300 transition-colors flex items-center gap-1">
+                    <a href="#services"
+                        class="text-sm font-medium hover:text-gray-300 transition-colors flex items-center gap-1">
                         Our Services <i class="fa-solid fa-chevron-down text-[10px]"></i>
                     </a>
-                    <div class="absolute left-0 mt-2 w-40 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 py-2 border border-gray-100">
-                        <span class="block px-4 py-2 text-sm text-gray-700 cursor-default hover:bg-gray-50 transition-colors">Schemes</span>
-                        <span class="block px-4 py-2 text-sm text-gray-700 cursor-default hover:bg-gray-50 transition-colors">Subsidies</span>
-                        <span class="block px-4 py-2 text-sm text-gray-700 cursor-default hover:bg-gray-50 transition-colors">Grants</span>
-                        <span class="block px-4 py-2 text-sm text-gray-700 cursor-default hover:bg-gray-50 transition-colors">Incentives</span>
-                        <span class="block px-4 py-2 text-sm text-gray-700 cursor-default hover:bg-gray-50 transition-colors">Benefits</span>
+                    <div
+                        class="absolute left-0 mt-2 w-40 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 py-2 border border-gray-100">
+                        <span
+                            class="block px-4 py-2 text-sm text-gray-700 cursor-default hover:bg-gray-50 transition-colors">Schemes</span>
+                        <span
+                            class="block px-4 py-2 text-sm text-gray-700 cursor-default hover:bg-gray-50 transition-colors">Subsidies</span>
+                        <span
+                            class="block px-4 py-2 text-sm text-gray-700 cursor-default hover:bg-gray-50 transition-colors">Grants</span>
+                        <span
+                            class="block px-4 py-2 text-sm text-gray-700 cursor-default hover:bg-gray-50 transition-colors">Incentives</span>
+                        <span
+                            class="block px-4 py-2 text-sm text-gray-700 cursor-default hover:bg-gray-50 transition-colors">Benefits</span>
                     </div>
                 </div>
                 <!-- CRITICAL REQUIREMENT: Form Link Button -->
-                <a href="https://forms.gle/PhgSqjhMuMr1LqsJ8" target="_blank" class="bg-rust hover:bg-rustHover text-white px-5 py-2.5 rounded text-sm font-semibold transition-colors duration-300 shadow-sm">
+                <a href="https://forms.gle/PhgSqjhMuMr1LqsJ8" target="_blank"
+                    class="bg-rust hover:bg-rustHover text-white px-5 py-2.5 rounded text-sm font-semibold transition-colors duration-300 shadow-sm">
                     Get My Scheme Report
                 </a>
             </div>
 
             <!-- Mobile Hamburger Button -->
-            <button class="md:hidden text-white text-2xl focus:outline-none" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+            <button class="md:hidden absolute right-4 sm:right-6 text-white text-2xl focus:outline-none"
+                onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
                 <i class="fa-solid fa-bars"></i>
             </button>
         </div>
@@ -95,7 +118,8 @@
                         <span class="block">Benefits</span>
                     </div>
                 </div>
-                <a href="https://forms.gle/PhgSqjhMuMr1LqsJ8" target="_blank" class="block w-full text-center bg-rust hover:bg-rustHover text-white px-5 py-3 rounded text-base font-semibold transition-colors shadow-sm mt-4">
+                <a href="https://forms.gle/PhgSqjhMuMr1LqsJ8" target="_blank"
+                    class="block w-full text-center bg-rust hover:bg-rustHover text-white px-5 py-3 rounded text-base font-semibold transition-colors shadow-sm mt-4">
                     Get My Scheme Report
                 </a>
             </div>
@@ -104,47 +128,60 @@
 
     <!-- 2. Hero Section -->
     <section class="bg-beige pt-16 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
-        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-8 lg:gap-20">
             <!-- Left Column: Content -->
-            <div class="w-full lg:w-1/2 flex flex-col gap-6 relative z-10">
-                <h1 class="font-serif text-3xl sm:text-5xl lg:text-6xl text-darkGreen font-bold leading-tight tracking-tight">
-                    Your Business May <br>Be Eligible for <span class="italic text-[#c28c31] font-medium">More.</span>
-                </h1>
+            <div class="contents lg:flex lg:w-1/2 lg:flex-col lg:gap-6 relative z-10">
                 
-                <h2 class="text-xl sm:text-2xl font-bold text-darkGreen mt-2">
-                    Schemes. Subsidies. Grants. Incentives.
-                </h2>
-                
-                <p class="text-lg text-gray-700 max-w-lg">
-                    Find the government support that may fit your business.
-                </p>
-                
-                <div class="mt-4 flex flex-col gap-3">
+                <!-- Top Text -->
+                <div class="flex flex-col gap-1 md:gap-6 order-1 lg:order-none w-full">
+                    <h1
+                        class="font-serif text-4xl sm:text-5xl lg:text-6xl text-darkGreen font-bold leading-none md:leading-tight tracking-tight">
+                        Your Business May Be Eligible for <span class="italic text-[#c28c31] font-medium">More.</span>
+                    </h1>
+
+                    <h2 class="text-xl sm:text-2xl font-bold text-darkGreen mt-4 md:mt-0 leading-tight md:leading-normal">
+                        Schemes. Subsidies. Grants. Incentives.
+                    </h2>
+
+                    <p class="text-lg text-gray-700 max-w-lg leading-tight md:leading-normal">
+                        Find the government support that may fit your business.
+                    </p>
+                </div>
+
+                <!-- Button and Bottom Text -->
+                <div class="flex flex-col gap-3 order-3 lg:order-none mt-6 lg:mt-0 w-full">
                     <!-- CRITICAL REQUIREMENT: Form Link Button -->
-                    <a href="https://forms.gle/PhgSqjhMuMr1LqsJ8" target="_blank" class="bg-rust hover:bg-rustHover text-white px-8 py-4 rounded w-fit flex items-center justify-center gap-3 text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                    <a href="https://forms.gle/PhgSqjhMuMr1LqsJ8" target="_blank"
+                        class="bg-rust hover:bg-rustHover text-white px-8 py-4 rounded w-fit flex items-center justify-center gap-3 text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
                         Get My Scheme Eligibility Report <i class="fa-solid fa-arrow-right"></i>
                     </a>
                     <span class="text-gray-800 font-medium text-sm">₹499 | Delivered within 24 hours</span>
+
+                    <hr class="border-gray-300 w-full max-w-md my-4">
+
+                    <p class="text-gray-600 text-base md:text-lg leading-relaxed max-w-md">
+                        You tell us about your business. We find what may be available.
+                    </p>
                 </div>
-                
-                <hr class="border-gray-300 w-full max-w-md my-4">
-                
-                <p class="text-gray-600 text-sm md:text-base leading-relaxed max-w-md">
-                    You tell us about your business.<br>
-                    We find what may be available.
-                </p>
             </div>
-            
+
             <!-- Right Column: Image Slideshow -->
-            <div class="w-full lg:w-1/2 relative h-[300px] sm:h-[400px] lg:h-[500px]">
+            <div class="w-full lg:w-1/2 relative h-[300px] sm:h-[400px] lg:h-[500px] order-2 lg:order-none mt-4 lg:mt-0">
                 <!-- Decorative background elements -->
-                <div class="absolute -inset-4 bg-gradient-to-tr from-cardBeige to-transparent rounded-2xl transform rotate-3 -z-10"></div>
+                <div
+                    class="absolute -inset-4 bg-gradient-to-tr from-cardBeige to-transparent rounded-2xl transform rotate-3 -z-10">
+                </div>
                 <!-- Slideshow Container -->
-                <div class="relative w-full h-full rounded-xl shadow-2xl overflow-hidden z-10 bg-darkGreen" id="hero-slideshow">
-                    <img src="assets/image_1.jpg" alt="Business owner" class="absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-1000 opacity-100 slide">
-                    <img src="assets/image_2.jpg" alt="Business planning" class="absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-1000 opacity-0 slide">
-                    <img src="assets/image_3.jpg" alt="Meeting" class="absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-1000 opacity-0 slide">
-                    <img src="assets/image_4.jpg" alt="Teamwork" class="absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-1000 opacity-0 slide">
+                <div class="relative w-full h-full rounded-xl shadow-2xl overflow-hidden z-10 bg-darkGreen"
+                    id="hero-slideshow">
+                    <img src="assets/image_1.jpg" alt="Business owner"
+                        class="absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-1000 opacity-100 slide">
+                    <img src="assets/image_2.jpg" alt="Business planning"
+                        class="absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-1000 opacity-0 slide">
+                    <img src="assets/image_3.jpg" alt="Meeting"
+                        class="absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-1000 opacity-0 slide">
+                    <img src="assets/image_4.jpg" alt="Teamwork"
+                        class="absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-1000 opacity-0 slide">
                 </div>
             </div>
         </div>
@@ -153,10 +190,12 @@
     <!-- 3. What Are You Missing Section -->
     <section class="bg-darkGreen text-white py-20 px-4 sm:px-6 lg:px-8">
         <div class="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center gap-12 lg:gap-24">
-            
+
             <!-- Left Text -->
             <div class="w-full lg:w-1/2">
-                <span class="text-yellow-500 uppercase tracking-widest text-sm sm:text-base font-bold font-sans">Opportunities Await</span>
+                <span
+                    class="text-yellow-500 uppercase tracking-widest text-sm sm:text-base font-bold font-sans">Opportunities
+                    Await</span>
                 <h2 class="font-serif text-4xl sm:text-5xl font-bold mt-4 leading-tight">
                     What Are You Missing?
                 </h2>
@@ -165,24 +204,27 @@
                     But finding what applies to your business isn't always easy.
                 </p>
             </div>
-            
+
             <!-- Right List -->
             <div class="w-full lg:w-1/2 bg-white/5 rounded-2xl p-8 sm:p-12 backdrop-blur-sm border border-white/10">
                 <ul class="flex flex-col gap-10">
                     <li class="flex items-center gap-6">
-                        <div class="bg-softGreen text-darkGreen w-14 h-14 rounded-full flex items-center justify-center shrink-0 shadow-inner">
+                        <div
+                            class="bg-softGreen text-darkGreen w-14 h-14 rounded-full flex items-center justify-center shrink-0 shadow-inner">
                             <i class="fa-solid fa-building-columns text-xl"></i>
                         </div>
                         <span class="text-2xl font-serif font-medium">Your Business.</span>
                     </li>
                     <li class="flex items-center gap-6">
-                        <div class="bg-softGreen text-darkGreen w-14 h-14 rounded-full flex items-center justify-center shrink-0 shadow-inner">
+                        <div
+                            class="bg-softGreen text-darkGreen w-14 h-14 rounded-full flex items-center justify-center shrink-0 shadow-inner">
                             <i class="fa-regular fa-file-lines text-xl"></i>
                         </div>
                         <span class="text-2xl font-serif font-medium">Your Eligibility.</span>
                     </li>
                     <li class="flex items-center gap-6">
-                        <div class="bg-softGreen text-darkGreen w-14 h-14 rounded-full flex items-center justify-center shrink-0 shadow-inner">
+                        <div
+                            class="bg-softGreen text-darkGreen w-14 h-14 rounded-full flex items-center justify-center shrink-0 shadow-inner">
                             <i class="fa-solid fa-users text-xl"></i>
                         </div>
                         <span class="text-2xl font-serif font-medium">Your Schemes.</span>
@@ -198,35 +240,45 @@
             <!-- Section Header -->
             <div class="text-center mb-16">
                 <span class="text-rust uppercase tracking-widest text-sm sm:text-base font-bold">Our Services</span>
-                <h2 class="font-serif text-4xl sm:text-5xl font-bold text-darkGreen mt-4">Simple Solutions for Your Business</h2>
+                <h2 class="font-serif text-4xl sm:text-5xl font-bold text-darkGreen mt-4">Simple Solutions for Your
+                    Business</h2>
             </div>
-            
+
             <!-- Cards Grid -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-                
+
                 <!-- Card 1 -->
-                <div class="bg-cardBeige rounded-2xl p-8 sm:p-10 relative overflow-hidden border border-[#e2dccf] flex flex-col justify-between">
+                <div
+                    class="bg-cardBeige rounded-2xl p-8 sm:p-10 relative overflow-hidden border border-[#e2dccf] flex flex-col justify-between">
                     <!-- Faint background icon -->
                     <i class="fa-regular fa-file-alt absolute right-8 top-8 text-8xl text-darkGreen opacity-5"></i>
-                    
+
                     <div>
                         <div class="flex items-center gap-4 mb-6">
-                            <span class="text-5xl font-serif text-darkGreen opacity-40 font-bold tracking-tighter">01</span>
+                            <span
+                                class="text-5xl font-serif text-darkGreen opacity-40 font-bold tracking-tighter">01</span>
                             <i class="fa-regular fa-file-lines text-3xl text-darkGreen"></i>
                         </div>
-                        
-                        <h3 class="text-sm font-bold tracking-widest uppercase text-darkGreen mb-2">Scheme Eligibility Report</h3>
-                        <h4 class="font-serif text-2xl font-bold text-darkGreen mb-6">Know What You May Be Eligible For.</h4>
-                        
+
+                        <h3 class="text-sm font-bold tracking-widest uppercase text-darkGreen mb-2">Scheme Eligibility
+                            Report</h3>
+                        <h4 class="font-serif text-2xl font-bold text-darkGreen mb-6">Know What You May Be Eligible For.
+                        </h4>
+
                         <!-- Tags -->
                         <div class="flex flex-wrap gap-2 mb-8">
-                            <span class="bg-beige border border-gray-300 text-gray-700 text-xs font-medium px-3 py-1 rounded-sm shadow-sm">Schemes</span>
-                            <span class="bg-beige border border-gray-300 text-gray-700 text-xs font-medium px-3 py-1 rounded-sm shadow-sm">Subsidies</span>
-                            <span class="bg-beige border border-gray-300 text-gray-700 text-xs font-medium px-3 py-1 rounded-sm shadow-sm">Grants</span>
-                            <span class="bg-beige border border-gray-300 text-gray-700 text-xs font-medium px-3 py-1 rounded-sm shadow-sm">Incentives</span>
-                            <span class="bg-beige border border-gray-300 text-gray-700 text-xs font-medium px-3 py-1 rounded-sm shadow-sm">Benefits</span>
+                            <span
+                                class="bg-beige border border-gray-300 text-gray-700 text-xs font-medium px-3 py-1 rounded-sm shadow-sm">Schemes</span>
+                            <span
+                                class="bg-beige border border-gray-300 text-gray-700 text-xs font-medium px-3 py-1 rounded-sm shadow-sm">Subsidies</span>
+                            <span
+                                class="bg-beige border border-gray-300 text-gray-700 text-xs font-medium px-3 py-1 rounded-sm shadow-sm">Grants</span>
+                            <span
+                                class="bg-beige border border-gray-300 text-gray-700 text-xs font-medium px-3 py-1 rounded-sm shadow-sm">Incentives</span>
+                            <span
+                                class="bg-beige border border-gray-300 text-gray-700 text-xs font-medium px-3 py-1 rounded-sm shadow-sm">Benefits</span>
                         </div>
-                        
+
                         <div class="text-gray-700 mb-6">
                             <p>Mapped to your business:</p>
                             <p class="font-bold text-darkGreen mt-1 text-lg flex items-center gap-2">
@@ -235,42 +287,48 @@
                             </p>
                         </div>
                     </div>
-                    
+
                     <!-- CRITICAL REQUIREMENT: Form Link Button -->
-                    <a href="https://forms.gle/PhgSqjhMuMr1LqsJ8" target="_blank" class="bg-rust hover:bg-rustHover text-white px-6 py-3.5 rounded w-full flex justify-center items-center gap-2 font-semibold transition-colors mt-auto">
+                    <a href="https://forms.gle/PhgSqjhMuMr1LqsJ8" target="_blank"
+                        class="bg-rust hover:bg-rustHover text-white px-6 py-3.5 rounded w-full flex justify-center items-center gap-2 font-semibold transition-colors mt-auto">
                         GET MY REPORT <i class="fa-solid fa-arrow-right"></i>
                     </a>
                 </div>
-                
+
                 <!-- Card 2 -->
-                <div class="bg-cardBeige rounded-2xl p-8 sm:p-10 relative overflow-hidden border border-[#e2dccf] flex flex-col justify-between">
+                <div
+                    class="bg-cardBeige rounded-2xl p-8 sm:p-10 relative overflow-hidden border border-[#e2dccf] flex flex-col justify-between">
                     <!-- Faint background icon -->
                     <i class="fa-regular fa-file-check absolute right-8 top-8 text-8xl text-darkGreen opacity-5"></i>
-                    
+
                     <div>
                         <div class="flex items-center gap-4 mb-6">
-                            <span class="text-5xl font-serif text-darkGreen opacity-40 font-bold tracking-tighter">02</span>
+                            <span
+                                class="text-5xl font-serif text-darkGreen opacity-40 font-bold tracking-tighter">02</span>
                             <i class="fa-solid fa-users text-3xl text-darkGreen"></i>
                         </div>
-                        
-                        <h3 class="text-sm font-bold tracking-widest uppercase text-darkGreen mb-2">Application Support</h3>
-                        <h4 class="font-serif text-2xl font-bold text-darkGreen mb-4">Found a Scheme? Let's Take It Forward.</h4>
-                        
+
+                        <h3 class="text-sm font-bold tracking-widest uppercase text-darkGreen mb-2">Application Support
+                        </h3>
+                        <h4 class="font-serif text-2xl font-bold text-darkGreen mb-4">Found a Scheme? Let's Take It
+                            Forward.</h4>
+
                         <p class="text-gray-700 mb-4 leading-relaxed">
                             We can support you with the application process
                         </p>
-                        
+
                         <p class="text-rust font-serif italic text-lg font-medium mb-8">
                             Understand. Prepare. Apply.
                         </p>
                     </div>
-                    
+
                     <!-- Secondary Button (Can be an anchor pointing down or to a different page, keeping as # for now as it's not the primary report) -->
-                    <a href="#contact" class="bg-rust hover:bg-rustHover text-white px-6 py-3.5 rounded w-full flex justify-center items-center gap-2 font-semibold transition-colors mt-auto">
+                    <a href="#contact"
+                        class="bg-rust hover:bg-rustHover text-white px-6 py-3.5 rounded w-full flex justify-center items-center gap-2 font-semibold transition-colors mt-auto">
                         EXPLORE APPLICATION SUPPORT <i class="fa-solid fa-arrow-right"></i>
                     </a>
                 </div>
-                
+
             </div>
         </div>
     </section>
@@ -278,24 +336,28 @@
     <!-- 5. More Than a Scheme List Section -->
     <section class="bg-darkGreen text-white py-20 px-4 sm:px-6 lg:px-8">
         <div class="max-w-6xl mx-auto text-center">
-            
-            <span class="text-yellow-500 uppercase tracking-widest text-sm sm:text-base font-bold">What's In Your Report?</span>
+
+            <span class="text-yellow-500 uppercase tracking-widest text-sm sm:text-base font-bold">What's In Your
+                Report?</span>
             <h2 class="font-serif text-4xl sm:text-5xl font-bold text-white mt-4 mb-2">More Than a Scheme List.</h2>
             <p class="text-gray-300 mb-16 text-lg">Your report tells you:</p>
-            
+
             <!-- Features Grid -->
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-4 mb-16">
                 <!-- Item 1 -->
                 <div class="flex flex-col items-center text-center">
-                    <div class="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center mb-4 text-yellow-500">
+                    <div
+                        class="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center mb-4 text-yellow-500">
                         <i class="fa-solid fa-magnifying-glass text-2xl"></i>
                     </div>
                     <h4 class="font-bold text-white mb-2 uppercase text-sm tracking-wide">What</h4>
-                    <p class="text-gray-300 text-sm leading-relaxed max-w-[150px]">Relevant schemes for your business.</p>
+                    <p class="text-gray-300 text-sm leading-relaxed max-w-[150px]">Relevant schemes for your business.
+                    </p>
                 </div>
                 <!-- Item 2 -->
                 <div class="flex flex-col items-center text-center">
-                    <div class="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center mb-4 text-yellow-500">
+                    <div
+                        class="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center mb-4 text-yellow-500">
                         <i class="fa-regular fa-lightbulb text-2xl"></i>
                     </div>
                     <h4 class="font-bold text-white mb-2 uppercase text-sm tracking-wide">Why</h4>
@@ -303,7 +365,8 @@
                 </div>
                 <!-- Item 3 -->
                 <div class="flex flex-col items-center text-center">
-                    <div class="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center mb-4 text-yellow-500">
+                    <div
+                        class="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center mb-4 text-yellow-500">
                         <i class="fa-solid fa-hand-holding-dollar text-2xl"></i>
                     </div>
                     <h4 class="font-bold text-white mb-2 uppercase text-sm tracking-wide">What You Get</h4>
@@ -311,148 +374,166 @@
                 </div>
                 <!-- Item 4 -->
                 <div class="flex flex-col items-center text-center">
-                    <div class="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center mb-4 text-yellow-500">
+                    <div
+                        class="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center mb-4 text-yellow-500">
                         <i class="fa-regular fa-file-alt text-2xl"></i>
                     </div>
                     <h4 class="font-bold text-white mb-2 uppercase text-sm tracking-wide">What You Need</h4>
                     <p class="text-gray-300 text-sm leading-relaxed max-w-[150px]">Eligibility and documents.</p>
                 </div>
                 <!-- Item 5 -->
-                <div class="flex flex-col items-center text-center col-span-2 md:col-span-1 md:col-start-2 lg:col-span-1 lg:col-start-auto">
-                    <div class="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center mb-4 text-yellow-500">
+                <div
+                    class="flex flex-col items-center text-center col-span-2 md:col-span-1 md:col-start-2 lg:col-span-1 lg:col-start-auto">
+                    <div
+                        class="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center mb-4 text-yellow-500">
                         <i class="fa-solid fa-arrow-right text-2xl"></i>
                     </div>
                     <h4 class="font-bold text-white mb-2 uppercase text-sm tracking-wide">What's Next</h4>
-                    <p class="text-gray-300 text-sm leading-relaxed max-w-[150px]">Application steps and action points.</p>
+                    <p class="text-gray-300 text-sm leading-relaxed max-w-[150px]">Application steps and action points.
+                    </p>
                 </div>
             </div>
-            
+
             <!-- Banner -->
             <div class="bg-softGreen py-4 px-8 rounded inline-block w-full max-w-4xl border border-[#d1d9cf]">
                 <span class="font-serif italic font-semibold text-darkGreen text-xl">Clarity before you apply.</span>
             </div>
-            
+
         </div>
     </section>
 
     <!-- 6. How It Works Section -->
     <section class="bg-beige py-24 px-4 sm:px-6 lg:px-8 border-t border-gray-200">
         <div class="max-w-6xl mx-auto text-center">
-            
-            <span class="text-rust uppercase tracking-widest text-sm sm:text-base font-bold block mb-3">How It Works</span>
+
+            <span class="text-rust uppercase tracking-widest text-sm sm:text-base font-bold block mb-3">How It
+                Works</span>
             <hr class="w-16 mx-auto border-t-2 border-rust mb-4">
             <h2 class="font-serif text-4xl sm:text-5xl font-bold text-darkGreen mt-2 mb-16 relative inline-block">
                 Four Steps. That's It.
                 <!-- Underline element -->
                 <span class="absolute bottom-0 left-1/4 w-1/2 h-[2px] bg-yellow-500/50"></span>
             </h2>
-            
+
             <div class="relative">
                 <!-- Desktop connecting line -->
                 <div class="hidden lg:block absolute top-10 left-[12.5%] right-[12.5%] h-[1px] bg-gray-300 z-0"></div>
-                
+
                 <!-- Steps Grid -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-4 relative z-10">
-                    
+
                     <!-- Step 1 -->
                     <div class="flex flex-col items-center text-center px-4 bg-beige relative">
-                        <div class="w-20 h-20 bg-beige rounded-full border-2 border-gray-200 flex items-center justify-center mb-6 relative z-10">
+                        <div
+                            class="w-20 h-20 bg-beige rounded-full border-2 border-gray-200 flex items-center justify-center mb-6 relative z-10">
                             <i class="fa-solid fa-arrow-pointer text-2xl text-rust"></i>
                         </div>
                         <span class="text-yellow-600 font-bold text-xl mb-2">01</span>
                         <div class="h-12 flex items-center justify-center mb-3">
-                            <h4 class="font-bold text-darkGreen text-sm uppercase tracking-wide">Get Your Report</h4>
+                            <h4 class="font-bold text-darkGreen text-base uppercase tracking-wide">Get Your Report</h4>
                         </div>
-                        <p class="text-gray-600 text-sm leading-relaxed">Click Get My Scheme Eligibility Report.</p>
+                        <p class="text-gray-600 text-base leading-relaxed">Click Get My Scheme Eligibility Report.</p>
                     </div>
-                    
+
                     <!-- Step 2 -->
                     <div class="flex flex-col items-center text-center px-4 bg-beige relative">
-                        <div class="w-20 h-20 bg-beige rounded-full border-2 border-gray-200 flex items-center justify-center mb-6 relative z-10">
+                        <div
+                            class="w-20 h-20 bg-beige rounded-full border-2 border-gray-200 flex items-center justify-center mb-6 relative z-10">
                             <i class="fa-regular fa-credit-card text-2xl text-rust"></i>
                         </div>
                         <span class="text-yellow-600 font-bold text-xl mb-2">02</span>
                         <div class="h-12 flex items-center justify-center mb-3">
-                            <h4 class="font-bold text-darkGreen text-sm uppercase tracking-wide">Pay ₹499</h4>
+                            <h4 class="font-bold text-darkGreen text-base uppercase tracking-wide">Pay ₹499</h4>
                         </div>
-                        <p class="text-gray-600 text-sm leading-relaxed">One-time payment.<br>No subscription.</p>
+                        <p class="text-gray-600 text-base leading-relaxed">One-time payment.<br>No subscription.</p>
                     </div>
-                    
+
                     <!-- Step 3 -->
                     <div class="flex flex-col items-center text-center px-4 bg-beige relative">
-                        <div class="w-20 h-20 bg-beige rounded-full border-2 border-gray-200 flex items-center justify-center mb-6 relative z-10">
+                        <div
+                            class="w-20 h-20 bg-beige rounded-full border-2 border-gray-200 flex items-center justify-center mb-6 relative z-10">
                             <i class="fa-regular fa-file-lines text-2xl text-rust"></i>
                         </div>
                         <span class="text-yellow-600 font-bold text-xl mb-2">03</span>
                         <div class="h-12 flex items-center justify-center mb-3">
-                            <h4 class="font-bold text-darkGreen text-sm uppercase tracking-wide">Tell Us About<br>Your Business</h4>
+                            <h4 class="font-bold text-darkGreen text-base uppercase tracking-wide">Tell Us About<br>Your
+                                Business</h4>
                         </div>
-                        <p class="text-gray-600 text-sm leading-relaxed">Fill in your business and project details.</p>
+                        <p class="text-gray-600 text-base leading-relaxed">Fill in your business and project details.
+                        </p>
                     </div>
-                    
+
                     <!-- Step 4 -->
                     <div class="flex flex-col items-center text-center px-4 bg-beige relative">
-                        <div class="w-20 h-20 bg-beige rounded-full border-2 border-gray-200 flex items-center justify-center mb-6 relative z-10">
+                        <div
+                            class="w-20 h-20 bg-beige rounded-full border-2 border-gray-200 flex items-center justify-center mb-6 relative z-10">
                             <i class="fa-regular fa-envelope text-2xl text-rust"></i>
                         </div>
                         <span class="text-yellow-600 font-bold text-xl mb-2">04</span>
                         <div class="h-12 flex items-center justify-center mb-3">
-                            <h4 class="font-bold text-darkGreen text-sm uppercase tracking-wide">Get Your Report</h4>
+                            <h4 class="font-bold text-darkGreen text-base uppercase tracking-wide">Get Your Report</h4>
                         </div>
-                        <p class="text-gray-600 text-sm leading-relaxed">Your custom-curated report arrives in your email within 24 hours.</p>
+                        <p class="text-gray-600 text-base leading-relaxed">Your custom-curated report arrives in your
+                            email within 24 hours.</p>
                     </div>
-                    
+
                 </div>
             </div>
-            
+
             <!-- Bottom Banner -->
-            <div class="mt-20 bg-softGreen py-6 px-8 rounded border border-[#d1d9cf] w-full max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-6 shadow-sm">
+            <div
+                class="mt-20 bg-softGreen py-6 px-8 rounded border border-[#d1d9cf] w-full max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-6 shadow-sm">
                 <i class="fa-solid fa-paper-plane text-3xl text-darkGreen transform -rotate-12"></i>
                 <div class="h-12 w-[1px] bg-gray-400 hidden sm:block"></div>
-                <span class="font-serif italic font-semibold text-darkGreen text-xl sm:text-2xl text-center sm:text-left">
+                <span
+                    class="font-serif italic font-semibold text-darkGreen text-xl sm:text-2xl text-center sm:text-left">
                     You share the details.<br>We do the digging.
                 </span>
             </div>
-            
+
         </div>
     </section>
 
     <!-- 7. Bottom CTA Section -->
     <section class="bg-darkGreen py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden text-center z-10">
         <!-- Faint watermark graphic -->
-        <div class="absolute right-0 bottom-0 opacity-5 pointer-events-none transform translate-x-1/4 translate-y-1/4 z-0">
+        <div
+            class="absolute right-0 bottom-0 opacity-5 pointer-events-none transform translate-x-1/4 translate-y-1/4 z-0">
             <i class="fa-solid fa-building-columns text-[300px]"></i>
         </div>
-        
+
         <div class="max-w-3xl mx-auto relative z-10 flex flex-col items-center">
             <h2 class="font-serif text-3xl md:text-4xl lg:text-5xl text-white font-bold mb-10 leading-snug">
                 Ready to discover what your business may be eligible for?
             </h2>
-            
+
             <!-- CRITICAL REQUIREMENT: Form Link Button -->
-            <a href="https://forms.gle/PhgSqjhMuMr1LqsJ8" target="_blank" class="bg-rust hover:bg-rustHover text-white px-8 py-4 rounded-md flex items-center justify-center gap-3 text-lg font-semibold transition-transform duration-300 hover:scale-105 shadow-xl w-fit mx-auto">
+            <a href="https://forms.gle/PhgSqjhMuMr1LqsJ8" target="_blank"
+                class="bg-rust hover:bg-rustHover text-white px-8 py-4 rounded-md flex items-center justify-center gap-3 text-lg font-semibold transition-transform duration-300 hover:scale-105 shadow-xl w-fit mx-auto">
                 Get My Scheme Eligibility Report <i class="fa-solid fa-arrow-right"></i>
             </a>
-            
+
             <p class="text-gray-300 font-medium text-sm mt-4">₹499 | Delivered within 24 hours</p>
         </div>
     </section>
 
     <!-- 8. Footer -->
     <footer class="bg-darkerGreen text-gray-400 py-16 px-4 sm:px-6 lg:px-8 border-t border-gray-800">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-12">
-            
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-6 md:gap-12">
+
             <!-- Left Info -->
             <div class="w-full md:w-1/2 lg:w-5/12">
                 <div class="flex items-center gap-2 mb-6">
-                    <img src="assets/Logo.png" alt="Find My Schemes Logo" class="h-10 sm:h-12 w-auto opacity-90">
+                    <img src="assets/Logo.png" alt="Find My Schemes Logo"
+                        class="h-[70px] sm:h-[80px] w-auto opacity-90">
                 </div>
-                <p class="text-sm leading-relaxed mb-10 max-w-sm">
-                    We research Central and State government schemes and organize relevant opportunities into solid, actionable business reports for Indian businesses.
+                <p class="text-sm leading-relaxed mb-4 md:mb-10 max-w-sm">
+                    We research Central and State government schemes and organize relevant opportunities into solid,
+                    actionable business reports for Indian businesses.
                 </p>
-                <p class="text-xs text-gray-500">&copy; 2026 Find My Schemes. All rights reserved.</p>
+                <p class="text-xs text-gray-500 hidden md:block">&copy; 2026 Find My Schemes. All rights reserved.</p>
             </div>
-            
+
             <!-- Right Links -->
             <div class="w-full md:w-1/2 lg:w-1/3">
                 <h4 class="text-yellow-600 font-semibold text-sm tracking-wider uppercase mb-6">Who Is It For?</h4>
@@ -464,47 +545,51 @@
                     <li><a href="#" class="hover:text-white transition-colors">Service Businesses</a></li>
                 </ul>
             </div>
-            
+
+        </div>
+
+        <div class="mt-12 md:hidden">
+            <p class="text-xs text-gray-500">&copy; 2026 Find My Schemes. All rights reserved.</p>
         </div>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const slides = document.querySelectorAll('#hero-slideshow .slide');
-            if(slides.length === 0) return;
+            if (slides.length === 0) return;
             let currentSlide = 0;
-            
+
             // Initialize z-index
             slides.forEach((slide, index) => {
-                if(index === 0) {
+                if (index === 0) {
                     slide.classList.add('z-20');
                 } else {
                     slide.classList.add('z-0');
                 }
             });
-            
+
             setInterval(() => {
                 const previousSlide = currentSlide;
                 currentSlide = (currentSlide + 1) % slides.length;
-                
+
                 // Reset z-indexes
                 slides.forEach(slide => {
                     slide.classList.remove('z-10', 'z-20');
                     slide.classList.add('z-0');
                 });
-                
+
                 // Put previous slide just behind the new one
                 slides[previousSlide].classList.remove('z-0');
                 slides[previousSlide].classList.add('z-10');
-                
+
                 // Put new slide on top
                 slides[currentSlide].classList.remove('z-0');
                 slides[currentSlide].classList.add('z-20');
-                
+
                 // Fade in the new slide
                 slides[currentSlide].classList.remove('opacity-0');
                 slides[currentSlide].classList.add('opacity-100');
-                
+
                 // Wait for the transition to finish before hiding the old slide
                 setTimeout(() => {
                     slides[previousSlide].classList.remove('opacity-100');
@@ -514,4 +599,5 @@
         });
     </script>
 </body>
+
 </html>
